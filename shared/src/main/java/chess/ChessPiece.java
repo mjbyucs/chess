@@ -41,8 +41,11 @@ public class ChessPiece {
 
     /**
      * Calculates all the positions a chess piece can move to
-     * Does not take into account moves that are illegal due to leaving the king in
-     * danger
+     *
+     * Given a board configuration, this method returns all the moves a specific piece can
+     * legally make independent of whose turn it is or if the King is being attacked.
+     * It considers the edges of the board and the location of both enemy and friendly pieces.
+     *
      *
      * @return Collection of valid moves
      */
