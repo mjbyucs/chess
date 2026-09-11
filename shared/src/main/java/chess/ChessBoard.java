@@ -45,7 +45,12 @@ public class ChessBoard {
      * position
      */
     public ChessPiece getPiece(ChessPosition position) {
-        return board[positionToIndex(position)];
+        return getPieceAtIndex(positionToIndex(position));
+    }
+
+    // package level access
+    ChessPiece getPieceAtIndex(int idx) {
+        return board[idx];
     }
 
     /**
@@ -90,26 +95,26 @@ public class ChessBoard {
         return Arrays.hashCode(board);
     }
 
-    public static int rowColToIndex(ChessPosition position) {
+    static int rowColToIndex(ChessPosition position) {
         return rowColToIndex(position.getRow(), position.getColumn());
     }
 
-    public static int rowColToIndex(int row, int col) {
+    static int rowColToIndex(int row, int col) {
         return row * BOARD_DIMENSION + col;
     }
 
-    public static int positionToIndex(ChessPosition position) {
+    static int positionToIndex(ChessPosition position) {
         return position.getRow() * BOARD_DIMENSION + position.getColumn();
     }
 
-    public static boolean isIndexOnboard(int idx) {
+    static boolean isIndexOnboard(int idx) {
         int row = idx / BOARD_DIMENSION;
         int col = idx % BOARD_DIMENSION;
         return 1 <= row && row <= 8 && 1 <= col && col <= 8;
     }
 
     // make this package accessible so move generators can use it to check for valid positions
-    protected static boolean isInbounds(ChessPosition position) {
+    static boolean isInbounds(ChessPosition position) {
         int row = position.getRow();
         int col = position.getColumn();
         return 1 <= row && row <= 8 && 1 <= col && col <= 8;
