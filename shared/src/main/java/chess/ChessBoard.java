@@ -1,5 +1,10 @@
 package chess;
 
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Objects;
+
+
 /**
  * A chessboard that can hold and rearrange chess pieces.
  * <p>
@@ -8,10 +13,14 @@ package chess;
  */
 public class ChessBoard {
     private static final int BOARD_DIMENSION = 10;
-    private ChessPiece[] board;
+    private final ChessPiece[] board;
 
     public ChessBoard() {
-        board = new ChessPiece[BOARD_DIMENSION * BOARD_DIMENSION];
+        board = createEmptyBoard();
+    }
+
+    private ChessPiece[] createEmptyBoard() {
+        return new ChessPiece[BOARD_DIMENSION * BOARD_DIMENSION];
     }
 
     /**
@@ -44,6 +53,42 @@ public class ChessBoard {
      * (How the game of chess normally starts)
      */
     public void resetBoard() {
+        int row = 8;
+        int column = 0;
+        for (var c : defaultBoard.toCharArray()) {
+            switch (c) {
+                case '\n' -> {
+                    column = 0;
+                    row--;
+                }
+                case '|' -> column++;
+                default -> {
+                    ChessPosition position = new ChessPosition(row, column);
+                    ChessPiece piece = null;
+                    if (!Character.isSpaceChar(c)) {
+                        ChessGame.TeamColor color = Character.isLowerCase(c) ? ChessGame.TeamColor.BLACK
+                                : ChessGame.TeamColor.WHITE;
+                        var type = CHAR_TO_TYPE_MAP.get(Character.toLowerCase(c));
+                        piece = new ChessPiece(color, type);
+                    }
+                    this.addPiece(position, piece);
+                }
+            }
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ChessBoard that = (ChessBoard) o;
+        return Objects.deepEquals(board, that.board);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(board);
     }
 
     private int positionToIndex(ChessPosition position) {
@@ -56,5 +101,25 @@ public class ChessBoard {
         int col = position.getColumn();
         return 1 <= row && row <= 8 && 1 <= col && col <= 8;
     }
+
+    // "borrowed" from the TestUtilities class
+    private static final String defaultBoard = """
+            |r|n|b|q|k|b|n|r|
+            |p|p|p|p|p|p|p|p|
+            | | | | | | | | |
+            | | | | | | | | |
+            | | | | | | | | |
+            | | | | | | | | |
+            |P|P|P|P|P|P|P|P|
+            |R|N|B|Q|K|B|N|R|
+            """;
+
+    private static final Map<Character, ChessPiece.PieceType> CHAR_TO_TYPE_MAP = Map.of(
+            'p', ChessPiece.PieceType.PAWN,
+            'n', ChessPiece.PieceType.KNIGHT,
+            'r', ChessPiece.PieceType.ROOK,
+            'q', ChessPiece.PieceType.QUEEN,
+            'k', ChessPiece.PieceType.KING,
+            'b', ChessPiece.PieceType.BISHOP);
 
 }
