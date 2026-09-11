@@ -10,6 +10,14 @@ import java.util.Collection;
  */
 public class ChessGame {
 
+    /**
+     * Enum identifying the 2 possible teams in a chess game
+     */
+    public enum TeamColor {
+        WHITE,
+        BLACK
+    }
+
     public ChessGame() {
 
     }
@@ -28,14 +36,6 @@ public class ChessGame {
      */
     public void setTeamTurn(TeamColor team) {
         throw new RuntimeException("Not implemented");
-    }
-
-    /**
-     * Enum identifying the 2 possible teams in a chess game
-     */
-    public enum TeamColor {
-        WHITE,
-        BLACK
     }
 
     /**
