@@ -95,8 +95,9 @@ public class ChessBoard {
         return Arrays.hashCode(board);
     }
 
-    static int rowColToIndex(ChessPosition position) {
-        return rowColToIndex(position.getRow(), position.getColumn());
+    // needed for move generation
+    static int getBoardDimension() {
+        return BOARD_DIMENSION;
     }
 
     static int rowColToIndex(int row, int col) {
@@ -104,13 +105,30 @@ public class ChessBoard {
     }
 
     static int positionToIndex(ChessPosition position) {
-        return position.getRow() * BOARD_DIMENSION + position.getColumn();
+        return rowColToIndex(position.getRow(), position.getColumn());
+    }
+
+    static ChessPosition indexToPosition(int idx) {
+        int row = idx / BOARD_DIMENSION;
+        int col = idx % BOARD_DIMENSION;
+        return new ChessPosition(row, col);
     }
 
     static boolean isIndexOnboard(int idx) {
         int row = idx / BOARD_DIMENSION;
         int col = idx % BOARD_DIMENSION;
         return 1 <= row && row <= 8 && 1 <= col && col <= 8;
+    }
+
+    static boolean isInOriginalRow(int idx, ChessPiece.PieceType piece, ChessGame.TeamColor color) {
+        int targetRow;
+        if (piece == ChessPiece.PieceType.PAWN) {
+            targetRow = (color == ChessGame.TeamColor.WHITE) ? 2 : 7;
+        } else {
+            targetRow = (color == ChessGame.TeamColor.WHITE) ? 1 : 8;
+        }
+        int row = idx / BOARD_DIMENSION;
+        return row == targetRow;
     }
 
     // make this package accessible so move generators can use it to check for valid positions
