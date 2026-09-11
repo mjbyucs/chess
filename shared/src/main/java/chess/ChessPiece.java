@@ -1,5 +1,7 @@
 package chess;
 
+import chess.movers.*;
+
 import java.util.Collection;
 import java.util.Objects;
 
@@ -12,6 +14,7 @@ import java.util.Objects;
 public class ChessPiece {
     private final ChessGame.TeamColor pieceColor;
     private final ChessPiece.PieceType pieceType;
+    private final PieceMover pieceMover;
 
     /**
      * The various different chess piece options
@@ -28,7 +31,19 @@ public class ChessPiece {
     public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
         this.pieceColor = pieceColor;
         this.pieceType = type;
+        this.pieceMover = getMover(type);
     }
+
+        private PieceMover getMover(ChessPiece.PieceType type) {
+            return switch (type) {
+                case KING -> new KingMover();
+                case QUEEN -> new QueenMover();
+                case ROOK -> new RookMover();
+                case BISHOP -> new BishopMover();
+                case KNIGHT -> new KnightMover();
+                case PAWN -> new PawnMover();
+            };
+        }
 
     /**
      * @return Which team this chess piece belongs to
@@ -55,7 +70,7 @@ public class ChessPiece {
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        throw new RuntimeException("Not implemented");
+        return pieceMover.generateMoves(board, myPosition);
     }
 
     @Override
