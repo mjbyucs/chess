@@ -7,9 +7,11 @@ package chess;
  * signature of the existing methods.
  */
 public class ChessBoard {
+    private static final int BOARD_DIMENSION = 10;
+    private ChessPiece[] board;
 
     public ChessBoard() {
-        
+        board = new ChessPiece[BOARD_DIMENSION * BOARD_DIMENSION];
     }
 
     /**
@@ -19,7 +21,11 @@ public class ChessBoard {
      * @param piece    the piece to add
      */
     public void addPiece(ChessPosition position, ChessPiece piece) {
-        throw new RuntimeException("Not implemented");
+        if (!isInbounds(position)) {
+            throw new RuntimeException(String.format("Row [%d], column [%d] is not a valid board position",
+                                                     position.getRow(), position.getColumn()));
+        }
+        board[positionToIndex(position)] = piece;
     }
 
     /**
@@ -30,7 +36,7 @@ public class ChessBoard {
      * position
      */
     public ChessPiece getPiece(ChessPosition position) {
-        throw new RuntimeException("Not implemented");
+        return board[positionToIndex(position)];
     }
 
     /**
@@ -38,6 +44,17 @@ public class ChessBoard {
      * (How the game of chess normally starts)
      */
     public void resetBoard() {
-        throw new RuntimeException("Not implemented");
     }
+
+    private int positionToIndex(ChessPosition position) {
+        return position.getRow() * BOARD_DIMENSION + position.getColumn();
+    }
+
+    // make this package accessible so move generators can use it to check for valid positions
+    protected static boolean isInbounds(ChessPosition position) {
+        int row = position.getRow();
+        int col = position.getColumn();
+        return 1 <= row && row <= 8 && 1 <= col && col <= 8;
+    }
+
 }
