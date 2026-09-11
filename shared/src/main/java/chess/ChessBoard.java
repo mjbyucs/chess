@@ -63,7 +63,6 @@ public class ChessBoard {
                 }
                 case '|' -> column++;
                 default -> {
-                    ChessPosition position = new ChessPosition(row, column);
                     ChessPiece piece = null;
                     if (!Character.isSpaceChar(c)) {
                         ChessGame.TeamColor color = Character.isLowerCase(c) ? ChessGame.TeamColor.BLACK
@@ -71,7 +70,7 @@ public class ChessBoard {
                         var type = CHAR_TO_TYPE_MAP.get(Character.toLowerCase(c));
                         piece = new ChessPiece(color, type);
                     }
-                    this.addPiece(position, piece);
+                    board[rowColToIndex(row, column)] = piece;
                 }
             }
         }
@@ -91,8 +90,22 @@ public class ChessBoard {
         return Arrays.hashCode(board);
     }
 
-    private int positionToIndex(ChessPosition position) {
+    public static int rowColToIndex(ChessPosition position) {
+        return rowColToIndex(position.getRow(), position.getColumn());
+    }
+
+    public static int rowColToIndex(int row, int col) {
+        return row * BOARD_DIMENSION + col;
+    }
+
+    public static int positionToIndex(ChessPosition position) {
         return position.getRow() * BOARD_DIMENSION + position.getColumn();
+    }
+
+    public static boolean isIndexOnboard(int idx) {
+        int row = idx / BOARD_DIMENSION;
+        int col = idx % BOARD_DIMENSION;
+        return 1 <= row && row <= 8 && 1 <= col && col <= 8;
     }
 
     // make this package accessible so move generators can use it to check for valid positions
