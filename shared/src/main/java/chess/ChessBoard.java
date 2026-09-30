@@ -58,14 +58,12 @@ public class ChessBoard {
 
     boolean canMoveTo(ChessPosition position, ChessGame.TeamColor myColor) {
         Objects.requireNonNull(myColor, "color");
-        validatePosition(position);
         ChessPiece piece = getPiece(position);
         return piece == null || piece.getTeamColor() != myColor;
     }
 
     boolean isOpponentPiece(ChessPosition position, ChessGame.TeamColor myColor) {
         Objects.requireNonNull(myColor, "color");
-        validatePosition(position);
         ChessPiece piece = getPiece(position);
         return piece != null && piece.getTeamColor() != myColor;
     }
