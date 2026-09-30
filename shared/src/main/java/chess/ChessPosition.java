@@ -41,7 +41,7 @@ public class ChessPosition {
      * Calculate if the position resides on the board (ie within allowed coordinates)
      */
     public boolean isValid() {
-        return row >= 1 && row <= ChessBoard.BOARD_SIZE && col >= 1 && col <= ChessBoard.BOARD_SIZE;
+        return row >= 1 && row <= ChessBoard.getBoardSize() && col >= 1 && col <= ChessBoard.getBoardSize();
     }
 
     @Override

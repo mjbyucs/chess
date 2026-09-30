@@ -11,12 +11,21 @@ import java.util.Objects;
  * signature of the existing methods.
  */
 public class ChessBoard {
-    final static int BOARD_SIZE = 8;
+    private static final int PLAYABLE_BOARD_SIZE = 8;
+    private static final int BOARD_STORAGE_SIZE = PLAYABLE_BOARD_SIZE + 1;
     // waste a little space to keep the board coordinates easy to manage (mostly for debugging)
     private final ChessPiece[][] board;
 
     public ChessBoard() {
-        board = new ChessPiece[BOARD_SIZE+1][BOARD_SIZE+1];
+        board = new ChessPiece[BOARD_STORAGE_SIZE][BOARD_STORAGE_SIZE];
+    }
+
+
+    /*
+     * Pack level method to get the size of the board
+     */
+    static int getBoardSize() {
+        return PLAYABLE_BOARD_SIZE;
     }
 
     /**
@@ -60,10 +69,10 @@ public class ChessBoard {
     public boolean isStartingRow(ChessPosition position, ChessPiece piece) {
         ChessGame.TeamColor color = piece.getTeamColor();
         if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
-            return color == ChessGame.TeamColor.WHITE ? position.getRow() == 2 : position.getRow() == BOARD_SIZE - 1;
+            return color == ChessGame.TeamColor.WHITE ? position.getRow() == 2 : position.getRow() == PLAYABLE_BOARD_SIZE - 1;
         }
         else {
-            return color == ChessGame.TeamColor.WHITE ? position.getRow() == 1 : position.getRow() == BOARD_SIZE;
+            return color == ChessGame.TeamColor.WHITE ? position.getRow() == 1 : position.getRow() == PLAYABLE_BOARD_SIZE;
         }
     }
 
@@ -105,7 +114,7 @@ public class ChessBoard {
             'b', ChessPiece.PieceType.BISHOP);
 
     private void loadBoard() {
-        int row = BOARD_SIZE;
+        int row = PLAYABLE_BOARD_SIZE;
         int column = 0;
         for (var c : ChessBoard.defaultBoard.toCharArray()) {
             switch (c) {
