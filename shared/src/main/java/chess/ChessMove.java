@@ -18,8 +18,8 @@ public class ChessMove {
     }
     public ChessMove(ChessPosition startPosition, ChessPosition endPosition,
                      ChessPiece.PieceType promotionPiece) {
-        this.start = startPosition;
-        this.end = endPosition;
+        this.start = Objects.requireNonNull(startPosition, "startPosition");
+        this.end = Objects.requireNonNull(endPosition, "endPosition");
         this.promotionPiece = promotionPiece;
     }
 

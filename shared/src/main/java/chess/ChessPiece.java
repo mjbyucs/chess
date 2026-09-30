@@ -14,8 +14,8 @@ public class ChessPiece {
     private final ChessGame.TeamColor color;
 
     public ChessPiece(ChessGame.TeamColor pieceColor, PieceType type) {
-        this.type = type;
-        this.color = pieceColor;
+        this.type = Objects.requireNonNull(type, "type");
+        this.color = Objects.requireNonNull(pieceColor, "pieceColor");
     }
 
     /**
