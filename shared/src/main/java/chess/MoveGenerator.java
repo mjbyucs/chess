@@ -56,7 +56,7 @@ public class MoveGenerator {
                 newPositions.add(moveOne);
                 if (board.isStartingRow(position, piece)) {
                     ChessPosition moveTwo = moveOne.add(direction);
-                    if (moveOne.isValid() && board.isEmpty(moveTwo)) {
+                    if (moveTwo.isValid() && board.isEmpty(moveTwo)) {
                         newPositions.add(moveTwo);
                     }
                 }
