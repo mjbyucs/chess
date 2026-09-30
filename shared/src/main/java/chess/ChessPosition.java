@@ -13,8 +13,8 @@ public class ChessPosition {
     private final int col;
 
     public ChessPosition(int row, int col) {
-        this.row = Objects.requireNonNull(row, "row");
-        this.col = Objects.requireNonNull(col, "col");
+        this.row = row;
+        this.col = col;
     }
 
     /**
