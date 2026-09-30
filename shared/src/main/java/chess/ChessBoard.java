@@ -106,24 +106,24 @@ public class ChessBoard {
 
     private void loadBoard() {
         int row = BOARD_SIZE;
-        int column = 1;
+        int column = 0;
         for (var c : ChessBoard.defaultBoard.toCharArray()) {
             switch (c) {
                 case '\n' -> {
-                    column = 1;
+                    column = 0;
                     row--;
                 }
-                case ' ' -> column++;
-                case '|' -> {
-                }
+                case '|' -> column++;
                 default -> {
-                    ChessGame.TeamColor color = Character.isLowerCase(c) ? ChessGame.TeamColor.BLACK
-                            : ChessGame.TeamColor.WHITE;
-                    var type = CHAR_TO_TYPE_MAP.get(Character.toLowerCase(c));
-                    var position = new ChessPosition(row, column);
-                    var piece = new ChessPiece(color, type);
+                    ChessPiece piece = null;
+                    ChessPosition position = new ChessPosition(row, column);
+                    if (!Character.isSpaceChar(c)) {
+                        ChessGame.TeamColor color = Character.isLowerCase(c) ? ChessGame.TeamColor.BLACK
+                                : ChessGame.TeamColor.WHITE;
+                        var type = CHAR_TO_TYPE_MAP.get(Character.toLowerCase(c));
+                        piece = new ChessPiece(color, type);
+                    }
                     addPiece(position, piece);
-                    column++;
                 }
             }
         }
