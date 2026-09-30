@@ -21,14 +21,14 @@ public class MoveGenerator {
         // get the list of directions a piece can move and generate all new positions from the current one
         for (ChessPosition pos : PIECE_DIRECTIONS.get(type)) {
             ChessPosition newPos = position.add(pos);
-            if (newPos.isValid() && !board.isMyPiece(newPos, color)) {
+            if (newPos.isValid() && board.canMoveTo(newPos, color)) {
                 ChessPosition prevPos;
                 do {
                     prevPos = newPos;
                     moves.add(new ChessMove(position, newPos));
                     newPos = newPos.add(pos);
                 } while (canSlide && newPos.isValid() &&            // stops after first iteration if the piece can't slide
-                        !board.isMyPiece(newPos, color) &&          // can't move onto another of my pieces
+                        board.canMoveTo(newPos, color) &&          // can't move onto another of my pieces
                         !board.isOpponentPiece(prevPos, color));    // can't slide beyond an opponent piece
             }
         }
