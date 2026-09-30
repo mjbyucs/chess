@@ -1,6 +1,7 @@
 package chess;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 /*
  * Class that implements move semantics for each chess piece and generates moves
@@ -107,13 +108,7 @@ public class MoveGenerator {
             new ChessPosition(1, 2), new ChessPosition(1, -2),
             new ChessPosition(-1, 2), new ChessPosition(-1, -2)
     );
-    // todo: remember how to stream two lists together into one
-    private static final List<ChessPosition> ALL_DIRS = List.of(
-            new ChessPosition(1, 0), new ChessPosition(-1, 0),
-            new ChessPosition(0, 1), new ChessPosition(0, -1),
-            new ChessPosition(1, 1), new ChessPosition(-1, 1),
-            new ChessPosition(1, -1), new ChessPosition(-1, -1)
-    );
+    private static final List<ChessPosition> ALL_DIRS = Stream.concat(ORTHOGONAL.stream(), DIAGONAL.stream()).toList();
     private static final Map<ChessPiece.PieceType, List<ChessPosition>> PIECE_DIRECTIONS = Map.of(
             ChessPiece.PieceType.KING, ALL_DIRS,
             ChessPiece.PieceType.QUEEN, ALL_DIRS,
