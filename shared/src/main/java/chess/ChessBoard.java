@@ -78,7 +78,7 @@ public class ChessBoard {
 
     private void validatePosition(ChessPosition position) {
         if (!position.isValid()) {
-            throw new RuntimeException("Invalid board position {" + position.getRow() + ", " + position.getColumn() + "}");
+            throw new IllegalArgumentException("Invalid board position {" + position.getRow() + ", " + position.getColumn() + "}");
         }
     }
 
