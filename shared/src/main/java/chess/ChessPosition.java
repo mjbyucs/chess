@@ -9,8 +9,9 @@ import java.util.Objects;
  * signature of the existing methods.
  */
 public class ChessPosition {
-    private final int row;
-    private final int col;
+    // give package access
+    final int row;
+    final int col;
 
     public ChessPosition(int row, int col) {
         this.row = row;
@@ -31,6 +32,17 @@ public class ChessPosition {
      */
     public int getColumn() {
         return col;
+    }
+
+    public ChessPosition add(ChessPosition pos) {
+        return new ChessPosition(this.row + pos.row, this.col + pos.col);
+    }
+
+    /*
+     * Calculate if the position resides on the board (ie within allowed coordinates)
+     */
+    public boolean isValid() {
+        return row >= 1 && row <= ChessBoard.BOARD_SIZE && col >= 1 && col <= ChessBoard.BOARD_SIZE;
     }
 
     @Override

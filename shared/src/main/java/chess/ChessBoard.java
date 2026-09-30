@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
 
-
 /**
  * A chessboard that can hold and rearrange chess pieces.
  * <p>
@@ -12,15 +11,12 @@ import java.util.Objects;
  * signature of the existing methods.
  */
 public class ChessBoard {
-    private static final int BOARD_DIMENSION = 10;
-    private final ChessPiece[] board;
+    final static int BOARD_SIZE = 8;
+    // waste a little space to keep the board coordinates easy to manage (mostly for debugging)
+    private final ChessPiece[][] board;
 
     public ChessBoard() {
-        board = createEmptyBoard();
-    }
-
-    private ChessPiece[] createEmptyBoard() {
-        return new ChessPiece[BOARD_DIMENSION * BOARD_DIMENSION];
+        board = new ChessPiece[BOARD_SIZE+1][BOARD_SIZE+1];
     }
 
     /**
@@ -30,11 +26,8 @@ public class ChessBoard {
      * @param piece    the piece to add
      */
     public void addPiece(ChessPosition position, ChessPiece piece) {
-        if (!isInbounds(position)) {
-            throw new RuntimeException(String.format("Row [%d], column [%d] is not a valid board position",
-                                                     position.getRow(), position.getColumn()));
-        }
-        board[positionToIndex(position)] = piece;
+        validatePosition(position);
+        board[position.row][position.col] = piece;
     }
 
     /**
@@ -45,12 +38,39 @@ public class ChessBoard {
      * position
      */
     public ChessPiece getPiece(ChessPosition position) {
-        return getPieceAtIndex(positionToIndex(position));
+        validatePosition(position);
+        return board[position.row][position.col];
     }
 
-    // package level access
-    ChessPiece getPieceAtIndex(int idx) {
-        return board[idx];
+    public boolean isEmpty(ChessPosition position) {
+        validatePosition(position);
+        return board[position.row][position.col] == null;
+    }
+
+    public boolean isMyPiece(ChessPosition position, ChessGame.TeamColor myColor) {
+        ChessPiece piece = getPiece(position);
+        return piece != null && piece.getTeamColor() == myColor;
+    }
+
+    public boolean isOpponentPiece(ChessPosition position, ChessGame.TeamColor myColor) {
+        ChessPiece piece = getPiece(position);
+        return piece != null && piece.getTeamColor() != myColor;
+    }
+
+    public boolean isStartingRow(ChessPosition position, ChessPiece piece) {
+        ChessGame.TeamColor color = piece.getTeamColor();
+        if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
+            return color == ChessGame.TeamColor.WHITE ? position.row == 2 : position.row == BOARD_SIZE - 1;
+        }
+        else {
+            return color == ChessGame.TeamColor.WHITE ? position.row == 1 : position.row == BOARD_SIZE;
+        }
+    }
+
+    private void validatePosition(ChessPosition position) {
+        if (!position.isValid()) {
+            throw new RuntimeException("Invalid board position {" + position.row + ", " + position.col + "}");
+        }
     }
 
     /**
@@ -58,24 +78,52 @@ public class ChessBoard {
      * (How the game of chess normally starts)
      */
     public void resetBoard() {
-        int row = 8;
-        int column = 0;
-        for (var c : defaultBoard.toCharArray()) {
+        loadBoard();
+    }
+
+    /*
+     * Borrow some code from TestUtilities to load a board
+     */
+    private static final String defaultBoard =
+            """
+                |r|n|b|q|k|b|n|r|
+                |p|p|p|p|p|p|p|p|
+                | | | | | | | | |
+                | | | | | | | | |
+                | | | | | | | | |
+                | | | | | | | | |
+                |P|P|P|P|P|P|P|P|
+                |R|N|B|Q|K|B|N|R|
+                """;
+
+    private static final Map<Character, ChessPiece.PieceType> CHAR_TO_TYPE_MAP = Map.of(
+            'p', ChessPiece.PieceType.PAWN,
+            'n', ChessPiece.PieceType.KNIGHT,
+            'r', ChessPiece.PieceType.ROOK,
+            'q', ChessPiece.PieceType.QUEEN,
+            'k', ChessPiece.PieceType.KING,
+            'b', ChessPiece.PieceType.BISHOP);
+
+    private void loadBoard() {
+        int row = BOARD_SIZE;
+        int column = 1;
+        for (var c : ChessBoard.defaultBoard.toCharArray()) {
             switch (c) {
                 case '\n' -> {
-                    column = 0;
+                    column = 1;
                     row--;
                 }
-                case '|' -> column++;
+                case ' ' -> column++;
+                case '|' -> {
+                }
                 default -> {
-                    ChessPiece piece = null;
-                    if (!Character.isSpaceChar(c)) {
-                        ChessGame.TeamColor color = Character.isLowerCase(c) ? ChessGame.TeamColor.BLACK
-                                : ChessGame.TeamColor.WHITE;
-                        var type = CHAR_TO_TYPE_MAP.get(Character.toLowerCase(c));
-                        piece = new ChessPiece(color, type);
-                    }
-                    board[rowColToIndex(row, column)] = piece;
+                    ChessGame.TeamColor color = Character.isLowerCase(c) ? ChessGame.TeamColor.BLACK
+                            : ChessGame.TeamColor.WHITE;
+                    var type = CHAR_TO_TYPE_MAP.get(Character.toLowerCase(c));
+                    var position = new ChessPosition(row, column);
+                    var piece = new ChessPiece(color, type);
+                    addPiece(position, piece);
+                    column++;
                 }
             }
         }
@@ -92,70 +140,6 @@ public class ChessBoard {
 
     @Override
     public int hashCode() {
-        return Arrays.hashCode(board);
+        return Arrays.deepHashCode(board);
     }
-
-    // needed for move generation
-    static int getBoardDimension() {
-        return BOARD_DIMENSION;
-    }
-
-    static int rowColToIndex(int row, int col) {
-        return row * BOARD_DIMENSION + col;
-    }
-
-    static int positionToIndex(ChessPosition position) {
-        return rowColToIndex(position.getRow(), position.getColumn());
-    }
-
-    static ChessPosition indexToPosition(int idx) {
-        int row = idx / BOARD_DIMENSION;
-        int col = idx % BOARD_DIMENSION;
-        return new ChessPosition(row, col);
-    }
-
-    static boolean isIndexOnboard(int idx) {
-        int row = idx / BOARD_DIMENSION;
-        int col = idx % BOARD_DIMENSION;
-        return 1 <= row && row <= 8 && 1 <= col && col <= 8;
-    }
-
-    static boolean isInOriginalRow(int idx, ChessPiece.PieceType piece, ChessGame.TeamColor color) {
-        int targetRow;
-        if (piece == ChessPiece.PieceType.PAWN) {
-            targetRow = (color == ChessGame.TeamColor.WHITE) ? 2 : 7;
-        } else {
-            targetRow = (color == ChessGame.TeamColor.WHITE) ? 1 : 8;
-        }
-        int row = idx / BOARD_DIMENSION;
-        return row == targetRow;
-    }
-
-    // make this package accessible so move generators can use it to check for valid positions
-    static boolean isInbounds(ChessPosition position) {
-        int row = position.getRow();
-        int col = position.getColumn();
-        return 1 <= row && row <= 8 && 1 <= col && col <= 8;
-    }
-
-    // "borrowed" from the TestUtilities class
-    private static final String defaultBoard = """
-            |r|n|b|q|k|b|n|r|
-            |p|p|p|p|p|p|p|p|
-            | | | | | | | | |
-            | | | | | | | | |
-            | | | | | | | | |
-            | | | | | | | | |
-            |P|P|P|P|P|P|P|P|
-            |R|N|B|Q|K|B|N|R|
-            """;
-
-    private static final Map<Character, ChessPiece.PieceType> CHAR_TO_TYPE_MAP = Map.of(
-            'p', ChessPiece.PieceType.PAWN,
-            'n', ChessPiece.PieceType.KNIGHT,
-            'r', ChessPiece.PieceType.ROOK,
-            'q', ChessPiece.PieceType.QUEEN,
-            'k', ChessPiece.PieceType.KING,
-            'b', ChessPiece.PieceType.BISHOP);
-
 }
