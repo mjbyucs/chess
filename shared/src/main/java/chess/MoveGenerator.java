@@ -41,51 +41,63 @@ public class MoveGenerator {
 
     private static Collection<ChessMove> generateSpecialMoves(ChessBoard board, ChessPosition position,
                                                               ChessPiece piece, ChessGame.TeamColor color) {
-        List<ChessMove> moves = new ArrayList<>();
-//        if (pieceType == ChessPiece.PieceType.KING) {
+        return switch (piece.getPieceType()) {
+            case KING -> kingSpecialMoves(board, position, piece, color);
+            case PAWN -> pawnSpecialMoves(board, position, piece, color);
+            default -> List.of();
+        };
+    }
+
+    private static List<ChessMove> kingSpecialMoves(ChessBoard board, ChessPosition position, ChessPiece piece,
+                                                    ChessGame.TeamColor color) {
 //            // implement castling logic
-//        }
-        if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
-            // handle all the special cases for pawn
-            List<ChessPosition> newPositions = new ArrayList<>();
+        // TODO: castling logic
+        return List.of();
+    }
 
-            int moveDir = color == ChessGame.TeamColor.WHITE ? 1 : -1;
-            ChessPosition direction = new ChessPosition(moveDir, 0);
-            ChessPosition moveOne = position.add(direction);
-            if (moveOne.isValid() && board.isEmpty(moveOne)) {
-                newPositions.add(moveOne);
-                if (board.isStartingRow(position, piece)) {
-                    ChessPosition moveTwo = moveOne.add(direction);
-                    if (moveTwo.isValid() && board.isEmpty(moveTwo)) {
-                        newPositions.add(moveTwo);
-                    }
-                }
-            }
-            // check capture
-            ChessPosition leftDiag = position.add(new ChessPosition(moveDir, -1));
-            ChessPosition rightDiag = position.add(new ChessPosition(moveDir, 1));
-            if (leftDiag.isValid() && board.isOpponentPiece(leftDiag, color)) {
-                newPositions.add(leftDiag);
-            }
-            if (rightDiag.isValid() && board.isOpponentPiece(rightDiag, color)) {
-                newPositions.add(rightDiag);
-            }
-            // todo: implement En Passant move
+    private static List<ChessMove> pawnSpecialMoves(ChessBoard board, ChessPosition position, ChessPiece piece,
+                                                    ChessGame.TeamColor color) {
+        // handle all the special cases for pawn
+        List<ChessPosition> newPositions = new ArrayList<>();
 
-            // convert positions into moves checking for reaching the last row
-            ChessGame.TeamColor opponentColor = color == ChessGame.TeamColor.WHITE ?
-                                                 ChessGame.TeamColor.BLACK : ChessGame.TeamColor.WHITE;
-            ChessPiece opponentKing = new ChessPiece(opponentColor, ChessPiece.PieceType.KING);
-            for (ChessPosition pos : newPositions) {
-                if (board.isStartingRow(pos, opponentKing)) {
-                    moves.add(new ChessMove(position, pos, ChessPiece.PieceType.QUEEN));
-                    moves.add(new ChessMove(position, pos, ChessPiece.PieceType.ROOK));
-                    moves.add(new ChessMove(position, pos, ChessPiece.PieceType.BISHOP));
-                    moves.add(new ChessMove(position, pos, ChessPiece.PieceType.KNIGHT));
+        int moveDir = color == ChessGame.TeamColor.WHITE ? 1 : -1;
+        ChessPosition direction = new ChessPosition(moveDir, 0);
+        ChessPosition moveOne = position.add(direction);
+        if (moveOne.isValid() && board.isEmpty(moveOne)) {
+            newPositions.add(moveOne);
+            if (board.isStartingRow(position, piece)) {
+                ChessPosition moveTwo = moveOne.add(direction);
+                if (moveTwo.isValid() && board.isEmpty(moveTwo)) {
+                    newPositions.add(moveTwo);
                 }
-                else {
-                    moves.add(new ChessMove(position, pos));
-                }
+            }
+        }
+        // check capture
+        ChessPosition leftDiag = position.add(new ChessPosition(moveDir, -1));
+        ChessPosition rightDiag = position.add(new ChessPosition(moveDir, 1));
+        if (leftDiag.isValid() && board.isOpponentPiece(leftDiag, color)) {
+            newPositions.add(leftDiag);
+        }
+        if (rightDiag.isValid() && board.isOpponentPiece(rightDiag, color)) {
+            newPositions.add(rightDiag);
+        }
+        // todo: implement En Passant move
+
+        List<ChessMove> moves = new ArrayList<>();
+
+        // convert positions into moves checking for reaching the last row
+        ChessGame.TeamColor opponentColor = color == ChessGame.TeamColor.WHITE ?
+                                             ChessGame.TeamColor.BLACK : ChessGame.TeamColor.WHITE;
+        ChessPiece opponentKing = new ChessPiece(opponentColor, ChessPiece.PieceType.KING);
+        for (ChessPosition pos : newPositions) {
+            if (board.isStartingRow(pos, opponentKing)) {
+                moves.add(new ChessMove(position, pos, ChessPiece.PieceType.QUEEN));
+                moves.add(new ChessMove(position, pos, ChessPiece.PieceType.ROOK));
+                moves.add(new ChessMove(position, pos, ChessPiece.PieceType.BISHOP));
+                moves.add(new ChessMove(position, pos, ChessPiece.PieceType.KNIGHT));
+            }
+            else {
+                moves.add(new ChessMove(position, pos));
             }
         }
         return moves;
