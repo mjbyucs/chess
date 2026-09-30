@@ -47,11 +47,6 @@ public class ChessBoard {
         return board[position.row][position.col] == null;
     }
 
-    public boolean isMyPiece(ChessPosition position, ChessGame.TeamColor myColor) {
-        ChessPiece piece = getPiece(position);
-        return piece != null && piece.getTeamColor() == myColor;
-    }
-
     public boolean canMoveTo(ChessPosition position, ChessGame.TeamColor myColor) {
         ChessPiece piece = getPiece(position);
         return piece == null || piece.getTeamColor() != myColor;
