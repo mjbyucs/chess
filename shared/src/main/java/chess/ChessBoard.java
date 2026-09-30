@@ -51,22 +51,24 @@ public class ChessBoard {
         return board[position.getRow()][position.getColumn()];
     }
 
-    public boolean isEmpty(ChessPosition position) {
+    boolean isEmpty(ChessPosition position) {
         validatePosition(position);
         return board[position.getRow()][position.getColumn()] == null;
     }
 
-    public boolean canMoveTo(ChessPosition position, ChessGame.TeamColor myColor) {
+    boolean canMoveTo(ChessPosition position, ChessGame.TeamColor myColor) {
+        Objects.requireNonNull(myColor, "color");
         ChessPiece piece = getPiece(position);
         return piece == null || piece.getTeamColor() != myColor;
     }
 
-    public boolean isOpponentPiece(ChessPosition position, ChessGame.TeamColor myColor) {
+    boolean isOpponentPiece(ChessPosition position, ChessGame.TeamColor myColor) {
+        Objects.requireNonNull(myColor, "color");
         ChessPiece piece = getPiece(position);
         return piece != null && piece.getTeamColor() != myColor;
     }
 
-    public boolean isStartingRow(ChessPosition position, ChessPiece piece) {
+    boolean isStartingRow(ChessPosition position, ChessPiece piece) {
         ChessGame.TeamColor color = piece.getTeamColor();
         if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
             return color == ChessGame.TeamColor.WHITE ? position.getRow() == 2 : position.getRow() == PLAYABLE_BOARD_SIZE - 1;
@@ -76,14 +78,14 @@ public class ChessBoard {
         }
     }
 
-    public boolean isPromotionRank(ChessPosition position, ChessGame.TeamColor pawnColor) {
+    boolean isPromotionRank(ChessPosition position, ChessGame.TeamColor pawnColor) {
         return pawnColor == ChessGame.TeamColor.WHITE ?
                 position.getRow() == PLAYABLE_BOARD_SIZE :
                 position.getRow() == 1;
     }
 
-
     private void validatePosition(ChessPosition position) {
+        Objects.requireNonNull(position, "position");
         if (!position.isValid()) {
             throw new IllegalArgumentException("Invalid board position {" + position.getRow() + ", " + position.getColumn() + "}");
         }
