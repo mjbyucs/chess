@@ -58,17 +58,21 @@ public class ChessBoard {
 
     boolean canMoveTo(ChessPosition position, ChessGame.TeamColor myColor) {
         Objects.requireNonNull(myColor, "color");
+        validatePosition(position);
         ChessPiece piece = getPiece(position);
         return piece == null || piece.getTeamColor() != myColor;
     }
 
     boolean isOpponentPiece(ChessPosition position, ChessGame.TeamColor myColor) {
         Objects.requireNonNull(myColor, "color");
+        validatePosition(position);
         ChessPiece piece = getPiece(position);
         return piece != null && piece.getTeamColor() != myColor;
     }
 
     boolean isStartingRow(ChessPosition position, ChessPiece piece) {
+        Objects.requireNonNull(piece, "piece");
+        validatePosition(position);
         ChessGame.TeamColor color = piece.getTeamColor();
         if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
             return color == ChessGame.TeamColor.WHITE ? position.getRow() == 2 : position.getRow() == PLAYABLE_BOARD_SIZE - 1;
@@ -79,6 +83,8 @@ public class ChessBoard {
     }
 
     boolean isPromotionRank(ChessPosition position, ChessGame.TeamColor pawnColor) {
+        Objects.requireNonNull(pawnColor, "color");
+        validatePosition(position);
         return pawnColor == ChessGame.TeamColor.WHITE ?
                 position.getRow() == PLAYABLE_BOARD_SIZE :
                 position.getRow() == 1;
