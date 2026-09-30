@@ -27,7 +27,7 @@ public class ChessBoard {
      */
     public void addPiece(ChessPosition position, ChessPiece piece) {
         validatePosition(position);
-        board[position.row][position.col] = piece;
+        board[position.getRow()][position.getColumn()] = piece;
     }
 
     /**
@@ -39,12 +39,12 @@ public class ChessBoard {
      */
     public ChessPiece getPiece(ChessPosition position) {
         validatePosition(position);
-        return board[position.row][position.col];
+        return board[position.getRow()][position.getColumn()];
     }
 
     public boolean isEmpty(ChessPosition position) {
         validatePosition(position);
-        return board[position.row][position.col] == null;
+        return board[position.getRow()][position.getColumn()] == null;
     }
 
     public boolean canMoveTo(ChessPosition position, ChessGame.TeamColor myColor) {
@@ -60,16 +60,16 @@ public class ChessBoard {
     public boolean isStartingRow(ChessPosition position, ChessPiece piece) {
         ChessGame.TeamColor color = piece.getTeamColor();
         if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
-            return color == ChessGame.TeamColor.WHITE ? position.row == 2 : position.row == BOARD_SIZE - 1;
+            return color == ChessGame.TeamColor.WHITE ? position.getRow() == 2 : position.getRow() == BOARD_SIZE - 1;
         }
         else {
-            return color == ChessGame.TeamColor.WHITE ? position.row == 1 : position.row == BOARD_SIZE;
+            return color == ChessGame.TeamColor.WHITE ? position.getRow() == 1 : position.getRow() == BOARD_SIZE;
         }
     }
 
     private void validatePosition(ChessPosition position) {
         if (!position.isValid()) {
-            throw new RuntimeException("Invalid board position {" + position.row + ", " + position.col + "}");
+            throw new RuntimeException("Invalid board position {" + position.getRow() + ", " + position.getColumn() + "}");
         }
     }
 
