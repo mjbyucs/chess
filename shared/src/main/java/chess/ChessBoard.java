@@ -76,6 +76,13 @@ public class ChessBoard {
         }
     }
 
+    public boolean isPromotionRank(ChessPosition position, ChessGame.TeamColor pawnColor) {
+        return pawnColor == ChessGame.TeamColor.WHITE ?
+                position.getRow() == PLAYABLE_BOARD_SIZE :
+                position.getRow() == 1;
+    }
+
+
     private void validatePosition(ChessPosition position) {
         if (!position.isValid()) {
             throw new IllegalArgumentException("Invalid board position {" + position.getRow() + ", " + position.getColumn() + "}");

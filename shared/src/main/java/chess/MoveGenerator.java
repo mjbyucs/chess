@@ -85,12 +85,9 @@ public class MoveGenerator {
 
         List<ChessMove> moves = new ArrayList<>();
 
-        // convert positions into moves checking for reaching the last row
-        ChessGame.TeamColor opponentColor = color == ChessGame.TeamColor.WHITE ?
-                                             ChessGame.TeamColor.BLACK : ChessGame.TeamColor.WHITE;
-        ChessPiece opponentKing = new ChessPiece(opponentColor, ChessPiece.PieceType.KING);
+        // convert positions into moves while also checking for reaching the promotion row
         for (ChessPosition pos : newPositions) {
-            if (board.isStartingRow(pos, opponentKing)) {
+            if (board.isPromotionRank(pos, color)) {
                 moves.add(new ChessMove(position, pos, ChessPiece.PieceType.QUEEN));
                 moves.add(new ChessMove(position, pos, ChessPiece.PieceType.ROOK));
                 moves.add(new ChessMove(position, pos, ChessPiece.PieceType.BISHOP));
