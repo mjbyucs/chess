@@ -14,13 +14,21 @@ public class MoveGenerator {
             return List.of();
         }
         ChessPiece piece = board.getPiece(position);
-        ChessPiece.PieceType type = piece.getPieceType();
-        ChessGame.TeamColor color = piece.getTeamColor();
-        boolean canSlide = CAN_SLIDE.contains(type);
+        if (piece.getPieceType() == ChessPiece.PieceType.PAWN) {
+            return pawnMoves(board, position, piece, piece.getTeamColor());
+        }
+        else {
+            return nonPawnMoves(board, position, piece, piece.getTeamColor());
+        }
+    }
 
+    private static Collection<ChessMove> nonPawnMoves(ChessBoard board, ChessPosition position,
+                                                      ChessPiece piece, ChessGame.TeamColor color) {
         List<ChessMove> moves = new ArrayList<>();
+        boolean canSlide = CAN_SLIDE.contains(piece.getPieceType());
+
         // get the list of directions a piece can move and generate all new positions from the current one
-        for (ChessPosition pos : PIECE_DIRECTIONS.get(type)) {
+        for (ChessPosition pos : PIECE_DIRECTIONS.get(piece.getPieceType())) {
             ChessPosition newPos = position.add(pos);
             while (newPos.isValid() && board.canMoveTo(newPos, color)) {
                 moves.add(new ChessMove(position, newPos));
@@ -32,31 +40,12 @@ public class MoveGenerator {
                 newPos = newPos.add(pos);
             }
         }
-        
-        moves.addAll(generateSpecialMoves(board, position, piece, color));
-
         return moves;
     }
 
-    private static Collection<ChessMove> generateSpecialMoves(ChessBoard board, ChessPosition position,
-                                                              ChessPiece piece, ChessGame.TeamColor color) {
-        return switch (piece.getPieceType()) {
-            case KING -> kingSpecialMoves(board, position, piece, color);
-            case PAWN -> pawnSpecialMoves(board, position, piece, color);
-            default -> List.of();
-        };
-    }
-
-    private static List<ChessMove> kingSpecialMoves(ChessBoard board, ChessPosition position, ChessPiece piece,
-                                                    ChessGame.TeamColor color) {
-//            // implement castling logic
-        // TODO: castling logic
-        return List.of();
-    }
-
-    private static List<ChessMove> pawnSpecialMoves(ChessBoard board, ChessPosition position, ChessPiece piece,
-                                                    ChessGame.TeamColor color) {
-        // handle all the special cases for pawn
+    // handle all the cases for pawn
+    private static List<ChessMove> pawnMoves(ChessBoard board, ChessPosition position,
+                                             ChessPiece piece, ChessGame.TeamColor color) {
         List<ChessPosition> newPositions = new ArrayList<>();
 
         int moveDir = color == ChessGame.TeamColor.WHITE ? 1 : -1;
