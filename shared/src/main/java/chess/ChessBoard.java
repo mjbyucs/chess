@@ -27,8 +27,8 @@ public class ChessBoard {
 
     public ChessBoard(ChessBoard copyFrom) {
         board = new ChessPiece[BOARD_STORAGE_SIZE][BOARD_STORAGE_SIZE];
-        for (int r = 0; r < BOARD_STORAGE_SIZE; r++) {
-            for (int c = 0; c < BOARD_STORAGE_SIZE; c++) {
+        for (int r = 1; r <= PLAYABLE_BOARD_SIZE; r++) {
+            for (int c = 1; c <= PLAYABLE_BOARD_SIZE; c++) {
                 ChessPosition pos = new ChessPosition(r, c);
                 addPiece(pos, copyFrom.getPiece(pos));
             }
