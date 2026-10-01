@@ -1,8 +1,6 @@
 package chess;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * A chessboard that can hold and rearrange chess pieces.
@@ -16,8 +14,25 @@ public class ChessBoard {
     // waste a little space to keep the board coordinates easy to manage (mostly for debugging)
     private final ChessPiece[][] board;
 
+    /**
+     * Define a record that captures all pieces on the board and their current position.
+     * @param piece a ChessPiece
+     * @param position a ChessPosition
+     */
+    public record PiecePosition(ChessPiece piece, ChessPosition position) {}
+
     public ChessBoard() {
         board = new ChessPiece[BOARD_STORAGE_SIZE][BOARD_STORAGE_SIZE];
+    }
+
+    public ChessBoard(ChessBoard copyFrom) {
+        board = new ChessPiece[BOARD_STORAGE_SIZE][BOARD_STORAGE_SIZE];
+        for (int r = 0; r < BOARD_STORAGE_SIZE; r++) {
+            for (int c = 0; c < BOARD_STORAGE_SIZE; c++) {
+                ChessPosition pos = new ChessPosition(r, c);
+                addPiece(pos, copyFrom.getPiece(pos));
+            }
+        }
     }
 
 
@@ -49,6 +64,23 @@ public class ChessBoard {
     public ChessPiece getPiece(ChessPosition position) {
         validatePosition(position);
         return board[position.getRow()][position.getColumn()];
+    }
+
+    /**
+     * Return a collection of all the pieces remaining on the board and their corresponding positions
+     * @return collection of PiecePosition records
+     */
+    public Collection<PiecePosition> getPiecePositions() {
+        List<PiecePosition> piecePositions = new ArrayList<>();
+        for (int r = 1; r <= PLAYABLE_BOARD_SIZE; r++) {
+            for (int c = 1; c <= PLAYABLE_BOARD_SIZE; c++) {
+                ChessPosition pos = new ChessPosition(r, c);
+                if (!isEmpty(pos)) {
+                    piecePositions.add(new PiecePosition(getPiece(pos), pos));
+                }
+            }
+        }
+        return piecePositions;
     }
 
     boolean isEmpty(ChessPosition position) {
