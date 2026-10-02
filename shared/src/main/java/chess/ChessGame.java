@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class ChessGame {
     private static final int CASTLE_COLS = 2;
     private ChessBoard gameBoard;
-    private final SpecialMovesState gameMoveState;
+    private SpecialMovesState gameMoveState;
     private TeamColor whoseMove;
 
     public ChessGame() {
@@ -288,6 +288,7 @@ public class ChessGame {
      */
     public void setBoard(ChessBoard board) {
         gameBoard = board;
+        gameMoveState = new SpecialMovesState();
     }
 
     /**

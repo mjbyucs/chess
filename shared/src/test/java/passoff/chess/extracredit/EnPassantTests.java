@@ -230,6 +230,39 @@ public class EnPassantTests {
                 "ChessGame validMoves contained a En Passant move after the move became invalid");
     }
 
+    @Test
+    @DisplayName("En Passant Leaves King in Check")
+    public void enPassantLeavesKingInCheck() throws InvalidMoveException {
+        ChessBoard board = TestUtilities.loadBoard("""
+                | | | | | | | |k|
+                | | | | | | | | |
+                | | | | | | | | |
+                |K| | | | | | | |
+                | | | | | | | |p|
+                | | | | | | | | |
+                | | | | | | |P| |
+                | | | | | | | |R|
+                """);
+        ChessMove setupMove = new ChessMove(new ChessPosition(2, 7), new ChessPosition(4, 7), null);
+        /*
+                | | | | | | | |k|
+                | | | | | | | | |
+                | | | | | | | | |
+                |K| | | | | | | |
+                | | | | | | |P|p|
+                | | | | | | | | |
+                | | | | | | | | |
+                | | | | | | | |R|
+         */
+        ChessMove enPassantMove = new ChessMove(new ChessPosition(4, 8), new ChessPosition(3, 7), null);
+        ChessGame game = new ChessGame();
+        game.setBoard(board);
+        game.setTeamTurn(ChessGame.TeamColor.WHITE);
+        game.makeMove(setupMove);
+        Collection<ChessMove> pawnMoves = game.validMoves(enPassantMove.getStartPosition());
+        Assertions.assertFalse(pawnMoves.contains(enPassantMove));
+    }
+
     private void assertValidEnPassant(ChessBoard board, ChessGame.TeamColor turn, ChessMove setupMove,
                                       ChessMove enPassantMove, ChessBoard endBoard) throws InvalidMoveException {
         ChessGame game = new ChessGame();
