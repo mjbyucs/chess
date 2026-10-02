@@ -1,8 +1,7 @@
 package chess;
 
-import chess.movers.*;
-
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -12,9 +11,13 @@ import java.util.Objects;
  * signature of the existing methods.
  */
 public class ChessPiece {
-    private final ChessGame.TeamColor pieceColor;
-    private final ChessPiece.PieceType pieceType;
-    private final PieceMover pieceMover;
+    private final PieceType type;
+    private final ChessGame.TeamColor color;
+
+    public ChessPiece(ChessGame.TeamColor pieceColor, PieceType type) {
+        this.type = Objects.requireNonNull(type, "type");
+        this.color = Objects.requireNonNull(pieceColor, "pieceColor");
+    }
 
     /**
      * The various different chess piece options
@@ -28,49 +31,35 @@ public class ChessPiece {
         PAWN
     }
 
-    public ChessPiece(ChessGame.TeamColor pieceColor, ChessPiece.PieceType type) {
-        this.pieceColor = pieceColor;
-        this.pieceType = type;
-        this.pieceMover = getMover(type);
-    }
-
-        private PieceMover getMover(ChessPiece.PieceType type) {
-            return switch (type) {
-                case KING -> new KingMover();
-                case QUEEN -> new QueenMover();
-                case ROOK -> new RookMover();
-                case BISHOP -> new BishopMover();
-                case KNIGHT -> new KnightMover();
-                case PAWN -> new PawnMover();
-            };
-        }
-
     /**
      * @return Which team this chess piece belongs to
      */
     public ChessGame.TeamColor getTeamColor() {
-        return pieceColor;
+        return color;
     }
 
     /**
      * @return which type of chess piece this piece is
      */
     public PieceType getPieceType() {
-        return pieceType;
+        return type;
     }
 
     /**
      * Calculates all the positions a chess piece can move to
-     *
-     * Given a board configuration, this method returns all the moves a specific piece can
-     * legally make independent of whose turn it is or if the King is being attacked.
-     * It considers the edges of the board and the location of both enemy and friendly pieces.
-     *
+     * Does not take into account moves that are illegal due to leaving the king in
+     * danger
      *
      * @return Collection of valid moves
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
-        return pieceMover.generateMoves(board, myPosition);
+        Objects.requireNonNull(board, "board");
+        Objects.requireNonNull(myPosition, "position");
+        if (board.isEmpty(myPosition)) {
+            return List.of();
+        }
+
+        return MoveGenerator.generateMoves(board, myPosition);
     }
 
     @Override
@@ -79,11 +68,11 @@ public class ChessPiece {
             return false;
         }
         ChessPiece that = (ChessPiece) o;
-        return pieceColor == that.pieceColor && pieceType == that.pieceType;
+        return type == that.type && color == that.color;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pieceColor, pieceType);
+        return Objects.hash(type, color);
     }
 }

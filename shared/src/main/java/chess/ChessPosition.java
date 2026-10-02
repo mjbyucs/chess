@@ -33,6 +33,25 @@ public class ChessPosition {
         return col;
     }
 
+    public ChessPosition add(ChessPosition pos) {
+        return new ChessPosition(this.row + pos.row, this.col + pos.col);
+    }
+
+    /*
+     * Calculate if the position resides on the board (ie within allowed coordinates)
+     */
+    public boolean isValid() {
+        return row >= 1 && row <= ChessBoard.getBoardSize() && col >= 1 && col <= ChessBoard.getBoardSize();
+    }
+
+    @Override
+    public String toString() {
+        return "ChessPosition{" +
+                "row=" + row +
+                ", col=" + col +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {
