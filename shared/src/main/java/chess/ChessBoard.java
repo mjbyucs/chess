@@ -100,7 +100,7 @@ public class ChessBoard {
         return piece != null && piece.getTeamColor() != myColor;
     }
 
-    boolean isStartingRow(ChessPosition position, ChessPiece piece) {
+    static boolean isStartingRow(ChessPosition position, ChessPiece piece) {
         Objects.requireNonNull(piece, "piece");
         validatePosition(position);
         ChessGame.TeamColor color = piece.getTeamColor();
@@ -112,7 +112,7 @@ public class ChessBoard {
         }
     }
 
-    boolean isPromotionRank(ChessPosition position, ChessGame.TeamColor pawnColor) {
+    static boolean isPromotionRank(ChessPosition position, ChessGame.TeamColor pawnColor) {
         Objects.requireNonNull(pawnColor, "color");
         validatePosition(position);
         return pawnColor == ChessGame.TeamColor.WHITE ?
@@ -120,7 +120,7 @@ public class ChessBoard {
                 position.getRow() == 1;
     }
 
-    private void validatePosition(ChessPosition position) {
+    private static void validatePosition(ChessPosition position) {
         Objects.requireNonNull(position, "position");
         if (!position.isValid()) {
             throw new IllegalArgumentException("Invalid board position {" + position.getRow() + ", " + position.getColumn() + "}");

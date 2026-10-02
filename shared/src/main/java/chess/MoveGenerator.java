@@ -53,7 +53,7 @@ public class MoveGenerator {
         ChessPosition moveOne = position.add(direction);
         if (moveOne.isValid() && board.isEmpty(moveOne)) {
             newPositions.add(moveOne);
-            if (board.isStartingRow(position, piece)) {
+            if (ChessBoard.isStartingRow(position, piece)) {
                 ChessPosition moveTwo = moveOne.add(direction);
                 if (moveTwo.isValid() && board.isEmpty(moveTwo)) {
                     newPositions.add(moveTwo);
@@ -75,7 +75,7 @@ public class MoveGenerator {
 
         // convert positions into moves while also checking for reaching the promotion row
         for (ChessPosition pos : newPositions) {
-            if (board.isPromotionRank(pos, color)) {
+            if (ChessBoard.isPromotionRank(pos, color)) {
                 moves.add(new ChessMove(position, pos, ChessPiece.PieceType.QUEEN));
                 moves.add(new ChessMove(position, pos, ChessPiece.PieceType.ROOK));
                 moves.add(new ChessMove(position, pos, ChessPiece.PieceType.BISHOP));
