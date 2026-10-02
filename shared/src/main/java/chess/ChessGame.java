@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class ChessGame {
     private static final int CASTLE_COLS = 2;
     private ChessBoard gameBoard;
-    private SpecialMovesState gameMoveState;
+    private final SpecialMovesState gameMoveState;
     private TeamColor whoseMove;
 
     public ChessGame() {
@@ -76,17 +76,16 @@ public class ChessGame {
         ChessPiece piece = board.getPiece(startPosition);
         Objects.requireNonNull(piece, "piece");
         Collection<ChessMove> possibleMoves = piece.pieceMoves(board, startPosition);
-        List<ChessMove> validMoves = possibleMoves.stream()
-                .filter(move -> !moveLeavesTeamInCheck(board, moveState, move, piece.getTeamColor()))
-                .collect(Collectors.toCollection(ArrayList::new));
         ChessPosition enPassantPos = moveState.getEnPassantPosition(piece, startPosition);
         if (enPassantPos != null) {
-            validMoves.add(new ChessMove(startPosition, enPassantPos));
+            possibleMoves.add(new ChessMove(startPosition, enPassantPos));
         }
         if (piece.getPieceType() == ChessPiece.PieceType.KING) {
-            validMoves.addAll(getCastleMoves(board, moveState, piece, startPosition));
+            possibleMoves.addAll(getCastleMoves(board, moveState, piece, startPosition));
         }
-        return validMoves;
+        return possibleMoves.stream()
+                .filter(move -> !moveLeavesTeamInCheck(board, moveState, move, piece.getTeamColor()))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     private Collection<ChessMove> getCastleMoves(ChessBoard board, SpecialMovesState moveState,
@@ -168,7 +167,7 @@ public class ChessGame {
             throw new InvalidMoveException("Move is for a " + piece.getTeamColor() + " piece but it is " +
                                             colorToMove + "'s turn.");
         }
-        if (!validMoves(startPos).contains(move)) {
+        if (!validMovesOnBoard(board, moveState, startPos).contains(move)) {
             throw new InvalidMoveException("This move isn't legal with the current board state");
         }
 
@@ -192,7 +191,6 @@ public class ChessGame {
         }
 
         // check to see if this was a castle move. If so, we need to move the appropriate rook too
-        Collection<ChessMove> castleMoves = getCastleMoves(board, moveState, movePiece, move.getStartPosition());
         if (getCastleMoves(board, moveState, movePiece, move.getStartPosition()).contains(move)) {
             boolean castledLeft = move.getEndPosition().getColumn() < move.getStartPosition().getColumn();
             int rookFinalCol = castledLeft ? move.getEndPosition().getColumn() + 1 : move.getEndPosition().getColumn() - 1;

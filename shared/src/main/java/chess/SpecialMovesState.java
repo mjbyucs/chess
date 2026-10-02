@@ -8,8 +8,9 @@ import java.util.*;
  * with a particular board so if a board is copied, so should its state be copied.
  */
 public class SpecialMovesState {
-    ChessMove lastMoveIfPawn;
-    Map<ChessGame.TeamColor, Set<CastlePieces>> castleEligible;
+    private static final int KING_STARTING_COL = 5;
+    private ChessMove lastMoveIfPawn;
+    private final Map<ChessGame.TeamColor, Set<CastlePieces>> castleEligible;
 
     private enum CastlePieces {
         KING, ROOK_1, ROOK_8, DUMMY     // dummy piece makes logic work nicer so we don't deal with nulls
@@ -25,7 +26,7 @@ public class SpecialMovesState {
 
     SpecialMovesState(SpecialMovesState copyFrom) {
         lastMoveIfPawn = copyFrom.lastMoveIfPawn;       // immutable
-        castleEligible = new EnumMap<ChessGame.TeamColor, Set<CastlePieces>>(ChessGame.TeamColor.class);
+        castleEligible = new EnumMap<>(ChessGame.TeamColor.class);
         for (var entry : copyFrom.castleEligible.entrySet()) {
             EnumSet<CastlePieces> copiedSet = EnumSet.noneOf(CastlePieces.class);
             copiedSet.addAll(entry.getValue());
@@ -71,13 +72,13 @@ public class SpecialMovesState {
     }
 
     public boolean isCastleLeftLegal(ChessPosition position, ChessPiece piece) {
-        return ChessBoard.isStartingRow(position, piece) &&
+        return ChessBoard.isStartingRow(position, piece) && position.getColumn() == KING_STARTING_COL &&
                 castleEligible.get(piece.getTeamColor()).contains(CastlePieces.KING) &&
                 castleEligible.get(piece.getTeamColor()).contains(CastlePieces.ROOK_1);
     }
 
     public boolean isCastleRightLegal(ChessPosition position, ChessPiece piece) {
-        return ChessBoard.isStartingRow(position, piece) &&
+        return ChessBoard.isStartingRow(position, piece) && position.getColumn() == KING_STARTING_COL &&
                 castleEligible.get(piece.getTeamColor()).contains(CastlePieces.KING) &&
                 castleEligible.get(piece.getTeamColor()).contains(CastlePieces.ROOK_8);
     }
