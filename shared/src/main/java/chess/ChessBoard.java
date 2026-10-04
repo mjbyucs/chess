@@ -70,13 +70,14 @@ public class ChessBoard {
      * Return a collection of all the pieces remaining on the board and their corresponding positions
      * @return collection of PiecePosition records
      */
-    public Collection<PiecePosition> getPiecePositions() {
+    public List<PiecePosition> getPiecePositions() {
         List<PiecePosition> piecePositions = new ArrayList<>();
         for (int r = 1; r <= PLAYABLE_BOARD_SIZE; r++) {
             for (int c = 1; c <= PLAYABLE_BOARD_SIZE; c++) {
                 ChessPosition pos = new ChessPosition(r, c);
-                if (!isEmpty(pos)) {
-                    piecePositions.add(new PiecePosition(getPiece(pos), pos));
+                ChessPiece piece = getPiece(pos);
+                if (piece != null) {
+                    piecePositions.add(new PiecePosition(piece, pos));
                 }
             }
         }
