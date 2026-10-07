@@ -1,0 +1,93 @@
+https://sequencediagram.org/index.html#initialData=IYYwLg9gTgBAwgGwJYFMB2YBQAHYUxIhK4YwDKKUAbpTngUSWDABLBoAmCtu+hx7ZhWqEUdPo0EwAIsDDAAgiBAoAzqswc5wAEbBVKGBx2ZM6MFACeq3ETQBzGAAYAdAE5M9qBACu2AMQALADMABwATG4gMP7I9gAWYDoIPoYASij2SKoWckgQaJiIqKQAtAB85JQ0UABcMADaAAoA8mQAKgC6MAD0PgZQADpoAN4ARP2UaMAAtihjtWMwYwA0y7jqAO7QHAtLq8soM8BICHvLAL6YwjUwFazsXJT145NQ03PnB2MbqttQu0WyzWYyOJzOQLGVzYnG4sHuN1E9SgmWyYEoAAoMlkcpQMgBHVI5ACU12qojulVk8iUKnU9XsKDAAFUBhi3h8UKTqYplGpVJSjDpagAxJCcGCsyg8mA6SwwDmzMQ6FHAADWkoGME2SDA8QVA05MGACFVHHlKAAHmiNDzafy7gjySp6lKoDyySIVI7KjdnjAFKaUMBze11egAKKWlTYAgFT23Ur3YrmeqBJzBYbjObqYCMhbLCNQbx1A1TJXGoMh+XyNXoKFmTiYO189Q+qpelD1NA+BAIBMU+4tumqWogVXot3sgY87nae1t+7GWoKDgcTXS7QD71D+et0fj4PohQ+PUY4Cn+Kz5t7keC5er9cnvUexE7+4wp6l7FovFqXtYJ+cLtn6pavIaSpLPU+wgheertBAdZoFByyXAmlDtimGD1OEThOFmEwQZ8MDQcCyxwfECFISh+xXOgHCmF4vgBNA7CMjEIpwBG0hwAoMAADIQFkhRYcwTrUP6zRtF0vQGOo+RoFmipzGsvz-BwdFNp43h+P4XgoOgMRxIk+mGYJ9i+FgomCqB9QNNIEb8RG7QRt0PRyaoCnDBRVHoI2DHacx-gouu-jYOKGr8WiMAAOJKho1niTUdkxc5bn2Eq3mXr5hT0YxOkBBwADsbhOCgTgxBGwRwFxABs8AToYcVzDARTIOYNnVJJrQdOlmXTNliHoFmGVzAAckqmkBUxumWCgfYQJsRlIAkYBzQtS0AFIQOKsUVv4ySgGqbUlGJvpdaWzTMjJPSjSgWXwUNimjNgCDAHNUBwBACDQGsd0AJLSFN+VBV473LatYPyogwawMA2CvYQeQFK1iXnRJl0OU5LlucY-mYEAA
+
+actor Client
+participant Server
+participant Handler
+participant Service
+participant DataAccess
+database db
+
+entryspacing 0.9
+group#43829c #lightblue Registration
+Client -> Server: [POST] /user\n{"username":" ", "password":" ", "email":" "}
+Server -> Handler: {"username":" ", "password":" ", "email":" "}
+break Invalid request data (username, password, and/or email)
+Handler --> Server: IllegalArgumentException
+Server --> Client: 400\n{"message": "Error: bad request"}
+end
+Handler -> Service: register(RegisterRequest)
+Service -> DataAccess: getUser(username)
+DataAccess -> db:Find UserData by username
+break User with username already exists
+DataAccess --> Service: UserData
+Service --> Server: AlreadyTakenException
+Server --> Client: 403\n{"message": "Error: username already taken"}
+end
+DataAccess --> Service: null
+Service -> DataAccess:createUser(userData)
+DataAccess -> db:Add UserData
+Service -> DataAccess:createAuth(authData)
+DataAccess -> db:Add AuthData
+Service --> Handler: AuthorizedUserResult
+Handler --> Server: {"username" : " ", "authToken" : " "}
+Server --> Client: 200\n{"username" : " ", "authToken" : " "}
+break Internal errors could happen at any layer
+DataAccess --> Server: Internal Error (exception)
+Server --> Client: 500\n{"message": "Error: <internal error message>"}
+end
+end
+
+group#orange #FCEDCA Login
+Client -> Server: [POST] /session\n{username, password}
+Server -> Handler: {username, password}
+break Invalid request data (username and/or password)
+Handler --> Server: IllegalArgumentException
+Server --> Client: 400\n{"message": "Error: bad request"}
+end
+Handler -> Service: login(LoginRequest)
+Service -> DataAccess: getUser(username, password)
+DataAccess -> db:Find UserData by username & password
+break User with username does not exist
+DataAccess --> Service: null
+Service --> Server: UnauthorizedException
+Server --> Client: 401\n{ "message": "Error: unauthorized" }
+end
+DataAccess --> Service: UserData
+Service ->DataAccess: Get AuthData
+DataAccess -> db:Find AuthData by username
+break No auth data found
+note right of Service: If we have a user record, we should\nhave AuthData for that user. Not finding it\nindicates an unexpected data error, but we\ncan recover by creating a new auth record.
+DataAccess -->Service: null
+Service -> DataAccess:createAuth(authData)
+DataAccess -> db:Add AuthData
+end
+DataAccess -->Service: AuthData
+Service --> Handler: AuthorizedUserResult
+Handler --> Server: {"username" : " ", "authToken" : " "}
+Server -> Client: 200\n{"username": " ", "authToken": " "}
+break Internal errors could happen at any layer
+DataAccess --> Server: Internal Error (exception)
+Server --> Client: 500\n{"message": "Error: <internal error message>"}
+end
+end
+
+group#green #lightgreen Logout
+Client -> Server: [DELETE] /session\nauthorization: <authToken>
+Server ->Handler: {"authToken": <authToken>}
+end
+
+group#red #pink List Games
+Client -> Server: [GET] /game\nauthorization: <authToken>
+end
+
+group#d790e0 #E3CCE6 Create Game
+Client -> Server: [POST] /game\naauthorization: <authToken>\n{gameName}
+end
+
+group#yellow #lightyellow Join Game #black
+Client -> Server: [PUT] /game\nauthorization: <authToken>\n{playerColor, gameID}
+end
+
+group#gray #lightgray Clear application
+Client -> Server: [DELETE] /db
+end
