@@ -1,4 +1,4 @@
 package dataaccess;
 
-public class UnauthorizedException {
+public class UnauthorizedException extends Exception {
 }

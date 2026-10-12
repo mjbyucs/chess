@@ -1,4 +1,4 @@
 package dataaccess;
 
-public class AlreadyTakenException {
+public class AlreadyTakenException extends Exception {
 }
