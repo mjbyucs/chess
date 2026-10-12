@@ -1,4 +1,9 @@
-https://sequencediagram.org/index.html#initialData=IYYwLg9gTgBAwgGwJYFMB2YBQAHYUxIhK4YwDKKUAbpTngUSWDABLBoAmCtu+hx7ZhWqEUdPo0EwAIsDDAAgiBAoAzqswc5wAEbBVKGBx2ZM6MFACeq3ETQBzGAAYAdAE5M9qBACu2AMQALADMABwATG4gMP7I9gAWYDoIPoYASij2SKoWckgQaJiIqKQAtAB85JQ0UABcMADaAAoA8mQAKgC6MAD0PgZQADpoAN4ARP2UaMAAtihjtWMwYwA0y7jqAO7QHAtLq8soM8BICHvLAL6YwjUwFazsXJT145NQ03PnB2MbqttQu0WyzWYyOJzOQLGVzYnG4sHuN1E9SgmWyYEoAAoMlkcpQMgBHVI5ACU12qojulVk8iUKnU9XsKDAAFUBhi3h8UKTqYplGpVJSjDpagAxJCcGCsyg8mA6SwwDmzMQ6FHAADWkoGME2SDA8QVA05MGACFVHHlKAAHmiNDzafy7gjySp6lKoDyySIVI7KjdnjAFKaUMBze11egAKKWlTYAgFT23Ur3YrmeqBJzBYbjObqYCMhbLCNQbx1A1TJXGoMh+XyNXoKFmTiYO189Q+qpelD1NA+BAIBMU+4tumqWogVXot3sgY87nae1t+7GWoKDgcTXS7QD71D+et0fj4PohQ+PUY4Cn+Kz5t7keC5er9cnvUexE7+4wp6l7FovFqXtYJ+cLtn6pavIaSpLPU+wgheertBAdZoFByyXAmlDtimGD1OEThOFmEwQZ8MDQcCyxwfECFISh+xXOgHCmF4vgBNA7CMjEIpwBG0hwAoMAADIQFkhRYcwTrUP6zRtF0vQGOo+RoFmipzGsvz-BwdFNp43h+P4XgoOgMRxIk+mGYJ9i+FgomCqB9QNNIEb8RG7QRt0PRyaoCnDBRVHoI2DHacx-gouu-jYOKGr8WiMAAOJKho1niTUdkxc5bn2Eq3mXr5hT0YxOkBBwADsbhOCgTgxBGwRwFxABs8AToYcVzDARTIOYNnVJJrQdOlmXTNliHoFmGVzAAckqmkBUxumWCgfYQJsRlIAkYBzQtS0AFIQOKsUVv4ySgGqbUlGJvpdaWzTMjJPSjSgWXwUNimjNgCDAHNUBwBACDQGsd0AJLSFN+VBV473LatYPyogwawMA2CvYQeQFK1iXnRJl0OU5LlucY-mYEAA
+Presentation Mode
+https://sequencediagram.org/index.html?presentationMode=readOnly#initialData=IYYwLg9gTgBAwgGwJYFMB2YBQAHYUxIhK4YwDKKUAbpTngUSWDABLBoAmCtu+hx7ZhWqEUdPo0EwAIsDDAAgiBAoAzqswc5wAEbBVKGBx2ZM6MFACeq3ETQBzGAAYAdAE5M9qBACu2AMQALADMABwATG4gMP7I9gAWYDoIPoYASij2SKoWckgQaJiIqKQAtAB85JQ0UABcMADaAAoA8mQAKgC6MAD0PgZQADpoAN4ARP2UaMAAtihjtWMwYwA0y7jqAO7QHAtLq8soM8BICHvLAL6YwjUwFazsXJT145NQ03PnB2MbqttQu0WyzWYyOJzOQLGVx0UBQwAA1jAAJJoKjAZAcGCwgCOqRyRm0MAAFG8Pig1r9-hw1o8etAYGDTgBKTAPTjcWCle43Z7IhDcezohRQew+OYYACiAA8VNgCAVWVVqJQ7vdiuZ6oEnE5huM5upgPZ5vUxhKoN46jA9JicXiwFCzJxMGx2SrudVRPVYVkcpQiRkfWBKBlcWowCyYXDEQBZbKqJAOGAAM1QCA4qhg9MpOxg3AcYHiMEgEBgqni0CwMCVVFEqvKPMtSP5mSFIrF5mlsvlhSrDbr8GQGpgWp1ozG+tUhuNyzNFvq1qxKFDOQd6A41w9KjulVk8iUKnU9SNYAAqgMSQMySzd4plGoM-djLUAGIJzFnyg3q2WGCk2ZiSMERgD9YE2JAC1-S9-xgdFYWADgfxQKVsjADQqxvfd737G5PWAgYb0VHCty5SoG3qBQEDghD2gRdBOxQOV8h7as3TVQcME1Jxgl1cd7ynBYZ3NaB6lguEEKLWi0FXJ0MLvdRsM3FB6jQHx+Q3ERiJ3bRMMPEA4KDECL0-bRr20uSH0qJ8FA4d98O0dSa006tcKNNBKDkQxgB8At2ggeF0Ac2t7lkg9VFqPS4SDBRvPiIlooLG8jKgAA5f8aRi3z-LQJlTL3cztyMHRamszF4viAiiMMEi2SeS0yugJAAC8UA4ECMlUVSsBdWqFOVS1Xigz4YBNYFli8ny-PQJYRodPtqvVDiYHCbUeL-IaZpBcb4kyqbhuWS5TEAxETzcqVsBQcAWuTcEfFhIxboTRx2B-bBYRUDhHszc6oDyBV0WYG89AMa7TlusR0LM0LescpSZEh+96MYhVe0U6HeRChGZQY7tCOqVjKgWsB6gAVhWscJ34k1Z2Egl5CBwwkxu2FVwQYGTqQ87LsxV6IC8WYZkenooB8DAkDmEGUlhXGNKq90+vqNIRYIOZEZxlG+v7QmSbJvU+KNATTSEy0AB4ODUPTiG7cppPXNdHXXTxvD8fxoHYI0YmfOAJWkOAFBgAAZXmEyKdjmDlmp6maNoul6Ax1CY3U1vJGBswBK45sqbqOReJOKX0P4dmhODERRNEMUXZdmC0eRiSTmDODpWBU44Fkqyz-GWMbZtBQQYVRXFMBVaY6Xbnm0PONHXWDX1qmjfneCK7tG3nUeDkCsq+oECDtAiUDrI0BDO0WUqgqMcPGBj0Mt5UrmXLbyhx8itfTg8OMmudB-a--0wI7X9gDgIBqBgGgCAzAkIoUVGfB84dcIqTUurGGaNLQnS2g1ZqHAh7I07prcew4nAAEZdTLApjPQSc5fzTBimglqSwrh2ygdDXCIEKqoxgSoeoZckDV0MM3H+xcU75ypDAbIwi0AgGgG9SszliLh15CgqhUAmotUwcxOabEShEzwYQ0YxC9bTkNuQkWqDFHoNofbQKmkN4wAAOLoHckGYBKBNgwQypNQoJ9grw10vpFAZU4oxUSl-OY6UJpZRypgBhj9io2RgGVAikSKhWLifZDx9x251QUUo1qAx2qdRXq6Tksj+oTEGvMPa+xNquKytNfas08aFIJrg5ak8SlTH-AbUaYwto7SkjNK4fCozAVOpzIMmJGagzuhwB6iZnopzei1T6EBvq-UKP9OGdN9AMyZuDdZ98sLVSsVAlRI8gpFPqEcrGSNVH1JwRo7WLSSH6OppaauuhNkSzBizNmwyLqjLmbzH6MwBYOCFkrMWWyJk7NSaRepCswUq0uWrbBY87kwFJg8vRBtnn1FNubRRVzrZ0KdHbO2jtfABC8CgdAMQ4iJEpdSvevgsCE3XrCxo0gJT+wlO0CU3Qehx3jAUYYximorJxd0tx5QHJunKOkl4XSqlTSuOk7cVit72CZf4gsaCVmHzDMfVh5QoFHhQGAZJ8gtXlhMbqpcdoXASrCRErxFlCr1GfqVAJ9lf4OupQAtQaAADkYDkI5Egc6usVi4EIBOTI+sbL5HapMcoxFTEiRjFLuiLhRY3FjFbsiioWstE8UeViueFCRWmKJeuBJMKZbkU9fICxVUtJ5VCvUM23AooNuAESH12UnWtv2ZZIqRgUCdsMOa4AA69nyRIlYqgEAs29p0AYMRhgIBJnrgyFNBQDUy37HKmAC6l26FXVuDdW7t1diYiyFVBy2XHsxMus967N3sCvdjG90qGkDlRc0mAIx+m-3ZmdX5V1xmS0MFMxRMy0AvXmR9RMSz7HDzWYDd5EGwZhsHbOthsMLnXqwdCzu5znXHIQR3Qt6Li2YtnuQ159MPnMzoazQwIGRlXR5nzIFgthai3FphqWCDTm1ojjARW-GUDkfzY01F1Hya0bITTXFqgLYEuXiSp0ZLnawkxP4bACZET+xQjY-8GgWVnMaNY7lfLBRzGGPVa13ZxWKrQFKjONVs4AYVaEpV+Sep4c3ihaxZnLU6u7HqnIe7EGeJw2FC+prJ1hac0xSLYB7WubvjpF1T4YDutid2gZQE+1GEARmEBwaIEQzi4w9hwDVLRuE7GkjQyK3JsIzvdNqJM2YkgNUvNajZNDi1Noqek5SEGJpkYzJlbzE1ukbDSdTbT7OpNWa-kIX9REiy-lKJNjTUwX5BfMz07su1dhsZnIxtNsoBvO51haTV68hu5dsAuSEBdSez+si3m7NqAEg0cYf2kTSAEv4EEmx4jgRQCBMkHTvjJFAPCWH7SNrLD+zffRlw1guFx50dONyUVDmaTxP7qgAdA--CDsHEOocGVKfDkEiOQDI4Z2jsYGPUe1IuDjvHQH+HsbA2M7Z90YNPTg3Mi6CykPLJxmh7QjHBM7Pm4csjO7rn7vvfLXZ2XpODd-UOeTY3KZKZeQrjD2yvlsZ+Vzf53HgX2FBZJpjUKHuid5BJ5WUn1cj0o7go3vFp5PLLSptTVsNPEq014cl-gOAAHY3BOBQE4GIEpghwC9gANngD40z4sQ4aNZdrqOHRbP-mFTNsVMBjZ9vKLqTncwCca0ewU+VfbvgN-mMqr7ReYb1Aih5G7yXRURdtWGNYnfotBVE7hTh3DjtzEx0Vku3Xy5-eAd-aFP2mwClbP3DsPvBuFpHDRoPpbyELltGGZeHiW0zvi8eJLjmR+pbHzkDLvn+2ROHW6t8BWEper8IlZ+rlagLbpVY667aBb1bwILZIL1AJpWpZIqJpoZrlx9ZTQDaE7qLDYEKn7jbB6GKUKJpZLLwq6KT1oAGNq37GrJhvg3YABClgmORIk+p2u2P+eWf+6+H8G+cwy+C+hgZIMA4iaASYyA4A7BD8iSFBeet2KSbuP2FEVElgNEWUxyR+uCWo3ECmZ+dGNMok8EP48g1SVaUh+yMhdaMB0at+kBbaIhPiQ+bB3+rqOekUhgf25huGM+dWN2LCmuLetUR4VO0g-ma8WuYmlOcw1OwR0R0gTeo8OBi0JOY4wOoOsRKAIO-OgygutuSuoun0syr0UuiGjgyGP0cuH2uyiu2y2G9+52pGcWeubuLWBGn6RG2BQ2i0AeJa+hZuGywMSuVuQyHMQudugKDuTuXuLuMass7ulonu4KzRzeSRmiPRimk2JsZsqm+K4eZhmmDs0ezslgY6W8zisQSACQYAJx-IEAziAAUoumgHITEMzvCAXuYL3ryM0CeDHD0H9hXiQY1FXjXq5nXqMNgAgMACcVAHABAFvFABPiEQkTKp5ryOMO3iCJCdCZQHCQiR3iEQ6Hej4bDAAFZPFD7P7Amj6VwUhQkwl4nQBIlxFT5OTzo9YeQpz0m4nwn0gABkghIOAhaBWa4iCJmYsACYc+gpoRW+bKO+LYvcbYA8GhnRx+OsgeBB5+NMl+b+9oZhthtBj+3aw+1Jr+lcH+20biO2D8nB+WS23qrmpWQCFW4Boa1W9RERsCDWsx8BrWM27W7RnWIpvWOaWBKxXRmiI2+BJumx9Q02QJNCZh5BVhS2hpq2CWYAThIRNpQ6rh+WN2AhV+vomI6+IBgalWoaNakaPpcp2uN2yUoCz4vgnAqpEZ6pGKehpu88NoepZB4ac6shfhChmuJJXoepV0Yp9IwAaIpwug3AAA-JgGslObAK6TOeCPOWIMRkoZRGJKoZJG2YkZGZxDocbhNtiodioRJKYWYKxiIbybABuXOckNuYarQX4NwkPsOfILmbOpwSeNgPPj+VOtCoeo+sSKeugOem+s8UhB1rej3hEbyBBc+tBa+luvBUGdFn7n+tqABmYQIbkX8vkdBoURLsUe9IsrLqhlUehoMbUR6Wdl6XVm0Vcr6chZaGxUivrlRhqb0d2bTG8gxZCsMcRZxt4PbrxvChCpBhxZZosQih1r7j+nxZ2VqX0TitsWHkxISuYgcaYEcRSj9D+BcVcXzD+IgHCE+dgJCYQCsjAB8WUPMZHBylyjynysYN+gVIeh9DYHICAIWG5dyhKIVGEaiVYh2qavIQMSgNtstrFvfu2mOtFfRXFX+TliOtIClQ4uiAgHIfEgOZwdleOodvlUti4bliVdFWVX-P4TFhUOBYuk+lBWupmLBR+lcohQUn6aha1TBZherjhapU0vhYBodALjbiRSLmRbBvBiUdRShn9HRebiJXJUxVAWOXYZjMpU1nMa0WrrtTJgbt0fxRsZeQxhbqJSxt8qMbblxhMdJc7krvJS5eJjJcsceSdWsWdV2XGdXtpbsbpRHrbE6EAA
+
+Editable
+https://sequencediagram.org/index.html#initialData=IYYwLg9gTgBAwgGwJYFMB2YBQAHYUxIhK4YwDKKUAbpTngUSWDABLBoAmCtu+hx7ZhWqEUdPo0EwAIsDDAAgiBAoAzqswc5wAEbBVKGBx2ZM6MFACeq3ETQBzGAAYAdAE5M9qBACu2AMQALADMABwATG4gMP7I9gAWYDoIPoYASij2SKoWckgQaJiIqKQAtAB85JQ0UABcMADaAAoA8mQAKgC6MAD0PgZQADpoAN4ARP2UaMAAtihjtWMwYwA0y7jqAO7QHAtLq8soM8BICHvLAL6YwjUwFazsXJT145NQ03PnB2MbqttQu0WyzWYyOJzOQLGVx0UBQwAA1jAAJJoKjAZAcGCwgCOqRyRm0MAAFG8Pig1r9-hw1o8etAYGDTgBKTAPTjcWCle43Z7IhDcezohRQew+OYYACiAA8VNgCAVWVVqJQ7vdiuZ6oEnE5huM5upgPZ5vUxhKoN46jA9JicXiwFCzJxMGx2SrudVRPVYVkcpQiRkfWBKBlcWowCyYXDEQBZbKqJAOGAAM1QCA4qhg9MpOxg3AcYHiMEgEBgqni0CwMCVVFEqvKPMtSP5mSFIrF5mlsvlhSrDbr8GQGpgWp1ozG+tUhuNyzNFvq1qxKFDOQd6A41w9KjulVk8iUKnU9SNYAAqgMSQMySzd4plGoM-djLUAGIJzFnyg3q2WGCk2ZiSMERgD9YE2JAC1-S9-xgdFYWADgfxQKVsjADQqxvfd737G5PWAgYb0VHCty5SoG3qBQEDghD2gRdBOxQOV8h7as3TVQcME1Jxgl1cd7ynBYZ3NaB6lguEEKLWi0FXJ0MLvdRsM3FB6jQHx+Q3ERiJ3bRMMPEA4KDECL0-bRr20uSH0qJ8FA4d98O0dSa006tcKNNBKDkQxgB8At2ggeF0Ac2t7lkg9VFqPS4SDBRvPiIlooLG8jKgAA5f8aRi3z-LQJlTL3cztyMHRamszF4viAiiMMEi2SeS0yugJAAC8UA4ECMlUVSsBdWqFOVS1Xigz4YBNYFli8ny-PQJYRodPtqvVDiYHCbUeL-IaZpBcb4kyqbhuWS5TEAxETzcqVsBQcAWuTcEfFhIxboTRx2B-bBYRUDhHszc6oDyBV0WYG89AMa7TlusR0LM0LescpSZEh+96MYhVe0U6HeRChGZQY7tCOqVjKgWsB6gAVhWscJ34k1Z2Egl5CBwwkxu2FVwQYGTqQ87LsxV6IC8WYZkenooB8DAkDmEGUlhXGNKq90+vqNIRYIOZEZxlG+v7QmSbJvU+KNATTSEy0AB4ODUPTiG7cppPXNdHXXTxvD8fxoHYI0YmfOAJWkOAFBgAAZXmEyKdjmDlmp6maNoul6Ax1CY3U1vJGBswBK45sqbqOReJOKX0P4dmhODERRNEMUXZdmC0eRiSTmDODpWBU44Fkqyz-GWMbZtBQQYVRXFMBVaY6Xbnm0PONHXWDX1qmjfneCK7tG3nUeDkCsq+oECDtAiUDrI0BDO0WUqgqMcPGBj0Mt5UrmXLbyhx8itfTg8OMmudB-a--0wI7X9gDgIBqBgGgCAzAkIoUVGfB84dcIqTUurGGaNLQnS2g1ZqHAh7I07prcew4nAAEZdTLApjPQSc5fzTBimglqSwrh2ygdDXCIEKqoxgSoeoZckDV0MM3H+xcU75ypDAbIwi0AgGgG9SszliLh15CgqhUAmotUwcxOabEShEzwYQ0YxC9bTkNuQkWqDFHoNofbQKmkN4wAAOLoHckGYBKBNgwQypNQoJ9grw10vpFAZU4oxUSl-OY6UJpZRypgBhj9io2RgGVAikSKhWLifZDx9x251QUUo1qAx2qdRXq6Tksj+oTEGvMPa+xNquKytNfas08aFIJrg5ak8SlTH-AbUaYwto7SkjNK4fCozAVOpzIMmJGagzuhwB6iZnopzei1T6EBvq-UKP9OGdN9AMyZuDdZ98sLVSsVAlRI8gpFPqEcrGSNVH1JwRo7WLSSH6OppaauuhNkSzBizNmwyLqjLmbzH6MwBYOCFkrMWWyJk7NSaRepCswUq0uWrbBY87kwFJg8vRBtnn1FNubRRVzrZ0KdHbO2jtfABC8CgdAMQ4iJEpdSvevgsCE3XrCxo0gJT+wlO0CU3Qehx3jAUYYximorJxd0tx5QHJunKOkl4XSqlTSuOk7cVit72CZf4gsaCVmHzDMfVh5QoFHhQGAZJ8gtXlhMbqpcdoXASrCRErxFlCr1GfqVAJ9lf4OupQAtQaAADkYDkI5Egc6usVi4EIBOTI+sbL5HapMcoxFTEiRjFLuiLhRY3FjFbsiioWstE8UeViueFCRWmKJeuBJMKZbkU9fICxVUtJ5VCvUM23AooNuAESH12UnWtv2ZZIqRgUCdsMOa4AA69nyRIlYqgEAs29p0AYMRhgIBJnrgyFNBQDUy37HKmAC6l26FXVuDdW7t1diYiyFVBy2XHsxMus967N3sCvdjG90qGkDlRc0mAIx+m-3ZmdX5V1xmS0MFMxRMy0AvXmR9RMSz7HDzWYDd5EGwZhsHbOthsMLnXqwdCzu5znXHIQR3Qt6Li2YtnuQ159MPnMzoazQwIGRlXR5nzIFgthai3FphqWCDTm1ojjARW-GUDkfzY01F1Hya0bITTXFqgLYEuXiSp0ZLnawkxP4bACZET+xQjY-8GgWVnMaNY7lfLBRzGGPVa13ZxWKrQFKjONVs4AYVaEpV+Sep4c3ihaxZnLU6u7HqnIe7EGeJw2FC+prJ1hac0xSLYB7WubvjpF1T4YDutid2gZQE+1GEARmEBwaIEQzi4w9hwDVLRuE7GkjQyK3JsIzvdNqJM2YkgNUvNajZNDi1Noqek5SEGJpkYzJlbzE1ukbDSdTbT7OpNWa-kIX9REiy-lKJNjTUwX5BfMz07su1dhsZnIxtNsoBvO51haTV68hu5dsAuSEBdSez+si3m7NqAEg0cYf2kTSAEv4EEmx4jgRQCBMkHTvjJFAPCWH7SNrLD+zffRlw1guFx50dONyUVDmaTxP7qgAdA--CDsHEOocGVKfDkEiOQDI4Z2jsYGPUe1IuDjvHQH+HsbA2M7Z90YNPTg3Mi6CykPLJxmh7QjHBM7Pm4csjO7rn7vvfLXZ2XpODd-UOeTY3KZKZeQrjD2yvlsZ+Vzf53HgX2FBZJpjUKHuid5BJ5WUn1cj0o7go3vFp5PLLSptTVsNPEq014cl-gOAAHY3BOBQE4GIEpghwC9gANngD40z4sQ4aNZdrqOHRbP-mFTNsVMBjZ9vKLqTncwCca0ewU+VfbvgN-mMqr7ReYb1Aih5G7yXRURdtWGNYnfotBVE7hTh3DjtzEx0Vku3Xy5-eAd-aFP2mwClbP3DsPvBuFpHDRoPpbyELltGGZeHiW0zvi8eJLjmR+pbHzkDLvn+2ROHW6t8BWEper8IlZ+rlagLbpVY667aBb1bwILZIL1AJpWpZIqJpoZrlx9ZTQDaE7qLDYEKn7jbB6GKUKJpZLLwq6KT1oAGNq37GrJhvg3YABClgmORIk+p2u2P+eWf+6+H8G+cwy+C+hgZIMA4iaASYyA4A7BD8iSFBeet2KSbuP2FEVElgNEWUxyR+uCWo3ECmZ+dGNMok8EP48g1SVaUh+yMhdaMB0at+kBbaIhPiQ+bB3+rqOekUhgf25huGM+dWN2LCmuLetUR4VO0g-ma8WuYmlOcw1OwR0R0gTeo8OBi0JOY4wOoOsRKAIO-OgygutuSuoun0syr0UuiGjgyGP0cuH2uyiu2y2G9+52pGcWeubuLWBGn6RG2BQ2i0AeJa+hZuGywMSuVuQyHMQudugKDuTuXuLuMass7ulonu4KzRzeSRmiPRimk2JsZsqm+K4eZhmmDs0ezslgY6W8zisQSACQYAJx-IEAziAAUoumgHITEMzvCAXuYL3ryM0CeDHD0H9hXiQY1FXjXq5nXqMNgAgMACcVAHABAFvFABPiEQkTKp5ryOMO3iCJCdCZQHCQiR3iEQ6Hej4bDAAFZPFD7P7Amj6VwUhQkwl4nQBIlxFT5OTzo9YeQpz0m4nwn0gABkghIOAhaBWa4iCJmYsACYc+gpoRW+bKO+LYvcbYA8GhnRx+OsgeBB5+NMl+b+9oZhthtBj+3aw+1Jr+lcH+20biO2D8nB+WS23qrmpWQCFW4Boa1W9RERsCDWsx8BrWM27W7RnWIpvWOaWBKxXRmiI2+BJumx9Q02QJNCZh5BVhS2hpq2CWYAThIRNpQ6rh+WN2AhV+vomI6+IBgalWoaNakaPpcp2uN2yUoCz4vgnAqpEZ6pGKehpu88NoepZB4ac6shfhChmuJJXoepV0Yp9IwAaIpwug3AAA-JgGslObAK6TOeCPOWIMRkoZRGJKoZJG2YkZGZxDocbhNtiodioRJKYWYKxiIbybABuXOckNuYarQX4NwkPsOfILmbOpwSeNgPPj+VOtCoeo+sSKeugOem+s8UhB1rej3hEbyBBc+tBa+luvBUGdFn7n+tqABmYQIbkX8vkdBoURLsUe9IsrLqhlUehoMbUR6Wdl6XVm0Vcr6chZaGxUivrlRhqb0d2bTG8gxZCsMcRZxt4PbrxvChCpBhxZZosQih1r7j+nxZ2VqX0TitsWHkxISuYgcaYEcRSj9D+BcVcXzD+IgHCE+dgJCYQCsjAB8WUPMZHBylyjynysYN+gVIeh9DYHICAIWG5dyhKIVGEaiVYh2qavIQMSgNtstrFvfu2mOtFfRXFX+TliOtIClQ4uiAgHIfEgOZwdleOodvlUti4bliVdFWVX-P4TFhUOBYuk+lBWupmLBR+lcohQUn6aha1TBZherjhapU0vhYBodALjbiRSLmRbBvBiUdRShn9HRebiJXJUxVAWOXYZjMpU1nMa0WrrtTJgbt0fxRsZeQxhbqJSxt8qMbblxhMdJc7krvJS5eJjJcsceSdWsWdV2XGdXtpbsbpRHrbE6EAA
+#--------------------------------
 
 actor Client
 participant Server
@@ -12,28 +17,40 @@ group#43829c #lightblue Registration
 Client -> Server: [POST] /user\n{"username":" ", "password":" ", "email":" "}
 Server -> Handler: {"username":" ", "password":" ", "email":" "}
 break Invalid request data (username, password, and/or email)
-Handler --> Server: IllegalArgumentException
-Server --> Client: 400\n{"message": "Error: bad request"}
+ Handler --> Server: IllegalArgumentException
+  Server --> Client: 400\n{"message": "Error: bad request"}
 end
 Handler -> Service: register(RegisterRequest)
+break Missing fields or password length too short
+  Service -->Server: IllegalArgumentException
+  Server --> Client: 400\n{"message": "Error: bad request"}
+end
 Service -> DataAccess: getUser(username)
 DataAccess -> db:Find UserData by username
 break User with username already exists
-DataAccess --> Service: UserData
-Service --> Server: AlreadyTakenException
-Server --> Client: 403\n{"message": "Error: username already taken"}
+  DataAccess --> Service: UserData
+  Service --> Server: AlreadyTakenException
+  Server --> Client: 403\n{"message": "Error: already taken"}
 end
 DataAccess --> Service: null
 Service -> DataAccess:createUser(userData)
 DataAccess -> db:Add UserData
-Service -> DataAccess:createAuth(authData)
+Service -> Service: generate authToken
+Service -> DataAccess:createAuth(AuthData(userName, authToken))
 DataAccess -> db:Add AuthData
 Service --> Handler: AuthorizedUserResult
 Handler --> Server: {"username" : " ", "authToken" : " "}
 Server --> Client: 200\n{"username" : " ", "authToken" : " "}
-break Internal errors could happen at any layer
-DataAccess --> Server: Internal Error (exception)
-Server --> Client: 500\n{"message": "Error: <internal error message>"}
+
+break Unexpected failure during any preceding operation
+alt Database failure
+  DataAccess --> Service: DataAccessException
+  Service --> Server: DataAccessException
+  Server --> Client: 500\n{"message": "Error: database failure"}
+else Unexpected programming/runtime failure
+  Service --> Server: RuntimeException
+  Server --> Client: 500\n{"message": "Error: <description>"}
+end
 end
 end
 
@@ -41,53 +58,218 @@ group#orange #FCEDCA Login
 Client -> Server: [POST] /session\n{username, password}
 Server -> Handler: {username, password}
 break Invalid request data (username and/or password)
-Handler --> Server: IllegalArgumentException
-Server --> Client: 400\n{"message": "Error: bad request"}
+  Handler --> Server: IllegalArgumentException
+  Server --> Client: 400\n{"message": "Error: bad request"}
 end
 Handler -> Service: login(LoginRequest)
-Service -> DataAccess: getUser(username, password)
-DataAccess -> db:Find UserData by username & password
-break User with username does not exist
-DataAccess --> Service: null
-Service --> Server: UnauthorizedException
-Server --> Client: 401\n{ "message": "Error: unauthorized" }
+Service -> DataAccess: getUser(userName)
+DataAccess -> db:Find UserData by userName
+break User does not exist
+  DataAccess --> Service: null
+  Service --> Server: UnauthorizedException
+  Server --> Client: 401\n{ "message": "Error: unauthorized" }
 end
 DataAccess --> Service: UserData
-Service ->DataAccess: Get AuthData
-DataAccess -> db:Find AuthData by username
-break No auth data found
-note right of Service: If we have a user record, we should\nhave AuthData for that user. Not finding it\nindicates an unexpected data error, but we\ncan recover by creating a new auth record.
-DataAccess -->Service: null
-Service -> DataAccess:createAuth(authData)
-DataAccess -> db:Add AuthData
+Service -> Service: validate password
+break password is incorrect
+  Service --> Server: UnauthorizedException
+  Server --> Client: 401\n{ "message": "Error: unauthorized" }
 end
+Service ->Service: Generate new authToken
+Service -> DataAccess:createAuth(AuthData(userName, authToken))
+DataAccess -> db:Add AuthData
 DataAccess -->Service: AuthData
 Service --> Handler: AuthorizedUserResult
 Handler --> Server: {"username" : " ", "authToken" : " "}
-Server -> Client: 200\n{"username": " ", "authToken": " "}
-break Internal errors could happen at any layer
-DataAccess --> Server: Internal Error (exception)
-Server --> Client: 500\n{"message": "Error: <internal error message>"}
+Server --> Client: 200\n{"username": " ", "authToken": " "}
+
+break Unexpected failure during any preceding operation
+alt Database failure
+  DataAccess --> Service: DataAccessException
+  Service --> Server: DataAccessException
+  Server --> Client: 500\n{"message": "Error: database failure"}
+else Unexpected programming/runtime failure
+  Service --> Server: RuntimeException
+  Server --> Client: 500\n{"message": "Error: <description>"}
+end
 end
 end
 
 group#green #lightgreen Logout
 Client -> Server: [DELETE] /session\nauthorization: <authToken>
-Server ->Handler: {"authToken": <authToken>}
+Server ->Handler: {"authToken"}
+Handler ->Service: logout(AuthorizationRequest)
+Service ->DataAccess: getAuthData(AuthorizationRequest.authToken)
+DataAccess -> db: Find AuthData
+break authToken doesn't exist
+  DataAccess -->Service: null
+  Service -->Server: UnauthorizedException("Invalid token")
+  Server -->Client: 401\n{"message": "Error: unauthorized"}
+end
+DataAccess --> Service: AuthData
+Service -> DataAccess: deleteAuthData(authToken)
+DataAccess -> db: delete AuthData
+DataAccess -->Service: void (absence of an exception)
+Service --> Handler: void (absence of an  exception)
+Handler --> Server: void (absence of an exception)
+Server --> Client: 200 {}
+
+break Unexpected failure during any preceding operation
+alt Database failure
+  DataAccess --> Service: DataAccessException
+  Service --> Server: DataAccessException
+  Server --> Client: 500\n{"message": "Error: database failure"}
+else Unexpected programming/runtime failure
+  Service --> Server: RuntimeException
+  Server --> Client: 500\n{"message": "Error: <description>"}
+end
+end
 end
 
 group#red #pink List Games
-Client -> Server: [GET] /game\nauthorization: <authToken>
+Client -> Server: [GET] /game\nAuthorization: <authToken>
+Server -> Handler: {"authToken"}
+Handler -> Service: listGames(AuthorizationRequest)
+Service -> DataAccess: getAuthData(AuthorizationRequest.authToken)
+DataAccess -> db: Find AuthData
+break authToken does not exist
+  DataAccess --> Service: null
+  Service --> Server: UnauthorizedException("Invalid token")
+  Server --> Client: 401\n{"message": "Error: unauthorized"}
+end
+DataAccess --> Service: AuthData
+Service -> DataAccess: getAllGames()
+DataAccess -> db: Get all games
+DataAccess --> Service: List<GameData>
+Service --> Handler: GameListResult
+Handler --> Server: {"games": [{"gameID": #, "whiteUsername": " ", "blackUsername": " ", "gameName": " "}, ...]}
+Server --> Client: 200\n{"games": [{"gameID": #, "whiteUsername": " ", "blackUsername": " ", "gameName": " "}, ...]}
+
+break Unexpected failure during any preceding operation
+alt Database failure
+  DataAccess --> Service: DataAccessException
+  Service --> Server: DataAccessException
+  Server --> Client: 500\n{"message": "Error: database failure"}
+else Unexpected programming/runtime failure
+  Service --> Server: RuntimeException
+  Server --> Client: 500\n{"message": "Error: <description>"}
+end
+end
 end
 
 group#d790e0 #E3CCE6 Create Game
-Client -> Server: [POST] /game\naauthorization: <authToken>\n{gameName}
+Client -> Server: [POST] /game\nauthorization: <authToken>\n{gameName}
+Server -> Handler: {"authToken", "gameName"}
+Handler -> Service: createGame(AuthorizationRequest, gameName)
+Service -> Service: validate gameName
+break Invalid game name
+Service -->Server: IllegalArgumentException
+Server -->Client: 400\n{"message": "Error: bad request"}
+end
+Service -> DataAccess: getAuthData(AuthorizationRequest.authToken)
+DataAccess -> db: Find AuthData
+break authToken does not exist
+  DataAccess --> Service: null
+  Service --> Server: UnauthorizedException("Invalid token")
+  Server --> Client: 401\n{"message": "Error: unauthorized"}
+end
+DataAccess --> Service: AuthData
+Service ->DataAccess: findGameByName(gameName)
+DataAccess -> db: Find game by name
+break game name conflict
+DataAccess -->Service: GameData
+Service -->Server: AlreadyTakenException
+Server -->Client: 403\n{"message": "Error: already taken"}
+end
+DataAccess -->Service: null
+Service -> DataAccess: createGame(gameName)
+DataAccess -> db: Create game
+DataAccess --> Service: GameData
+Service --> Handler: gameID
+Handler --> Server: {"gameID": gameID}
+Server --> Client: 200\n{"gameID": gameID}
+
+break Unexpected failure during any preceding operation
+alt Database failure
+  DataAccess --> Service: DataAccessException
+  Service --> Server: DataAccessException
+  Server --> Client: 500\n{"message": "Error: database failure"}
+else Unexpected programming/runtime failure
+  Service --> Server: RuntimeException
+  Server --> Client: 500\n{"message": "Error: <description>"}
+end
+end
 end
 
 group#yellow #lightyellow Join Game #black
 Client -> Server: [PUT] /game\nauthorization: <authToken>\n{playerColor, gameID}
+Server -> Handler: {"authToken", "playerColor", "gameID"}
+Handler -> Service: joinGame(AuthorizationRequest, playerColor, gameID)
+Service -> Service: validate playerColor & gameID
+break Invalid color or invalid gameID
+Service -->Server: IllegalArgumentException
+Server -->Client: 400\n{"message": "Error: bad request"}
+end
+Service -> DataAccess: getAuthData(AuthorizationRequest.authToken)
+DataAccess -> db: Find AuthData
+break authToken does not exist
+  DataAccess --> Service: null
+  Service --> Server: UnauthorizedException("Invalid token")
+  Server --> Client: 401\n{"message": "Error: unauthorized"}
+end
+DataAccess --> Service: AuthData
+Service -> DataAccess: getGame(gameID)
+DataAccess -> db: Find Game
+break requested game doesn't exist
+DataAccess -->Service: null
+Service -->Server: GameNotFoundException
+Server -->Client: 400\n{"message": "Error: bad request"}
+end
+DataAccess -->Service: GameData
+Service -> Service: requested color available?
+alt color not available
+Service --> Server: AlreadyTakenException
+Server --> Client: 403\n{"message": "Error: already taken"}
+else color available
+Service ->DataAccess: updateGame(GameData)
+DataAccess -> db: Update GameData
+Service -->Handler: void (absence of an exception)
+Handler --> Server: void (absence of an exception)
+Server --> Client: 200 {}
+end
+
+break Unexpected failure during any preceding operation
+alt Database failure
+  DataAccess --> Service: DataAccessException
+  Service --> Server: DataAccessException
+  Server --> Client: 500\n{"message": "Error: database failure"}
+else Unexpected programming/runtime failure
+  Service --> Server: RuntimeException
+  Server --> Client: 500\n{"message": "Error: <description>"}
+end
+end
 end
 
 group#gray #lightgray Clear application
 Client -> Server: [DELETE] /db
+Server -> Handler: dispatch DELETE db
+Handler -> Service: deleteDatabase()
+Service -> DataAccess: deleteDatabase()
+DataAccess -> db: Delete all GameData
+DataAccess -> db: Delete all AuthData
+DataAccess -> db: Delete all UserData
+Service -->Handler: void (absence of an exception)
+Handler --> Server: void (absence of an exception)
+Server --> Client: 200 {}
+
+break Unexpected failure during any preceding operation
+alt Database failure
+  DataAccess --> Service: DataAccessException
+  Service --> Server: DataAccessException
+  Server --> Client: 500\n{"message": "Error: database failure"}
+else Unexpected programming/runtime failure
+  Service --> Server: RuntimeException
+  Server --> Client: 500\n{"message": "Error: <description>"}
+end
+end
 end
