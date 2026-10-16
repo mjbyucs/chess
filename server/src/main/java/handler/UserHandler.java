@@ -1,5 +1,6 @@
 package handler;
 
+import dataaccess.AlreadyTakenException;
 import io.javalin.http.Context;
 import model.AuthorizedUserResult;
 import model.RegisterRequest;
@@ -13,7 +14,7 @@ public class UserHandler {
         this.userService = userService;
     }
 
-    public void handleRegistration(Context ctx) throws IllegalArgumentException {
+    public void handleRegistration(Context ctx) throws IllegalArgumentException, AlreadyTakenException {
         String userName = ctx.queryParam("username");
         String password = ctx.queryParam("password");
         String email = ctx.queryParam("email");
@@ -41,6 +42,7 @@ public class UserHandler {
     }
 
     private boolean isInvalidParameter(String param) {
-        return param == null || param.isEmpty();
+        // don't allow non-existent parameters
+        return param == null || param.isEmpty() || param.equals(param.trim());
     }
 }

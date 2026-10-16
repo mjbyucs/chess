@@ -1,4 +1,3 @@
 package model;
 
-public class AuthorizationRequest {
-}
+public record AuthorizationRequest(String authToken) {}
