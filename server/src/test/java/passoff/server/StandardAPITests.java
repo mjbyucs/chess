@@ -68,7 +68,7 @@ public class StandardAPITests {
 
         assertHttpOk(loginResult);
         Assertions.assertEquals(existingUser.getUsername(), loginResult.getUsername(),
-                "Response did not give the same username as user");
+            "Response did not give the same username as user");
         Assertions.assertNotNull(loginResult.getAuthToken(), "Response did not return authentication String");
     }
 

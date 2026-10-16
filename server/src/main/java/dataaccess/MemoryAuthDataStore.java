@@ -20,7 +20,7 @@ public class MemoryAuthDataStore implements AuthDAO {
     @Override
     public AuthData getAuthData(String authToken) {
         String userName = authDataStore.get(authToken);
-        return userName == null ? null : new AuthData(userName, authToken);
+        return userName == null ? null : new AuthData(authToken, userName);
     }
 
     @Override
