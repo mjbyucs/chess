@@ -16,7 +16,13 @@ public class Server {
 
     private final Javalin javalin;
 
-    public Server(UserHandler userHandler, GameHandler gameHandler, DataStoreHandler dataStoreHandler) {
+    public Server() {
+        this(new DependencyComposer());
+    }
+    public Server(DependencyComposer dependencyComposer) {
+        UserHandler userHandler = dependencyComposer.getUserHandler();
+        GameHandler gameHandler = dependencyComposer.getGameHandler();
+        DataStoreHandler dataStoreHandler = dependencyComposer.getDataStoreHandler();
 
         // Register your endpoints and exception handlers here.
         javalin = Javalin.create(config ->
