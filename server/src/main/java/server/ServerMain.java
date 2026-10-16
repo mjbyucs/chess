@@ -3,7 +3,7 @@ package server;
 import chess.*;
 
 public class ServerMain {
-    private static enum StorageType {
+    private enum StorageType {
         MEMORY,
         DATABASE
     }
@@ -11,17 +11,11 @@ public class ServerMain {
         StorageType storage = StorageType.MEMORY;
         var port = 8080;
         for (int i = 0; i < args.length; i++) {
-            if ("-p".equals(args[i])) {
-                port = Integer.parseInt(args[++i]);
-            }
-            else if ("--mem".equals(args[i])) {
-                storage = StorageType.MEMORY;
-            }
-            else if ("--db".equals(args[i])) {
-                storage = StorageType.DATABASE;
-            }
-            else {
-                throw new IllegalArgumentException("Unrecognized argument: [" + args[i] + "]");
+            switch (args[i]) {
+                case "-p" -> port = Integer.parseInt(args[++i]);
+                case "--mem" -> storage = StorageType.MEMORY;
+                case "--db" -> storage = StorageType.DATABASE;
+                case null, default -> throw new IllegalArgumentException("Unrecognized argument: [" + args[i] + "]");
             }
         }
 
