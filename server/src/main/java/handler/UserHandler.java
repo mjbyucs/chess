@@ -28,7 +28,7 @@ public class UserHandler {
         }
 
         AuthorizedUserResult authorizedUserResult = userService.register(registerRequest);
-        context.result(translateAuthorization(authorizedUserResult));
+        context.result(new Gson().toJson(authorizedUserResult));
     }
 
     public void handleLogin(@NotNull Context context) throws UnauthorizedException {
@@ -40,17 +40,12 @@ public class UserHandler {
         }
 
         AuthorizedUserResult authorizedUserResult = userService.login(loginRequest);
-        context.result(translateAuthorization(authorizedUserResult));
+        context.result(new Gson().toJson(authorizedUserResult));
     }
 
     public void handleLogout(@NotNull Context context) throws UnauthorizedException {
         AuthorizationRequest authorizationRequest = new AuthorizationRequest(context.header("Authorization"));
         userService.logout(authorizationRequest);
-    }
-
-    private String translateAuthorization(AuthorizedUserResult authorizedUserResult) {
-        return "{\"username\": " + authorizedUserResult.username() +
-                ", \"authToken\": " + authorizedUserResult.authToken() + "}";
     }
 
     private boolean isInvalidParameter(String param) {
