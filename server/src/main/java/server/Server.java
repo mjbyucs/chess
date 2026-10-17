@@ -35,21 +35,20 @@ public class Server {
                 .put("/game", gameHandler::handleJoinGame)
                 .delete("/db", dataStoreHandler::handleDeleteDatabase)
                 .exception(IllegalArgumentException.class,
-                        (ex, ctx) -> {ctx.status(HttpStatus.BAD_REQUEST.getCode());
-                                                                    ctx.result(formatError("Error: bad request"));})
+                        (ignored, ctx) -> {ctx.status(HttpStatus.BAD_REQUEST.getCode());
+                                                                         ctx.result(formatError("Error: bad request"));})
                 .exception(UnauthorizedException.class,
-                        (ex, ctx) -> {ctx.status(HttpStatus.UNAUTHORIZED.getCode());
-                                                                    ctx.result(formatError("Error: unauthorized"));})
+                        (ignored, ctx) -> {ctx.status(HttpStatus.UNAUTHORIZED.getCode());
+                                                                       ctx.result(formatError("Error: unauthorized"));})
                 .exception(AlreadyTakenException.class,
-                        (ex, ctx) -> {ctx.status(HttpStatus.FORBIDDEN.getCode());
-                                                                    ctx.result(formatError("Error: already taken"));})
+                        (ignored, ctx) -> {ctx.status(HttpStatus.FORBIDDEN.getCode());
+                                                                       ctx.result(formatError("Error: already taken"));})
                 .exception(DataAccessException.class,
-                        (ex, ctx) -> {ctx.status(HttpStatus.INTERNAL_SERVER_ERROR.getCode());
-                                                                ctx.result(formatError("Error: database failure"));})
+                        (ignored, ctx) -> {ctx.status(HttpStatus.INTERNAL_SERVER_ERROR.getCode());
+                                                                      ctx.result(formatError("Error: database failure"));})
                 .exception(Exception.class,
                         (ex, ctx) -> {ctx.status(HttpStatus.INTERNAL_SERVER_ERROR.getCode());
                                                         ctx.result(formatError(ex.getMessage()));});
-
     }
 
     String formatError(String message) {
