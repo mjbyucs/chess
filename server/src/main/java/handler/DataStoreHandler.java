@@ -14,5 +14,7 @@ public class DataStoreHandler {
 
     public void handleDeleteDatabase(@NotNull Context context) {
         databaseService.deleteDatabase();
+        context.result("{}");
+        context.contentType("application/json");
     }
 }

@@ -17,6 +17,7 @@ import java.util.Map;
 
 public class GameHandler {
     private final GameService gameService;
+    private final Gson gson = new Gson();
 
     private record GameListEntry(int gameID, String whiteUsername, String blackUsername, String gameName) {}
 
@@ -32,7 +33,7 @@ public class GameHandler {
                 throw new IllegalArgumentException("Error: bad request");
             }
             int gameID = gameService.createGame(authorizationRequest, createGameRequest.gameName());
-            context.result(new Gson().toJson(Map.of("gameID", gameID)));
+            sendJsonResults(context, Map.of("gameID", gameID));
         } catch (JsonSyntaxException e) {
             throw new IllegalArgumentException("Error: bad request", e);
         }
@@ -46,6 +47,7 @@ public class GameHandler {
                 throw new IllegalArgumentException("Error: bad request");
             }
             gameService.joinGame(authorizationRequest, joinGameRequest.gameID(), joinGameRequest.playerColor());
+            sendJsonResults(context, Map.of());
         } catch (JsonSyntaxException e) {
             throw new IllegalArgumentException("Error: bad request", e);
         }
@@ -55,10 +57,15 @@ public class GameHandler {
         AuthorizationRequest authorizationRequest = new AuthorizationRequest(context.header("Authorization"));
         List<GameData> gameList = gameService.listGames(authorizationRequest);
         List<GameListEntry> gameEntries = gameList.stream().map(this::translateGameData).toList();
-        context.result(new Gson().toJson(Map.of("games", gameEntries)));
+        sendJsonResults(context, Map.of("games", gameEntries));
     }
 
     private GameListEntry translateGameData(GameData gameData) {
         return new GameListEntry(gameData.gameID(), gameData.whiteUsername(), gameData.blackUsername(), gameData.gameName());
+    }
+
+    private void sendJsonResults(Context context, Object value) {
+        context.contentType("application/json");
+        context.result(gson.toJson(value));
     }
 }

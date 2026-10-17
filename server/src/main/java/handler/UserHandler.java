@@ -12,8 +12,11 @@ import model.RegisterRequest;
 import org.jetbrains.annotations.NotNull;
 import service.UserService;
 
+import java.util.Map;
+
 public class UserHandler {
     private final UserService userService;
+    private final Gson gson = new Gson();
 
     public UserHandler(UserService userService) {
         this.userService = userService;
@@ -27,7 +30,7 @@ public class UserHandler {
             }
 
             AuthorizedUserResult authorizedUserResult = userService.register(registerRequest);
-            context.result(new Gson().toJson(authorizedUserResult));
+            sendJsonResults(context, authorizedUserResult);
         } catch (JsonSyntaxException e) {
             throw new IllegalArgumentException("Error: bad request", e);
         }
@@ -41,7 +44,7 @@ public class UserHandler {
             }
 
             AuthorizedUserResult authorizedUserResult = userService.login(loginRequest);
-            context.result(new Gson().toJson(authorizedUserResult));
+            sendJsonResults(context, authorizedUserResult);
         } catch (JsonSyntaxException e) {
             throw new IllegalArgumentException("Error: bad request", e);
         }
@@ -50,5 +53,11 @@ public class UserHandler {
     public void handleLogout(@NotNull Context context) throws UnauthorizedException {
         AuthorizationRequest authorizationRequest = new AuthorizationRequest(context.header("Authorization"));
         userService.logout(authorizationRequest);
+        sendJsonResults(context, Map.of());
+    }
+
+    private void sendJsonResults(Context context, Object value) {
+        context.contentType("application/json");
+        context.result(gson.toJson(value));
     }
 }
