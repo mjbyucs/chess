@@ -1,6 +1,7 @@
 package handler;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import dataaccess.AlreadyTakenException;
 import dataaccess.UnauthorizedException;
@@ -17,7 +18,7 @@ import java.util.Map;
 
 public class GameHandler {
     private final GameService gameService;
-    private final Gson gson = new Gson();
+    private final Gson gson = new GsonBuilder().serializeNulls().create();
 
     private record GameListEntry(int gameID, String whiteUsername, String blackUsername, String gameName) {}
 

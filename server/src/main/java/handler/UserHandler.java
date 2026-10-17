@@ -1,6 +1,7 @@
 package handler;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import dataaccess.AlreadyTakenException;
 import dataaccess.UnauthorizedException;
@@ -16,7 +17,7 @@ import java.util.Map;
 
 public class UserHandler {
     private final UserService userService;
-    private final Gson gson = new Gson();
+    private final Gson gson = new GsonBuilder().serializeNulls().create();
 
     public UserHandler(UserService userService) {
         this.userService = userService;
