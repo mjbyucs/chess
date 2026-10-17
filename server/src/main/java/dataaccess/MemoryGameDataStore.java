@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 public class MemoryGameDataStore implements GameDAO {
-    private Map<Integer, GameData> gameDataStore;
-    private Map<String, Integer> nameToIDMap;
+    private final Map<Integer, GameData> gameDataStore = new HashMap<>();
+    private final Map<String, Integer> nameToIDMap = new HashMap<>();
 
     public MemoryGameDataStore() {
         resetDatabase();
@@ -56,7 +56,7 @@ public class MemoryGameDataStore implements GameDAO {
     }
 
     private void resetDatabase() {
-        gameDataStore = new HashMap<>();
-        nameToIDMap = new HashMap<>();
+        gameDataStore.clear();
+        nameToIDMap.clear();
     }
 }

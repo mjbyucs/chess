@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MemoryAuthDataStore implements AuthDAO {
-    private Map<String, String> authDataStore;
+    private final Map<String, String> authDataStore = new HashMap<>();
 
     public MemoryAuthDataStore() {
         resetDatabase();
@@ -37,6 +37,6 @@ public class MemoryAuthDataStore implements AuthDAO {
     }
 
     private void resetDatabase() {
-        authDataStore = new HashMap<>();
+        authDataStore.clear();
     }
 }

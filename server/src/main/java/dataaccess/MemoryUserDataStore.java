@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MemoryUserDataStore implements UserDAO {
-    Map<String, UserData> userDataStore;
+    private final Map<String, UserData> userDataStore = new HashMap<>();
 
     public MemoryUserDataStore() {
         resetDatabase();
@@ -33,6 +33,6 @@ public class MemoryUserDataStore implements UserDAO {
     }
 
     private void resetDatabase() {
-        userDataStore = new HashMap<>();
+        userDataStore.clear();
     }
 }
