@@ -13,7 +13,7 @@ public class AuthService {
     }
 
     public AuthData createAuth(String userName) {
-        AuthData authData = new AuthData(userName, generateAuthToken());
+        AuthData authData = new AuthData(generateAuthToken(), userName);
         authDAO.addAuthData(authData);
         return authData;
     }
@@ -24,5 +24,9 @@ public class AuthService {
 
     public AuthData getAuthData(String authToken) {
         return authDAO.getAuthData(authToken);
+    }
+
+    public void deleteAuthData(AuthData authData) {
+        authDAO.deleteAuthData(authData);
     }
 }

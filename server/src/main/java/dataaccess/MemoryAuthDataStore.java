@@ -25,6 +25,9 @@ public class MemoryAuthDataStore implements AuthDAO {
 
     @Override
     public void deleteAuthData(AuthData authData) {
+        if (!authDataStore.containsKey(authData.authToken())) {
+            throw new DataAccessException("Invalid authToken: [" + authData.authToken() + "]");
+        }
         authDataStore.remove(authData.authToken());
     }
 

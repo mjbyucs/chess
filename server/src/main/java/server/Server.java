@@ -27,7 +27,7 @@ public class Server {
         // Register your endpoints and exception handlers here.
         javalin = Javalin.create(config ->
                         config.staticFiles.add("web"))
-                .post("/register", userHandler::handleRegistration)
+                .post("/user", userHandler::handleRegistration)
                 .post("/session", userHandler::handleLogin)
                 .delete("/session", userHandler::handleLogout)
                 .get("/game", gameHandler::handleListGames)
