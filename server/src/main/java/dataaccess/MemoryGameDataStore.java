@@ -20,7 +20,8 @@ public class MemoryGameDataStore implements GameDAO {
         if (gameDataStore.containsKey(gameData.gameID()) || nameToIDMap.containsKey(gameData.gameName())) {
             throw new AlreadyTakenException();
         }
-        updateGameData(gameData);
+        nameToIDMap.put(gameData.gameName(), gameData.gameID());
+        gameDataStore.put(gameData.gameID(), gameData);
     }
 
     @Override
@@ -35,14 +36,11 @@ public class MemoryGameDataStore implements GameDAO {
     }
 
     @Override
-    public synchronized void updateGameData(GameData gameData) {
-        GameData currentGameData = gameDataStore.get(gameData.gameID());
-        if (currentGameData != null && !currentGameData.gameName().equals(gameData.gameName())) {
-            // game name is changing so remove the old mapping
-            nameToIDMap.remove(currentGameData.gameName());
-        }
-        nameToIDMap.put(gameData.gameName(), gameData.gameID());
-        gameDataStore.put(gameData.gameID(), gameData);
+    public void updatePlayerNames(int gameID, String whitePlayerName, String blackPlayerName) {
+        GameData gameData = gameDataStore.get(gameID);
+        GameData updatedData = new GameData(gameData.gameID(), whitePlayerName, blackPlayerName,
+                                            gameData.gameName(), gameData.game());
+        gameDataStore.put(gameID, updatedData);
     }
 
     @Override

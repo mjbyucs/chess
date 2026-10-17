@@ -12,9 +12,10 @@ public interface GameDAO {
 
     GameData getGameByID(int gameID);
 
-    void updateGameData(GameData gameData);
+    void updatePlayerNames(int gameID, String whitePlayerName, String blackPlayerName);
 
     List<GameData> getAllGames();
 
     void deleteDatabase();
 }
+

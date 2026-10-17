@@ -11,6 +11,7 @@ import model.GameData;
 import java.util.List;
 
 public class GameService {
+    private final Object lock = new Object();
     private int nextGameID = 1000;
     private final GameDAO gameDAO;
     private final AuthService authService;
@@ -29,14 +30,11 @@ public class GameService {
             throw new IllegalArgumentException("Invalid game name");
         }
 
-        GameData gameData = gameDAO.getGameByName(gameName);
-        if (gameData != null) {
-            throw new AlreadyTakenException();
+        synchronized(lock) {
+            GameData gameData = new GameData(nextGameID++, null, null, gameName, new ChessGame());
+            gameDAO.createGame(gameData);
+            return gameData.gameID();
         }
-
-        gameData = new GameData(nextGameID++, null, null, gameName, new ChessGame());
-        gameDAO.createGame(gameData);
-        return gameData.gameID();
     }
 
     protected GameData getGame(int gameID) {
@@ -61,22 +59,18 @@ public class GameService {
         if (gameData == null) {
             throw new IllegalArgumentException("Invalid gameID");
         }
-        validatePlayerAvailable(isWhite ? gameData.whiteUsername() : gameData.blackUsername());
-        updatePlayerName(gameData,
-                        isWhite ? authData.username() : gameData.whiteUsername(),
-                        isWhite ? gameData.blackUsername() : authData.username());
+        synchronized (lock) {
+            validatePlayerAvailable(isWhite ? gameData.whiteUsername() : gameData.blackUsername());
+            gameDAO.updatePlayerNames(gameData.gameID(),
+                    isWhite ? authData.username() : gameData.whiteUsername(),
+                    isWhite ? gameData.blackUsername() : authData.username());
+        }
     }
 
     private void validatePlayerAvailable(String playerName) throws AlreadyTakenException {
         if (playerName != null && !playerName.isEmpty()) {
             throw new AlreadyTakenException();
         }
-    }
-
-    private void updatePlayerName(GameData gameData, String whitePlayerName, String blackPlayerName) {
-        GameData updateData = new GameData(gameData.gameID(), whitePlayerName, blackPlayerName,
-                                            gameData.gameName(), gameData.game());
-        gameDAO.updateGameData(updateData);
     }
 
     public List<GameData> listGames(AuthorizationRequest authorizationRequest) throws UnauthorizedException {
