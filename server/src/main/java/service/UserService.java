@@ -15,7 +15,8 @@ public class UserService {
     }
 
     public AuthorizedUserResult register(RegisterRequest registerRequest) throws AlreadyTakenException {
-        if (isInvalidParameter(registerRequest.username()) ||
+        if (registerRequest == null ||
+                isInvalidParameter(registerRequest.username()) ||
                 isInvalidParameter(registerRequest.password()) ||
                 isInvalidParameter(registerRequest.email())) {
             throw new IllegalArgumentException("Error: bad request");
@@ -37,7 +38,8 @@ public class UserService {
     }
 
     public AuthorizedUserResult login(LoginRequest loginRequest) throws UnauthorizedException {
-        if (isInvalidParameter(loginRequest.username()) ||
+        if (loginRequest == null ||
+                isInvalidParameter(loginRequest.username()) ||
                 isInvalidParameter(loginRequest.password())) {
             throw new IllegalArgumentException("Error: bad request");
         }

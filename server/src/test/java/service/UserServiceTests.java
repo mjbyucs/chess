@@ -48,6 +48,10 @@ public class UserServiceTests {
     void registerInvalidParameters() {
         Assertions.assertThrows(
                 IllegalArgumentException.class,
+                () -> userService.register(null)
+        );
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
                 () -> userService.register(new RegisterRequest("", "passwd", USER_NAME + "@byu.edu"))
         );
         Assertions.assertThrows(
@@ -101,6 +105,10 @@ public class UserServiceTests {
 
     @Test
     void loginInvalidParameters() {
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> userService.login(null)
+        );
         Assertions.assertThrows(
                 IllegalArgumentException.class,
                 () -> userService.login(new LoginRequest(null, "passwd"))
