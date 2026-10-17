@@ -1,6 +1,7 @@
 package handler;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import dataaccess.AlreadyTakenException;
 import dataaccess.UnauthorizedException;
 import io.javalin.http.Context;
@@ -19,37 +20,35 @@ public class UserHandler {
     }
 
     public void handleRegistration(Context context) throws IllegalArgumentException, AlreadyTakenException {
-        RegisterRequest registerRequest = new Gson().fromJson(context.body(), RegisterRequest.class);
+        try {
+            RegisterRequest registerRequest = new Gson().fromJson(context.body(), RegisterRequest.class);
+            if (registerRequest == null) {
+                throw new IllegalArgumentException("Error: bad request");
+            }
 
-        if (isInvalidParameter(registerRequest.username()) ||
-                isInvalidParameter(registerRequest.password()) ||
-                isInvalidParameter(registerRequest.email())) {
-            throw new IllegalArgumentException("Error: bad registerRequest");
+            AuthorizedUserResult authorizedUserResult = userService.register(registerRequest);
+            context.result(new Gson().toJson(authorizedUserResult));
+        } catch (JsonSyntaxException e) {
+            throw new IllegalArgumentException("Error: bad request", e);
         }
-
-        AuthorizedUserResult authorizedUserResult = userService.register(registerRequest);
-        context.result(new Gson().toJson(authorizedUserResult));
     }
 
     public void handleLogin(@NotNull Context context) throws UnauthorizedException {
-        LoginRequest loginRequest = new Gson().fromJson(context.body(), LoginRequest.class);
+        try {
+            LoginRequest loginRequest = new Gson().fromJson(context.body(), LoginRequest.class);
+            if (loginRequest == null) {
+                throw new IllegalArgumentException("Error: bad request");
+            }
 
-        if (isInvalidParameter(loginRequest.username()) ||
-                isInvalidParameter(loginRequest.password())) {
-            throw new IllegalArgumentException("Error: bad loginRequest");
+            AuthorizedUserResult authorizedUserResult = userService.login(loginRequest);
+            context.result(new Gson().toJson(authorizedUserResult));
+        } catch (JsonSyntaxException e) {
+            throw new IllegalArgumentException("Error: bad request", e);
         }
-
-        AuthorizedUserResult authorizedUserResult = userService.login(loginRequest);
-        context.result(new Gson().toJson(authorizedUserResult));
     }
 
     public void handleLogout(@NotNull Context context) throws UnauthorizedException {
         AuthorizationRequest authorizationRequest = new AuthorizationRequest(context.header("Authorization"));
         userService.logout(authorizationRequest);
-    }
-
-    private boolean isInvalidParameter(String param) {
-        // don't allow non-existent parameters
-        return param == null || param.isEmpty() || !param.equals(param.trim());
     }
 }

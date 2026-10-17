@@ -45,6 +45,26 @@ public class UserServiceTests {
     }
 
     @Test
+    void registerInvalidParameters() {
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> userService.register(new RegisterRequest("", "passwd", USER_NAME + "@byu.edu"))
+        );
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> userService.register(new RegisterRequest(USER_NAME, "", USER_NAME + "@byu.edu"))
+        );
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> userService.register(new RegisterRequest(USER_NAME, "passwd", ""))
+        );
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> userService.register(new RegisterRequest(USER_NAME, "passwd", null))
+        );
+    }
+
+    @Test
     void loginSuccessful() throws AlreadyTakenException, UnauthorizedException {
         String password = "passwd";
         createRegistration(password);
@@ -68,14 +88,30 @@ public class UserServiceTests {
     }
 
     @Test
-    void loginUnsuccessfulBadPassword() throws AlreadyTakenException {
+    void loginUnsuccessfulWrongPassword() throws AlreadyTakenException {
         String password = "passwd";
         createRegistration(password);
-        LoginRequest loginRequest = new LoginRequest(USER_NAME, "");
+        LoginRequest loginRequest = new LoginRequest(USER_NAME, "not the password");
 
         Assertions.assertThrows(
                 UnauthorizedException.class,
                 () -> userService.login(loginRequest)
+        );
+    }
+
+    @Test
+    void loginInvalidParameters() {
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> userService.login(new LoginRequest(null, "passwd"))
+        );
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> userService.login(new LoginRequest(USER_NAME, ""))
+        );
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> userService.login(new LoginRequest(USER_NAME,  null))
         );
     }
 

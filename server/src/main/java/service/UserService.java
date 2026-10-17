@@ -15,6 +15,12 @@ public class UserService {
     }
 
     public AuthorizedUserResult register(RegisterRequest registerRequest) throws AlreadyTakenException {
+        if (isInvalidParameter(registerRequest.username()) ||
+                isInvalidParameter(registerRequest.password()) ||
+                isInvalidParameter(registerRequest.email())) {
+            throw new IllegalArgumentException("Error: bad request");
+        }
+
         UserData userData = userDAO.getUserData(registerRequest.username());
         if (userData != null) {
             throw new AlreadyTakenException();
@@ -25,7 +31,17 @@ public class UserService {
         return new AuthorizedUserResult(authData.username(), authData.authToken());
     }
 
+    private boolean isInvalidParameter(String param) {
+        // don't allow non-existent parameters
+        return param == null || param.isEmpty() || !param.equals(param.trim());
+    }
+
     public AuthorizedUserResult login(LoginRequest loginRequest) throws UnauthorizedException {
+        if (isInvalidParameter(loginRequest.username()) ||
+                isInvalidParameter(loginRequest.password())) {
+            throw new IllegalArgumentException("Error: bad request");
+        }
+
         UserData userData = userDAO.getUserData(loginRequest.username());
         if (userData == null || !loginRequest.password().equals(userData.password())) {
             throw new UnauthorizedException();

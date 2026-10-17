@@ -1,6 +1,7 @@
 package handler;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import dataaccess.AlreadyTakenException;
 import dataaccess.UnauthorizedException;
 import io.javalin.http.Context;
@@ -25,15 +26,29 @@ public class GameHandler {
 
     public void handleCreateGame(@NotNull Context context) throws UnauthorizedException, AlreadyTakenException {
         AuthorizationRequest authorizationRequest = new AuthorizationRequest(context.header("Authorization"));
-        CreateGameRequest createGameRequest = new Gson().fromJson(context.body(), CreateGameRequest.class);
-        int gameID = gameService.createGame(authorizationRequest, createGameRequest.gameName());
-        context.result(new Gson().toJson(Map.of("gameID", gameID)));
+        try {
+            CreateGameRequest createGameRequest = new Gson().fromJson(context.body(), CreateGameRequest.class);
+            if (createGameRequest == null) {
+                throw new IllegalArgumentException("Error: bad request");
+            }
+            int gameID = gameService.createGame(authorizationRequest, createGameRequest.gameName());
+            context.result(new Gson().toJson(Map.of("gameID", gameID)));
+        } catch (JsonSyntaxException e) {
+            throw new IllegalArgumentException("Error: bad request", e);
+        }
     }
 
     public void handleJoinGame(@NotNull Context context) throws UnauthorizedException, AlreadyTakenException {
         AuthorizationRequest authorizationRequest = new AuthorizationRequest(context.header("Authorization"));
-        JoinGameRequest joinGameRequest = new Gson().fromJson(context.body(), JoinGameRequest.class);
-        gameService.joinGame(authorizationRequest, joinGameRequest.gameID(), joinGameRequest.playerColor());
+        try {
+            JoinGameRequest joinGameRequest = new Gson().fromJson(context.body(), JoinGameRequest.class);
+            if (joinGameRequest == null) {
+                throw new IllegalArgumentException("Error: bad request");
+            }
+            gameService.joinGame(authorizationRequest, joinGameRequest.gameID(), joinGameRequest.playerColor());
+        } catch (JsonSyntaxException e) {
+            throw new IllegalArgumentException("Error: bad request", e);
+        }
     }
 
     public void handleListGames(@NotNull Context context) throws UnauthorizedException {
