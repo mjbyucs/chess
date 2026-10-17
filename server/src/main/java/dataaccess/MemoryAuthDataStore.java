@@ -13,7 +13,7 @@ public class MemoryAuthDataStore implements AuthDAO {
     }
 
     @Override
-    public void addAuthData(AuthData authData) {
+    public synchronized void addAuthData(AuthData authData) {
         authDataStore.put(authData.authToken(), authData.username());
     }
 
@@ -24,7 +24,7 @@ public class MemoryAuthDataStore implements AuthDAO {
     }
 
     @Override
-    public void deleteAuthData(AuthData authData) {
+    public synchronized void deleteAuthData(AuthData authData) {
         if (!authDataStore.containsKey(authData.authToken())) {
             throw new DataAccessException("Invalid authToken: [" + authData.authToken() + "]");
         }

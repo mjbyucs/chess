@@ -16,7 +16,7 @@ public class MemoryGameDataStore implements GameDAO {
     }
 
     @Override
-    public void createGame(GameData gameData) throws AlreadyTakenException {
+    public synchronized void createGame(GameData gameData) throws AlreadyTakenException {
         if (gameDataStore.containsKey(gameData.gameID()) || nameToIDMap.containsKey(gameData.gameName())) {
             throw new AlreadyTakenException();
         }
@@ -35,7 +35,12 @@ public class MemoryGameDataStore implements GameDAO {
     }
 
     @Override
-    public void updateGameData(GameData gameData) {
+    public synchronized void updateGameData(GameData gameData) {
+        GameData currentGameData = gameDataStore.get(gameData.gameID());
+        if (currentGameData != null && !currentGameData.gameName().equals(gameData.gameName())) {
+            // game name is changing so remove the old mapping
+            nameToIDMap.remove(currentGameData.gameName());
+        }
         nameToIDMap.put(gameData.gameName(), gameData.gameID());
         gameDataStore.put(gameData.gameID(), gameData);
     }
