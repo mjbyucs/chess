@@ -1,7 +1,6 @@
 package chess;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -55,11 +54,26 @@ public class ChessPiece {
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         Objects.requireNonNull(board, "board");
         Objects.requireNonNull(myPosition, "position");
-        if (board.isEmpty(myPosition)) {
-            return List.of();
+        if (!this.equals(board.getPiece(myPosition))) {
+            throw new IllegalArgumentException("This piece is not located at the given position");
         }
 
-        return MoveGenerator.generateMoves(board, myPosition);
+        return MoveGenerator.generateMoves(board, this, myPosition);
+    }
+
+    /**
+     * Calculates all the positions a chess piece can move to attack another square.
+     *
+     * @return Collection of valid moves
+     */
+    public Collection<ChessMove> pieceAttacks(ChessBoard board, ChessPosition myPosition) {
+        Objects.requireNonNull(board, "board");
+        Objects.requireNonNull(myPosition, "position");
+        if (!this.equals(board.getPiece(myPosition))) {
+            throw new IllegalArgumentException("This piece is not located at the given position");
+        }
+
+        return MoveGenerator.generateAttacks(board, this, myPosition);
     }
 
     @Override

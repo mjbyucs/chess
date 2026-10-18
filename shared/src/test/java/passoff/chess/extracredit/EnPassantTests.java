@@ -6,8 +6,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import passoff.chess.TestUtilities;
 
-import java.util.Collection;
-
 /**
  * Tests if the ChessGame implementation can handle En Passant moves
  * En Passant is a situational move in chess taken directly after your opponent has double moved a pawn
@@ -230,6 +228,38 @@ public class EnPassantTests {
                 "ChessGame validMoves contained a En Passant move after the move became invalid");
     }
 
+    @Test
+    @DisplayName("En Passant Leaves King in Check")
+    public void enPassantLeavesKingInCheck() throws InvalidMoveException {
+        ChessBoard board = TestUtilities.loadBoard("""
+                | | | | | | | |k|
+                | | | | | | | | |
+                | | | | | | | | |
+                |K| | | | | | | |
+                | | | | | | | |p|
+                | | | | | | | | |
+                | | | | | | |P| |
+                | | | | | | | |R|
+                """);
+        ChessMove setupMove = new ChessMove(new ChessPosition(2, 7), new ChessPosition(4, 7), null);
+        /*
+                | | | | | | | |k|
+                | | | | | | | | |
+                | | | | | | | | |
+                |K| | | | | | | |
+                | | | | | | |P|p|
+                | | | | | | | | |
+                | | | | | | | | |
+                | | | | | | | |R|
+         */
+        ChessMove enPassantMove = new ChessMove(new ChessPosition(4, 8), new ChessPosition(3, 7), null);
+        ChessGame game = new ChessGame();
+        game.setBoard(board);
+        game.setTeamTurn(ChessGame.TeamColor.WHITE);
+        game.makeMove(setupMove);
+        Assertions.assertFalse(game.validMoves(enPassantMove.getStartPosition()).contains(enPassantMove));
+    }
+
     private void assertValidEnPassant(ChessBoard board, ChessGame.TeamColor turn, ChessMove setupMove,
                                       ChessMove enPassantMove, ChessBoard endBoard) throws InvalidMoveException {
         ChessGame game = new ChessGame();
@@ -240,7 +270,6 @@ public class EnPassantTests {
         game.makeMove(setupMove);
 
         //make sure pawn has En Passant move
-        Collection<ChessMove> validMoves = game.validMoves(enPassantMove.getStartPosition());
         Assertions.assertTrue(game.validMoves(enPassantMove.getStartPosition()).contains(enPassantMove),
                 "ChessGame validMoves did not contain a valid En Passant move");
 

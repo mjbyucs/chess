@@ -300,6 +300,50 @@ public class CastlingTests {
         assertWhiteCanCastle(game2, true, false);
     }
 
+    @Test
+    @DisplayName("Cannot Castle Through Empty Square Attacked by Pawn")
+    public void noCastleThroughPawnAttack() {
+        ChessGame game = createNewGameWithBoard("""
+              | | | | |k| | | |
+              | | | | | | | | |
+              | | | | | | | | |
+              | | | | | | | | |
+              | | | | | | | | |
+              | | | | | | | | |
+              | | | | |p| | | |
+              |R| | | |K| | |R|
+              """, ChessGame.TeamColor.WHITE);
+
+        // The black pawn on e2 attacks both d1 and f1.
+        // Those squares are empty, so ordinary pawn move generation
+        // currently may fail to report the attacks.
+        assertWhiteCanCastle(game, false, false);
+    }
+
+    @Test
+    @DisplayName("Cannot Castle with Replacement Rook")
+    public void noCastleWithReplacementRook() throws InvalidMoveException {
+        ChessGame game = createNewGameWithBoard("""
+                |r| | | |k| | | |
+                | | | | | | | | |
+                | | | | | | | | |
+                | | | | | | | | |
+                | | | | | | | | |
+                | | | | | | | | |
+                | | | | | | | | |
+                |R|R| | |K| | | |
+                """, ChessGame.TeamColor.BLACK);
+
+        // Black captures White's original queenside rook.
+        game.makeMove(new ChessMove(new ChessPosition(8, 1), new ChessPosition(1, 1)));
+
+        // White's other rook replaces it by capturing the black rook.
+        game.makeMove(new ChessMove(new ChessPosition(1, 2), new ChessPosition(1, 1)));
+
+        // The replacement rook must not inherit the original rook's castling right.
+        Assertions.assertFalse(game.validMoves(WHITE_KING_POSITION).contains(WHITE_QUEENSIDE_CASTLE));
+    }
+
 
     private ChessGame createNewGameWithBoard(String boardText, ChessGame.TeamColor teamTurn) {
         ChessBoard board = TestUtilities.loadBoard(boardText);

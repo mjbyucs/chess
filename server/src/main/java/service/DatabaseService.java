@@ -1,0 +1,23 @@
+package service;
+
+import dataaccess.AuthDAO;
+import dataaccess.GameDAO;
+import dataaccess.UserDAO;
+
+public class DatabaseService {
+    private final AuthDAO authDAO;
+    private final GameDAO gameDAO;
+    private final UserDAO userDAO;
+
+    public DatabaseService(AuthDAO authDAO, GameDAO gameDAO, UserDAO userDAO) {
+        this.authDAO = authDAO;
+        this.gameDAO = gameDAO;
+        this.userDAO = userDAO;
+    }
+
+    public void deleteDatabase() {
+        authDAO.deleteDatabase();
+        gameDAO.deleteDatabase();
+        userDAO.deleteDatabase();
+    }
+}
