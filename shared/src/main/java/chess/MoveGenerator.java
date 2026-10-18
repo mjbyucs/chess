@@ -93,7 +93,9 @@ public class MoveGenerator {
         return convertCandidatePositionsToChessMoves(position, color, newPositions);
     }
 
-    private static List<ChessMove> convertCandidatePositionsToChessMoves(ChessPosition position, ChessGame.TeamColor color, List<ChessPosition> newPositions) {
+    private static List<ChessMove> convertCandidatePositionsToChessMoves(ChessPosition position,
+                                                                         ChessGame.TeamColor color,
+                                                                         List<ChessPosition> newPositions) {
         List<ChessMove> moves = new ArrayList<>();
 
         // convert positions into moves while also checking for reaching the promotion row
