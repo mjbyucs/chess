@@ -328,7 +328,9 @@ public class ChessGame {
             return false;
         }
         ChessGame chessGame = (ChessGame) o;
-        return Objects.equals(gameBoard, chessGame.gameBoard) && Objects.equals(gameMoveState, chessGame.gameMoveState) && whoseMove == chessGame.whoseMove;
+        return Objects.equals(gameBoard, chessGame.gameBoard) &&
+                Objects.equals(gameMoveState, chessGame.gameMoveState) &&
+                whoseMove == chessGame.whoseMove;
     }
 
     @Override

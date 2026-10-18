@@ -41,7 +41,8 @@ public class GameService {
         return gameDAO.getGameByID(gameID);
     }
 
-    public void joinGame(AuthorizationRequest authorizationRequest, int gameID, String playerColor) throws UnauthorizedException, AlreadyTakenException {
+    public void joinGame(AuthorizationRequest authorizationRequest, int gameID, String playerColor)
+            throws UnauthorizedException, AlreadyTakenException {
         AuthData authData = authService.getAuthData(authorizationRequest.authToken());
         if (authData == null) {
             throw new UnauthorizedException();

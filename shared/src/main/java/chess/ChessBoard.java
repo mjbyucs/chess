@@ -139,7 +139,7 @@ public class ChessBoard {
     /*
      * Borrow some code from TestUtilities to load a board
      */
-    private static final String defaultBoard =
+    private static final String DEFAULT_BOARD =
             """
                 |r|n|b|q|k|b|n|r|
                 |p|p|p|p|p|p|p|p|
@@ -162,7 +162,7 @@ public class ChessBoard {
     private void loadBoard() {
         int row = PLAYABLE_BOARD_SIZE;
         int column = 0;
-        for (var c : ChessBoard.defaultBoard.toCharArray()) {
+        for (var c : ChessBoard.DEFAULT_BOARD.toCharArray()) {
             switch (c) {
                 case '\n' -> {
                     column = 0;
