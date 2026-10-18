@@ -90,6 +90,10 @@ public class MoveGenerator {
             newPositions.add(rightDiag);
         }
 
+        return convertCandidatePositionsToChessMoves(position, color, newPositions);
+    }
+
+    private static List<ChessMove> convertCandidatePositionsToChessMoves(ChessPosition position, ChessGame.TeamColor color, List<ChessPosition> newPositions) {
         List<ChessMove> moves = new ArrayList<>();
 
         // convert positions into moves while also checking for reaching the promotion row
@@ -124,21 +128,7 @@ public class MoveGenerator {
             newPositions.add(rightDiag);
         }
 
-        List<ChessMove> moves = new ArrayList<>();
-
-        // convert positions into moves while also checking for reaching the promotion row
-        for (ChessPosition pos : newPositions) {
-            if (ChessBoard.isPromotionRank(pos, color)) {
-                moves.add(new ChessMove(position, pos, ChessPiece.PieceType.QUEEN));
-                moves.add(new ChessMove(position, pos, ChessPiece.PieceType.ROOK));
-                moves.add(new ChessMove(position, pos, ChessPiece.PieceType.BISHOP));
-                moves.add(new ChessMove(position, pos, ChessPiece.PieceType.KNIGHT));
-            }
-            else {
-                moves.add(new ChessMove(position, pos));
-            }
-        }
-        return moves;
+        return convertCandidatePositionsToChessMoves(position, color, newPositions);
     }
 
     private static final Set<ChessPiece.PieceType> CAN_SLIDE = Set.of(
