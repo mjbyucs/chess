@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class UserServiceTests {
-    private static final String USER_NAME = "fred";
+    private static final String USER_NAME = "Fred_Brown23";
     private UserService userService;
 
     @BeforeEach
@@ -45,30 +45,88 @@ public class UserServiceTests {
     }
 
     @Test
-    void registerInvalidParameters() {
+    void registerNoRequest() {
         Assertions.assertThrows(
                 IllegalArgumentException.class,
                 () -> userService.register(null)
         );
+    }
+
+    @Test
+    void registerInvalidUserName() {
         Assertions.assertThrows(
                 IllegalArgumentException.class,
                 () -> userService.register(new RegisterRequest("", "passwd", USER_NAME + "@byu.edu"))
         );
         Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> userService.register(new RegisterRequest(USER_NAME, "", USER_NAME + "@byu.edu"))
+                () -> userService.register(new RegisterRequest(
+                        "B%b", "passwd", USER_NAME + "@byu.edu"))
         );
         Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> userService.register(new RegisterRequest(USER_NAME, "passwd", ""))
+                () -> userService.register(new RegisterRequest(
+                        "Name with space", "passwd", USER_NAME + "@byu.edu"))
         );
         Assertions.assertThrows(
                 IllegalArgumentException.class,
-                () -> userService.register(new RegisterRequest(USER_NAME, "passwd", null))
+                () -> userService.register(new RegisterRequest(
+                        "A_username_that_is_far_far_too_long",
+                        "passwd", USER_NAME + "@byu.edu"))
         );
     }
 
     @Test
+    void registerInvalidPassword() {
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> userService.register(new RegisterRequest(
+                        USER_NAME, "", USER_NAME + "@byu.edu"))
+        );
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> userService.register(new RegisterRequest(
+                        USER_NAME, "with\u0007bell", USER_NAME + "@byu.edu"))
+        );
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> userService.register(new RegisterRequest(
+                        USER_NAME,
+                        "A_really_long_password_that_exceeds_the_limit",
+                        USER_NAME + "@byu.edu"))
+        );
+    }
+
+    @Test
+    void registerInvalidEmail() {
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> userService.register(new RegisterRequest(
+                        USER_NAME, "passwd", ""))
+        );
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> userService.register(new RegisterRequest(
+                        USER_NAME, "passwd", null))
+        );
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> userService.register(new RegisterRequest(
+                        USER_NAME, "passwd", USER_NAME + "@33@byu.edu"))
+        );
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> userService.register(new RegisterRequest(
+                        USER_NAME, "passwd", "bad_host@host_byu.edu"))
+        );
+        Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> userService.register(new RegisterRequest(
+                        USER_NAME, "passwd", "bad_domain@byu.edu0"))
+        );
+    }
+
+        @Test
     void loginSuccessful() throws AlreadyTakenException, UnauthorizedException {
         String password = "passwd";
         createRegistration(password);
@@ -95,7 +153,7 @@ public class UserServiceTests {
     void loginUnsuccessfulWrongPassword() throws AlreadyTakenException {
         String password = "passwd";
         createRegistration(password);
-        LoginRequest loginRequest = new LoginRequest(USER_NAME, "not the password");
+        LoginRequest loginRequest = new LoginRequest(USER_NAME, "not_the_password");
 
         Assertions.assertThrows(
                 UnauthorizedException.class,
