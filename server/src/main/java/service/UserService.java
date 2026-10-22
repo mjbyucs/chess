@@ -6,8 +6,8 @@ import dataaccess.UserDAO;
 import model.*;
 
 public class UserService {
-    private static final String VALID_USERNAME_PATTERN = "^[A-Za-z0-9_]{2,32}$";
-    private static final String VALID_PASSWORD_PATTERN = "^\\p{Print}{4,32}$";       // 4 minimum non-white space chars
+    private static final String VALID_USERNAME_PATTERN = "^[A-Za-z0-9_]{1,32}$";
+    private static final String VALID_PASSWORD_PATTERN = "^\\p{Print}{1,32}$";       // 4 minimum non-white space chars
     private static final String VALID_EMAIL_PATTERN = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
     private final UserDAO userDAO;
     private final AuthService authService;
