@@ -36,15 +36,16 @@ public class DependencyComposer {
         UserDAO userDAO;
         GameDAO gameDAO;
         if (storageType == StorageType.MEMORY) {
+            MemoryUserDataStore userDataStore = new MemoryUserDataStore();
             authDAO = new MemoryAuthDataStore();
-            gameDAO = new MemoryGameDataStore();
-            userDAO = new MemoryUserDataStore();
+            gameDAO = new MemoryGameDataStore(userDataStore);
+            userDAO = userDataStore;
         }
         else {
             DatabaseManager.createDatabaseWithResources(databasePropertiesFilename);
             SQLUserDataStore userDataStore = new SQLUserDataStore(DatabaseManager::getConnection);
             authDAO = new SQLAuthDataStore(DatabaseManager::getConnection, userDataStore);
-            gameDAO = new SQLGameDataStore(DatabaseManager::getConnection);
+            gameDAO = new SQLGameDataStore(DatabaseManager::getConnection, userDataStore);
             userDAO = userDataStore;
         }
         AuthService authService = new AuthService(authDAO);

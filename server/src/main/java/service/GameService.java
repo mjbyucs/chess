@@ -12,7 +12,6 @@ import java.util.List;
 
 public class GameService {
     private final Object lock = new Object();
-    private int nextGameID = 1000;
     private final GameDAO gameDAO;
     private final AuthService authService;
 
@@ -30,11 +29,7 @@ public class GameService {
             throw new IllegalArgumentException("Invalid game name");
         }
 
-        synchronized(lock) {
-            GameData gameData = new GameData(nextGameID++, null, null, gameName, new ChessGame());
-            gameDAO.createGame(gameData);
-            return gameData.gameID();
-        }
+        return gameDAO.addGame(gameName, new ChessGame());
     }
 
     protected GameData getGame(int gameID) {
@@ -69,7 +64,7 @@ public class GameService {
     }
 
     private void validatePlayerAvailable(String playerName) throws AlreadyTakenException {
-        if (playerName != null && !playerName.isEmpty()) {
+        if (playerName != null) {
             throw new AlreadyTakenException();
         }
     }

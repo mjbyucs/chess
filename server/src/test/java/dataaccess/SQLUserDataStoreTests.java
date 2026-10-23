@@ -7,23 +7,25 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
 
 public class SQLUserDataStoreTests {
 
     private static final String DEFAULT_USER_NAME = "bob";
-    private UserDAO userDAO;
+    private SQLUserDataStore userDAO;
+    private SQLTestHelper sqlTestHelper;
     private final UserData defaultUser = new UserData(DEFAULT_USER_NAME, "marley", "peace@gmail.com");
 
     @BeforeEach
     void setUp() {
+        sqlTestHelper = new SQLTestHelper();
         DatabaseManager.createDatabase();
-        userDAO = new SQLUserDataStore(DatabaseManager::getConnection);
+        userDAO = new SQLUserDataStore(sqlTestHelper::getConnection);
     }
 
     @AfterEach
     void tearDown() {
-        userDAO.deleteDatabase();
+        sqlTestHelper.disableConnectionFailures();
+        userDAO.clearDatabase();
     }
 
     @Test
@@ -46,11 +48,18 @@ public class SQLUserDataStoreTests {
     }
 
     @Test
-    void sqlExceptionOnAddUser() throws SQLException {
+    void retrieveUserAfterClearingDatabase() {
         userDAO.addUserData(defaultUser);
         Assertions.assertEquals(defaultUser, userDAO.getUserData(DEFAULT_USER_NAME));
+        userDAO.clearDatabase();
+        Assertions.assertNull(userDAO.getUserData(DEFAULT_USER_NAME));
+    }
 
-        userDAO.deleteDatabase();
+    @Test
+    void sqlExceptionOnAddUser() {
+        userDAO.addUserData(defaultUser);
+        Assertions.assertEquals(defaultUser, userDAO.getUserData(DEFAULT_USER_NAME));
+        sqlTestHelper.enableConnectionFailures();
         Assertions.assertThrows(
                 DataAccessException.class,
                 () -> userDAO.addUserData(defaultUser)
@@ -58,11 +67,10 @@ public class SQLUserDataStoreTests {
     }
 
     @Test
-    void sqlExceptionOnGetAuth() throws SQLException {
+    void sqlExceptionOnGetUserData() {
         userDAO.addUserData(defaultUser);
         Assertions.assertEquals(defaultUser, userDAO.getUserData(DEFAULT_USER_NAME));
-
-        userDAO.deleteDatabase();
+        sqlTestHelper.enableConnectionFailures();
         Assertions.assertThrows(
                 DataAccessException.class,
                 () -> userDAO.getUserData(defaultUser.username())
@@ -70,11 +78,21 @@ public class SQLUserDataStoreTests {
     }
 
     @Test
-    void sqlExceptionOnDeleteAuth() throws SQLException {
+    void sqlExceptionOnGetIdForUsername() {
         userDAO.addUserData(defaultUser);
         Assertions.assertEquals(defaultUser, userDAO.getUserData(DEFAULT_USER_NAME));
+        sqlTestHelper.enableConnectionFailures();
+        Assertions.assertThrows(
+                DataAccessException.class,
+                () -> userDAO.getIdForUsername(defaultUser.username())
+        );
+    }
 
-        userDAO.deleteDatabase();
+    @Test
+    void sqlExceptionOnDeleteUserData() {
+        userDAO.addUserData(defaultUser);
+        Assertions.assertEquals(defaultUser, userDAO.getUserData(DEFAULT_USER_NAME));
+        sqlTestHelper.enableConnectionFailures();
         Assertions.assertThrows(
                 DataAccessException.class,
                 () -> userDAO.deleteUserData(defaultUser)

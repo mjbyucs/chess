@@ -26,7 +26,8 @@ public class SQLAuthDataStore implements AuthDAO {
             "JOIN " + SQLUserDataStore.TABLE_NAME + " u ON a.userId = u.id " +
             "WHERE authToken = ?;";
     private static final String DELETE_AUTH_DATA = "DELETE FROM " + TABLE_NAME + " WHERE authToken = ?;";
-    private static final String EMPTY_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
+    @SuppressWarnings("SqlWithoutWhere")
+    private static final String EMPTY_TABLE = "DELETE FROM " + TABLE_NAME + ";";
 
     private final Supplier<Connection> connectionProvider;
     private final SQLUserDataStore userDataStore;
@@ -90,7 +91,7 @@ public class SQLAuthDataStore implements AuthDAO {
     }
 
     @Override
-    public void deleteDatabase() {
+    public void clearDatabase() {
         try (var conn = connectionProvider.get();
              var preparedStatement = conn.prepareStatement(EMPTY_TABLE)) {
             preparedStatement.executeUpdate();
@@ -98,4 +99,5 @@ public class SQLAuthDataStore implements AuthDAO {
             throw new DataAccessException("failed to empty authorization table", ex);
         }
     }
+
 }

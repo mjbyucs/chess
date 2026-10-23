@@ -10,5 +10,6 @@ public interface UserDAO {
 
     void deleteUserData(UserData userData);
 
-    void deleteDatabase();
+    void clearDatabase();
+
 }

@@ -10,5 +10,6 @@ public interface AuthDAO {
 
     void deleteAuthData(AuthData authData);
 
-    void deleteDatabase();
+    void clearDatabase();
+
 }

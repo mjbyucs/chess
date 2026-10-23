@@ -1,11 +1,8 @@
 package dataaccess.sql;
 
 import dataaccess.DataAccessException;
-import dataaccess.DatabaseManager;
 import dataaccess.UserDAO;
-import model.AuthData;
 import model.UserData;
-import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -25,7 +22,8 @@ public class SQLUserDataStore implements UserDAO {
     private static final String QUERY_FOR_USERNAME = "SELECT * FROM " + TABLE_NAME + " WHERE username = ?;";
     private static final String QUERY_FOR_USERNAME_FOR_ID = "SELECT id FROM " + TABLE_NAME + " WHERE username = ?;";
     private static final String DELETE_AUTH_DATA = "DELETE FROM " + TABLE_NAME + " WHERE username = ?;";
-    private static final String EMPTY_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
+    @SuppressWarnings("SqlWithoutWhere")
+    private static final String EMPTY_TABLE = "DELETE FROM " + TABLE_NAME + ";";
 
     private final Supplier<Connection> connectionProvider;
 
@@ -83,7 +81,7 @@ public class SQLUserDataStore implements UserDAO {
             preparedStatement.setString(1, userName);
             try (var rs = preparedStatement.executeQuery()) {
                 if (rs.next()) {
-                    return  rs.getInt("id");
+                    return rs.getInt("id");
                 }
                 else {
                     return -1;
@@ -106,7 +104,7 @@ public class SQLUserDataStore implements UserDAO {
     }
 
     @Override
-    public void deleteDatabase() {
+    public void clearDatabase() {
         try (var conn = connectionProvider.get();
              var preparedStatement = conn.prepareStatement(EMPTY_TABLE)) {
             preparedStatement.executeUpdate();

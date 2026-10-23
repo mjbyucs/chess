@@ -11,7 +11,7 @@ public class MemoryAuthDataStore implements AuthDAO {
     private final Map<String, String> authDataStore = new HashMap<>();
 
     public MemoryAuthDataStore() {
-        resetDatabase();
+        clearDatabase();
     }
 
     @Override
@@ -34,11 +34,8 @@ public class MemoryAuthDataStore implements AuthDAO {
     }
 
     @Override
-    public void deleteDatabase() {
-        resetDatabase();
-    }
-
-    private void resetDatabase() {
+    public void clearDatabase() {
         authDataStore.clear();
     }
+
 }

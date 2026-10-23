@@ -40,7 +40,7 @@ public class MemoryUserDataStoreTests {
     void retrieveUserAfterDeletingDatabase() {
         userDAO.addUserData(defaultUser);
         Assertions.assertEquals(defaultUser, userDAO.getUserData(DEFAULT_USER_NAME));
-        userDAO.deleteDatabase();
+        userDAO.clearDatabase();
         Assertions.assertNull(userDAO.getUserData(DEFAULT_USER_NAME));
     }
 }

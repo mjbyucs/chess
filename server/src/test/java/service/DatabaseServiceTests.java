@@ -1,11 +1,11 @@
 package service;
 
+import chess.ChessGame;
 import dataaccess.*;
 import dataaccess.memory.MemoryAuthDataStore;
 import dataaccess.memory.MemoryGameDataStore;
 import dataaccess.memory.MemoryUserDataStore;
 import model.AuthData;
-import model.GameData;
 import model.UserData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,9 +19,10 @@ public class DatabaseServiceTests {
 
     @BeforeEach
     void setUp() {
+        MemoryUserDataStore userDataStore = new MemoryUserDataStore();
         authDAO = new MemoryAuthDataStore();
-        gameDAO = new MemoryGameDataStore();
-        userDAO = new MemoryUserDataStore();
+        gameDAO = new MemoryGameDataStore(userDataStore);
+        userDAO = userDataStore;
         databaseService = new DatabaseService(authDAO, gameDAO, userDAO);
     }
 
@@ -29,17 +30,17 @@ public class DatabaseServiceTests {
     void deleteDatabase() throws AlreadyTakenException {
         String username = "name";
         authDAO.addAuthData(new AuthData("token", username));
-        gameDAO.createGame(new GameData(1, null, null, "mygame", null));
+        int gameId = gameDAO.addGame( "mygame", new ChessGame());
         userDAO.addUserData(new UserData(username, "password", "email"));
 
         Assertions.assertNotNull(authDAO.getAuthData("token"));
-        Assertions.assertNotNull(gameDAO.getGameByID(1));
+        Assertions.assertNotNull(gameDAO.getGameByID(gameId));
         Assertions.assertNotNull(userDAO.getUserData(username));
 
         databaseService.deleteDatabase();
 
         Assertions.assertNull(authDAO.getAuthData("token"));
-        Assertions.assertNull(gameDAO.getGameByID(1));
+        Assertions.assertNull(gameDAO.getGameByID(gameId));
         Assertions.assertNull(userDAO.getUserData(username));
     }
 }

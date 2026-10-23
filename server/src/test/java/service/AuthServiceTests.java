@@ -36,7 +36,7 @@ public class AuthServiceTests {
     @Test
     void getAuthDataAfterDeletion() {
         AuthData authData = authService.createAuth(USER_NAME);
-        authDAO.deleteDatabase();
+        authDAO.clearDatabase();
         Assertions.assertNull(authService.getAuthData(authData.authToken()));
     }
 

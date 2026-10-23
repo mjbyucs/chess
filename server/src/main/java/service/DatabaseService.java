@@ -16,8 +16,8 @@ public class DatabaseService {
     }
 
     public void deleteDatabase() {
-        authDAO.deleteDatabase();
-        gameDAO.deleteDatabase();
-        userDAO.deleteDatabase();
+        authDAO.clearDatabase();
+        gameDAO.clearDatabase();
+        userDAO.clearDatabase();
     }
 }

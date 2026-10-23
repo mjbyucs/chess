@@ -1,8 +1,11 @@
 package dataaccess.memory;
 
+import chess.ChessGame;
 import dataaccess.AlreadyTakenException;
 import dataaccess.GameDAO;
+import dataaccess.UserDAO;
 import model.GameData;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,20 +13,26 @@ import java.util.List;
 import java.util.Map;
 
 public class MemoryGameDataStore implements GameDAO {
+    private int nextGameID = 1000;
     private final Map<Integer, GameData> gameDataStore = new HashMap<>();
     private final Map<String, Integer> nameToIDMap = new HashMap<>();
 
-    public MemoryGameDataStore() {
-        resetDatabase();
+    private final UserDAO userDataStore;
+
+    public MemoryGameDataStore(UserDAO userDAO) {
+        this.userDataStore = userDAO;
+        clearDatabase();
     }
 
     @Override
-    public synchronized void createGame(GameData gameData) throws AlreadyTakenException {
-        if (gameDataStore.containsKey(gameData.gameID()) || nameToIDMap.containsKey(gameData.gameName())) {
+    public synchronized int addGame(@NotNull String gameName, @NotNull ChessGame chessGame) throws AlreadyTakenException {
+        if (nameToIDMap.containsKey(gameName)) {
             throw new AlreadyTakenException();
         }
+        GameData gameData = new GameData(nextGameID++, null, null, gameName, chessGame);
         nameToIDMap.put(gameData.gameName(), gameData.gameID());
         gameDataStore.put(gameData.gameID(), gameData);
+        return gameData.gameID();
     }
 
     @Override
@@ -38,7 +47,13 @@ public class MemoryGameDataStore implements GameDAO {
     }
 
     @Override
-    public void updatePlayerNames(int gameID, String whitePlayerName, String blackPlayerName) {
+    public synchronized void updatePlayerNames(int gameID, String whitePlayerName, String blackPlayerName) {
+        if (whitePlayerName != null && userDataStore.getUserData(whitePlayerName) == null) {
+            throw new IllegalArgumentException("White player not found");
+        }
+        if (blackPlayerName != null && userDataStore.getUserData(blackPlayerName) == null) {
+            throw new IllegalArgumentException("black player not found");
+        }
         GameData gameData = gameDataStore.get(gameID);
         GameData updatedData = new GameData(gameData.gameID(), whitePlayerName, blackPlayerName,
                                             gameData.gameName(), gameData.game());
@@ -51,12 +66,18 @@ public class MemoryGameDataStore implements GameDAO {
     }
 
     @Override
-    public void deleteDatabase() {
-        resetDatabase();
+    public void deleteGame(int gameID) {
+        if (gameDataStore.containsKey(gameID)) {
+            GameData gameData = gameDataStore.get(gameID);
+            nameToIDMap.remove(gameData.gameName());
+            gameDataStore.remove(gameID);
+        }
     }
 
-    private void resetDatabase() {
+    @Override
+    public void clearDatabase() {
         gameDataStore.clear();
         nameToIDMap.clear();
     }
+
 }

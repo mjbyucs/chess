@@ -40,7 +40,7 @@ public class MemoryAuthDataStoreTests {
     void retrieveAuthAfterDeletingDatabase() {
         authDAO.addAuthData(defaultAuth);
         Assertions.assertEquals(defaultAuth, authDAO.getAuthData(DEFAULT_AUTH_TOKEN));
-        authDAO.deleteDatabase();
+        authDAO.clearDatabase();
         Assertions.assertNull(authDAO.getAuthData(DEFAULT_AUTH_TOKEN));
     }
 }

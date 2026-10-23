@@ -9,28 +9,30 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
 
 public class SQLAuthDataStoreTests {
 
     private static final String DEFAULT_AUTH_TOKEN = "some_auth";
     private AuthDAO authDAO;
-    private SQLUserDataStore userDataStore;
+    private UserDAO userDAO;
+    private SQLTestHelper sqlTestHelper;
     private final AuthData defaultAuth = new AuthData(DEFAULT_AUTH_TOKEN, "user");
 
     @BeforeEach
     void setUp() {
+        sqlTestHelper = new SQLTestHelper();
         DatabaseManager.createDatabase();
-        userDataStore = new SQLUserDataStore(DatabaseManager::getConnection);
+        SQLUserDataStore userDataStore = new SQLUserDataStore(DatabaseManager::getConnection);
         userDataStore.addUserData(new UserData(defaultAuth.username(), "", ""));
-        authDAO = new SQLAuthDataStore(DatabaseManager::getConnection, userDataStore);
-        System.out.println("Tests are now setup");
+        authDAO = new SQLAuthDataStore(sqlTestHelper::getConnection, userDataStore);
+        userDAO = userDataStore;
     }
 
     @AfterEach
     void tearDown() {
-        authDAO.deleteDatabase();
-        userDataStore.deleteDatabase();
+        sqlTestHelper.disableConnectionFailures();
+        authDAO.clearDatabase();
+        userDAO.clearDatabase();
     }
 
     @Test
@@ -53,11 +55,19 @@ public class SQLAuthDataStoreTests {
     }
 
     @Test
-    void sqlExceptionOnAddAuth() throws SQLException {
+    void retrieveAuthAfterClearingTable() {
+        authDAO.addAuthData(defaultAuth);
+        Assertions.assertEquals(defaultAuth, authDAO.getAuthData(DEFAULT_AUTH_TOKEN));
+        authDAO.clearDatabase();
+        Assertions.assertNull(authDAO.getAuthData(DEFAULT_AUTH_TOKEN));
+    }
+
+    @Test
+    void sqlExceptionOnAddAuth() {
         authDAO.addAuthData(defaultAuth);
         Assertions.assertEquals(defaultAuth, authDAO.getAuthData(DEFAULT_AUTH_TOKEN));
 
-        authDAO.deleteDatabase();
+        sqlTestHelper.enableConnectionFailures();
         Assertions.assertThrows(
                 DataAccessException.class,
                 () -> authDAO.addAuthData(defaultAuth)
@@ -65,11 +75,11 @@ public class SQLAuthDataStoreTests {
     }
 
     @Test
-    void sqlExceptionOnGetAuth() throws SQLException {
+    void sqlExceptionOnGetAuth() {
         authDAO.addAuthData(defaultAuth);
         Assertions.assertEquals(defaultAuth, authDAO.getAuthData(DEFAULT_AUTH_TOKEN));
 
-        authDAO.deleteDatabase();
+        sqlTestHelper.enableConnectionFailures();
         Assertions.assertThrows(
                 DataAccessException.class,
                 () -> authDAO.getAuthData(defaultAuth.authToken())
@@ -78,11 +88,11 @@ public class SQLAuthDataStoreTests {
     }
 
     @Test
-    void sqlExceptionOnDeleteAuth() throws SQLException {
+    void sqlExceptionOnDeleteAuth() {
         authDAO.addAuthData(defaultAuth);
         Assertions.assertEquals(defaultAuth, authDAO.getAuthData(DEFAULT_AUTH_TOKEN));
 
-        authDAO.deleteDatabase();
+        sqlTestHelper.enableConnectionFailures();
         Assertions.assertThrows(
                 DataAccessException.class,
                 () -> authDAO.deleteAuthData(defaultAuth)

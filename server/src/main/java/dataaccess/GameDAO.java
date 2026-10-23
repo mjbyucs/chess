@@ -1,12 +1,14 @@
 package dataaccess;
 
+import chess.ChessGame;
 import model.GameData;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public interface GameDAO {
 
-    void createGame(GameData gameData) throws AlreadyTakenException;
+    int addGame(@NotNull String gameName, @NotNull ChessGame chessGame) throws AlreadyTakenException;
 
     GameData getGameByName(String gameName);
 
@@ -16,6 +18,9 @@ public interface GameDAO {
 
     List<GameData> getAllGames();
 
-    void deleteDatabase();
+    void deleteGame(int gameID);
+
+    void clearDatabase();
+
 }
 
