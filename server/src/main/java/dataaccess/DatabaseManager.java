@@ -4,6 +4,7 @@ import java.sql.*;
 import java.util.Properties;
 
 public class DatabaseManager {
+    private static final String DEFAULT_RESOURCE_NAME = "db.properties";
     private static String databaseName;
     private static String dbUsername;
     private static String dbPassword;
@@ -14,6 +15,14 @@ public class DatabaseManager {
      */
     static {
         loadPropertiesFromResources();
+    }
+
+    static public void createDatabaseWithResources(String resourceFilename) {
+        if (resourceFilename != null && !resourceFilename.isEmpty()) {
+            // override the default properties before creating the DB
+            loadPropertiesFromResources(resourceFilename);
+        }
+        createDatabase();
     }
 
     /**
@@ -53,7 +62,12 @@ public class DatabaseManager {
     }
 
     private static void loadPropertiesFromResources() {
-        try (var propStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("db.properties")) {
+        loadPropertiesFromResources(DEFAULT_RESOURCE_NAME);
+    }
+
+    private static void loadPropertiesFromResources(String resourceFileName) {
+
+        try (var propStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(resourceFileName)) {
             if (propStream == null) {
                 throw new Exception("Unable to load db.properties");
             }
