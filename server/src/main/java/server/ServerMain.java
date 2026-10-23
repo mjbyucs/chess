@@ -1,6 +1,8 @@
 package server;
 
 public class ServerMain {
+    private static final String DEVELOPMENT_DATABASE_PROPERTIES = "db-dev.properties";
+
     public static void main(String[] args) {
         DependencyComposer.StorageType storage = DependencyComposer.StorageType.MEMORY;
         var port = 8080;
@@ -13,7 +15,7 @@ public class ServerMain {
             }
         }
 
-        DependencyComposer dependencyComposer = new DependencyComposer(storage);
+        DependencyComposer dependencyComposer = new DependencyComposer(storage, DEVELOPMENT_DATABASE_PROPERTIES);
         Server server = new Server(dependencyComposer);
         server.run(port);
 

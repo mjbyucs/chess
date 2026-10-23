@@ -1,6 +1,12 @@
 package server;
 
 import dataaccess.*;
+import dataaccess.memory.MemoryAuthDataStore;
+import dataaccess.memory.MemoryGameDataStore;
+import dataaccess.memory.MemoryUserDataStore;
+import dataaccess.sql.SQLAuthDataStore;
+import dataaccess.sql.SQLGameDataStore;
+import dataaccess.sql.SQLUserDataStore;
 import handler.DataStoreHandler;
 import handler.GameHandler;
 import handler.UserHandler;
@@ -23,19 +29,24 @@ public class DependencyComposer {
      * Default constructor creates a memory based storage system
      */
     public DependencyComposer() {
-        this(StorageType.MEMORY);
+        this(StorageType.DATABASE, null);
     }
-    public DependencyComposer(StorageType storageType) {
+    public DependencyComposer(StorageType storageType, String databasePropertiesFilename) {
         AuthDAO authDAO;
         UserDAO userDAO;
         GameDAO gameDAO;
         if (storageType == StorageType.MEMORY) {
+            MemoryUserDataStore userDataStore = new MemoryUserDataStore();
             authDAO = new MemoryAuthDataStore();
-            gameDAO = new MemoryGameDataStore();
-            userDAO = new MemoryUserDataStore();
+            gameDAO = new MemoryGameDataStore(userDataStore);
+            userDAO = userDataStore;
         }
         else {
-            throw new UnsupportedOperationException("No database support (yet).");
+            DatabaseManager.createDatabaseWithResources(databasePropertiesFilename);
+            SQLUserDataStore userDataStore = new SQLUserDataStore(DatabaseManager::getConnection);
+            authDAO = new SQLAuthDataStore(DatabaseManager::getConnection, userDataStore);
+            gameDAO = new SQLGameDataStore(DatabaseManager::getConnection, userDataStore);
+            userDAO = userDataStore;
         }
         AuthService authService = new AuthService(authDAO);
         this.gameHandler = createGameHandler(gameDAO, authService);

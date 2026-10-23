@@ -1,8 +1,12 @@
 package service;
 
 import dataaccess.*;
+import dataaccess.memory.MemoryAuthDataStore;
+import dataaccess.memory.MemoryGameDataStore;
+import dataaccess.memory.MemoryUserDataStore;
 import model.AuthorizationRequest;
 import model.GameData;
+import model.UserData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +22,9 @@ public class GameServiceTests {
 
     @BeforeEach
     void setUp() {
-        GameDAO gameDAO = new MemoryGameDataStore();
+        MemoryUserDataStore userDataStore = new MemoryUserDataStore();
+        userDataStore.addUserData(new UserData(DEFAULT_USER, "", ""));
+        GameDAO gameDAO = new MemoryGameDataStore(userDataStore);
         AuthService authService = new AuthService(new MemoryAuthDataStore());
         authorizationRequest = new AuthorizationRequest(authService.createAuth(DEFAULT_USER).authToken());
         gameService = new GameService(gameDAO, authService);

@@ -1,5 +1,6 @@
-package dataaccess;
+package dataaccess.memory;
 
+import dataaccess.UserDAO;
 import model.UserData;
 
 import java.util.HashMap;
@@ -9,7 +10,7 @@ public class MemoryUserDataStore implements UserDAO {
     private final Map<String, UserData> userDataStore = new HashMap<>();
 
     public MemoryUserDataStore() {
-        resetDatabase();
+        clearDatabase();
     }
 
     @Override
@@ -28,11 +29,8 @@ public class MemoryUserDataStore implements UserDAO {
     }
 
     @Override
-    public void deleteDatabase() {
-        resetDatabase();
-    }
-
-    private void resetDatabase() {
+    public void clearDatabase() {
         userDataStore.clear();
     }
+
 }
