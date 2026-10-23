@@ -11,3 +11,10 @@ out/
 
 ### Chess project ###
 server/**/db*.properties
+
+### IntelliJ local database connections ###
+.idea/dataSources.xml
+.idea/dataSources.local.xml
+.idea/dataSources/
+.idea/inspectionProfiles/Project_Default.xml
+.idea/sqldialects.xml
