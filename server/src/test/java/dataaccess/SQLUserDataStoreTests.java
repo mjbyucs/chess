@@ -2,58 +2,31 @@ package dataaccess;
 
 import dataaccess.sql.SQLUserDataStore;
 import model.UserData;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
-public class SQLUserDataStoreTests {
+public class SQLUserDataStoreTests extends AbstractUserDataStoreTests {
 
     private static final String DEFAULT_USER_NAME = "bob";
-    private SQLUserDataStore userDAO;
+    private SQLUserDataStore userDataStore;
     private SQLTestHelper sqlTestHelper;
     private final UserData defaultUser = new UserData(DEFAULT_USER_NAME, "marley", "peace@gmail.com");
 
-    @BeforeEach
-    void setUp() {
+    @Override
+    protected UserDAO createUserDAO() {
         sqlTestHelper = new SQLTestHelper();
         DatabaseManager.createDatabase();
-        userDAO = new SQLUserDataStore(sqlTestHelper::getConnection);
+        userDataStore = new SQLUserDataStore(sqlTestHelper::getConnection);
+        return userDataStore;
     }
 
-    @AfterEach
-    void tearDown() {
+    @Override
+    protected void tearDownDAO() {
         sqlTestHelper.disableConnectionFailures();
         userDAO.clearDatabase();
     }
 
-    @Test
-    void addAndGetUserData() {
-        userDAO.addUserData(defaultUser);
-        Assertions.assertEquals(defaultUser, userDAO.getUserData(DEFAULT_USER_NAME));
-    }
-
-    @Test
-    void nonexistentUser() {
-        Assertions.assertNull(userDAO.getUserData(DEFAULT_USER_NAME));
-    }
-
-    @Test
-    void retrieveUserAfterDeletingUser() {
-        userDAO.addUserData(defaultUser);
-        Assertions.assertEquals(defaultUser, userDAO.getUserData(DEFAULT_USER_NAME));
-        userDAO.deleteUserData(defaultUser);
-        Assertions.assertNull(userDAO.getUserData(DEFAULT_USER_NAME));
-    }
-
-    @Test
-    void retrieveUserAfterClearingDatabase() {
-        userDAO.addUserData(defaultUser);
-        Assertions.assertEquals(defaultUser, userDAO.getUserData(DEFAULT_USER_NAME));
-        userDAO.clearDatabase();
-        Assertions.assertNull(userDAO.getUserData(DEFAULT_USER_NAME));
-    }
 
     @Test
     void sqlExceptionOnAddUser() {
@@ -84,7 +57,7 @@ public class SQLUserDataStoreTests {
         sqlTestHelper.enableConnectionFailures();
         Assertions.assertThrows(
                 DataAccessException.class,
-                () -> userDAO.getIdForUsername(defaultUser.username())
+                () -> userDataStore.getIdForUsername(defaultUser.username())
         );
     }
 
