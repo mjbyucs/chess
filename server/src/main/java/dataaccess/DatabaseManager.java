@@ -17,7 +17,7 @@ public class DatabaseManager {
         loadPropertiesFromResources();
     }
 
-    static public void createDatabaseWithResources(String resourceFilename) {
+    public static void createDatabaseWithResources(String resourceFilename) {
         if (resourceFilename != null && !resourceFilename.isEmpty()) {
             // override the default properties before creating the DB
             loadPropertiesFromResources(resourceFilename);
@@ -28,11 +28,13 @@ public class DatabaseManager {
     /**
      * Creates the database if it does not already exist.
      */
-    static public void createDatabase() throws DataAccessException {
+    public static void createDatabase() throws DataAccessException {
         var statement = "CREATE DATABASE IF NOT EXISTS " + databaseName;
         try (var conn = DriverManager.getConnection(connectionUrl, dbUsername, dbPassword);
              var preparedStatement = conn.prepareStatement(statement)) {
             preparedStatement.executeUpdate();
+
+            getConnection().setCatalog(databaseName);
         } catch (SQLException ex) {
             throw new DataAccessException("failed to create database", ex);
         }
@@ -50,7 +52,7 @@ public class DatabaseManager {
      * }
      * </code>
      */
-    static Connection getConnection() throws DataAccessException {
+    public static Connection getConnection() throws DataAccessException {
         try {
             //do not wrap the following line with a try-with-resources
             var conn = DriverManager.getConnection(connectionUrl, dbUsername, dbPassword);
