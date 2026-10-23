@@ -1,6 +1,12 @@
 package server;
 
 import dataaccess.*;
+import dataaccess.memory.MemoryAuthDataStore;
+import dataaccess.memory.MemoryGameDataStore;
+import dataaccess.memory.MemoryUserDataStore;
+import dataaccess.sql.SQLAuthDataStore;
+import dataaccess.sql.SQLGameDataStore;
+import dataaccess.sql.SQLUserDataStore;
 import handler.DataStoreHandler;
 import handler.GameHandler;
 import handler.UserHandler;
@@ -23,9 +29,9 @@ public class DependencyComposer {
      * Default constructor creates a memory based storage system
      */
     public DependencyComposer() {
-        this(StorageType.MEMORY);
+        this(StorageType.DATABASE, null);
     }
-    public DependencyComposer(StorageType storageType) {
+    public DependencyComposer(StorageType storageType, String databasePropertiesFilename) {
         AuthDAO authDAO;
         UserDAO userDAO;
         GameDAO gameDAO;
@@ -35,7 +41,10 @@ public class DependencyComposer {
             userDAO = new MemoryUserDataStore();
         }
         else {
-            throw new UnsupportedOperationException("No database support (yet).");
+            DatabaseManager.createDatabaseWithResources(databasePropertiesFilename);
+            authDAO = new SQLAuthDataStore(DatabaseManager::getConnection);
+            gameDAO = new SQLGameDataStore(DatabaseManager::getConnection);
+            userDAO = new SQLUserDataStore(DatabaseManager::getConnection);
         }
         AuthService authService = new AuthService(authDAO);
         this.gameHandler = createGameHandler(gameDAO, authService);
