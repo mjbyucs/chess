@@ -13,19 +13,27 @@ public class SQLAuthDataStore implements AuthDAO {
     private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS "+ TABLE_NAME + " (" +
             "id INT NOT NULL AUTO_INCREMENT, " +
             "authToken VARCHAR(64) NOT NULL, " +
-            "username VARCHAR(64) NOT NULL, " +
+            "userId INT NOT NULL, " +
             "PRIMARY KEY(id)," +
-            "INDEX(authToken) " +
+            "INDEX(authToken), " +
+            "CONSTRAINT fk_authorization_user" +
+            "        FOREIGN KEY (userId)" +
+            "        REFERENCES " + SQLUserDataStore.TABLE_NAME + "(id)" +
+            "        ON DELETE CASCADE" +
             ");";
-    private static final String INSERT_AUTH_DATA = "INSERT INTO " + TABLE_NAME + " (authToken, username) VALUES (?, ?);";
-    private static final String QUERY_FOR_USERNAME = "SELECT username FROM " + TABLE_NAME + " WHERE authToken = ?;";
-    private static final String DELETE_AUTH_DATA = "DELETE FROM " + TABLE_NAME + " WHERE authToken = ? AND username = ?;";
+    private static final String INSERT_AUTH_DATA = "INSERT INTO " + TABLE_NAME + " (authToken, userId) VALUES (?, ?);";
+    private static final String QUERY_FOR_USERNAME = "SELECT u.username FROM " + TABLE_NAME + " a " +
+            "JOIN " + SQLUserDataStore.TABLE_NAME + " u ON a.userId = u.id " +
+            "WHERE authToken = ?;";
+    private static final String DELETE_AUTH_DATA = "DELETE FROM " + TABLE_NAME + " WHERE authToken = ?;";
     private static final String EMPTY_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 
     private final Supplier<Connection> connectionProvider;
+    private final SQLUserDataStore userDataStore;
 
-    public SQLAuthDataStore(Supplier<Connection> connectionProvider) {
+    public SQLAuthDataStore(Supplier<Connection> connectionProvider, SQLUserDataStore userDataStore) {
         this.connectionProvider = connectionProvider;
+        this.userDataStore = userDataStore;
         createTable();
     }
 
@@ -40,10 +48,11 @@ public class SQLAuthDataStore implements AuthDAO {
 
     @Override
     public void addAuthData(AuthData authData) {
+        int userId = userDataStore.getIdForUsername(authData.username());
         try (var conn = connectionProvider.get();
              var preparedStatement = conn.prepareStatement(INSERT_AUTH_DATA)) {
             preparedStatement.setString(1, authData.authToken());
-            preparedStatement.setString(2, authData.username());
+            preparedStatement.setInt(2, userId);
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             throw new DataAccessException("failed to add authorization data", ex);
@@ -74,7 +83,6 @@ public class SQLAuthDataStore implements AuthDAO {
         try (var conn = connectionProvider.get();
              var preparedStatement = conn.prepareStatement(DELETE_AUTH_DATA)) {
             preparedStatement.setString(1, authData.authToken());
-            preparedStatement.setString(2, authData.username());
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             throw new DataAccessException("failed to delete authorization data for authToken: " + authData.authToken(), ex);

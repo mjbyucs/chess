@@ -4,6 +4,7 @@ import dataaccess.AlreadyTakenException;
 import dataaccess.UnauthorizedException;
 import dataaccess.UserDAO;
 import model.*;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class UserService {
     private static final String VALID_USERNAME_PATTERN = "^[A-Za-z0-9_]{1,32}$";
@@ -29,7 +30,8 @@ public class UserService {
         if (userData != null) {
             throw new AlreadyTakenException();
         }
-        userData = new UserData(registerRequest.username(), registerRequest.password(), registerRequest.email());
+        String passwordHash = BCrypt.hashpw(registerRequest.password(), BCrypt.gensalt());
+        userData = new UserData(registerRequest.username(), passwordHash, registerRequest.email());
         userDAO.addUserData(userData);
         AuthData authData = authService.createAuth(registerRequest.username());
         return new AuthorizedUserResult(authData.username(), authData.authToken());
@@ -48,7 +50,7 @@ public class UserService {
         }
 
         UserData userData = userDAO.getUserData(loginRequest.username());
-        if (userData == null || !loginRequest.password().equals(userData.password())) {
+        if (userData == null || !BCrypt.checkpw(loginRequest.password(), userData.password())) {
             throw new UnauthorizedException();
         }
 

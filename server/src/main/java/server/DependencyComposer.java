@@ -42,9 +42,10 @@ public class DependencyComposer {
         }
         else {
             DatabaseManager.createDatabaseWithResources(databasePropertiesFilename);
-            authDAO = new SQLAuthDataStore(DatabaseManager::getConnection);
+            SQLUserDataStore userDataStore = new SQLUserDataStore(DatabaseManager::getConnection);
+            authDAO = new SQLAuthDataStore(DatabaseManager::getConnection, userDataStore);
             gameDAO = new SQLGameDataStore(DatabaseManager::getConnection);
-            userDAO = new SQLUserDataStore(DatabaseManager::getConnection);
+            userDAO = userDataStore;
         }
         AuthService authService = new AuthService(authDAO);
         this.gameHandler = createGameHandler(gameDAO, authService);
