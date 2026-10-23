@@ -36,7 +36,7 @@ public class DatabaseManager {
 
             getConnection().setCatalog(databaseName);
         } catch (SQLException ex) {
-            throw new DataAccessException("failed to create database", ex);
+            throw new DataAccessException("failed to create database: " + databaseName, ex);
         }
     }
 
