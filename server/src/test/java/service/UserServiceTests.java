@@ -1,6 +1,8 @@
 package service;
 
 import dataaccess.*;
+import dataaccess.memory.MemoryAuthDataStore;
+import dataaccess.memory.MemoryUserDataStore;
 import model.AuthorizationRequest;
 import model.AuthorizedUserResult;
 import model.LoginRequest;

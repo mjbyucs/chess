@@ -1,5 +1,7 @@
-package dataaccess;
+package dataaccess.memory;
 
+import dataaccess.AlreadyTakenException;
+import dataaccess.GameDAO;
 import model.GameData;
 
 import java.util.ArrayList;

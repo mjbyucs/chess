@@ -1,5 +1,6 @@
 package dataaccess;
 
+import dataaccess.memory.MemoryUserDataStore;
 import model.UserData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
