@@ -1,6 +1,5 @@
 package dataaccess;
 
-import dataaccess.memory.MemoryAuthDataStore;
 import model.AuthData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
