@@ -18,9 +18,10 @@ import java.util.List;
 import java.util.function.Supplier;
 
 @SuppressWarnings("SqlResolve")
-public class SQLGameDataStore implements GameDAO {
+public class SQLGameDataStore extends AbstractSQLDataStore implements GameDAO {
     private static final String TABLE_NAME = "game";
-    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS "+ TABLE_NAME + " (" +
+    private static final String CREATE_GAME_TABLE =
+            "CREATE TABLE IF NOT EXISTS "+ TABLE_NAME + " (" +
             "id INT NOT NULL AUTO_INCREMENT, " +
             "gameName VARCHAR(64) NOT NULL, " +
             "whiteUserId INT NULL, " +
@@ -37,46 +38,50 @@ public class SQLGameDataStore implements GameDAO {
             "        REFERENCES " + SQLUserDataStore.TABLE_NAME + "(id)" +
             "        ON DELETE CASCADE" +
             ");";
-    private static final String INSERT_GAME_DATA = "INSERT INTO " + TABLE_NAME + " " +
+    private static final String INSERT_GAME_DATA =
+            "INSERT INTO " + TABLE_NAME + " " +
             "(gameName, gameState) VALUES (?, ?);";
     private static final String UPDATE_PLAYER_DATA = "UPDATE " + TABLE_NAME + " " +
             "SET %s = ? WHERE id = ?";
-    private static final String QUERY_BY_GAMEID = "SELECT g.id, g.gameName, w.username as whitePlayerName, b.username as blackPlayerName, g.gameState " +
+    private static final String QUERY_BY_GAMEID =
+            "SELECT g.id, g.gameName, w.username as whitePlayerName, b.username as blackPlayerName, g.gameState " +
             "FROM " + TABLE_NAME + " g " +
             "LEFT JOIN " + SQLUserDataStore.TABLE_NAME + " w ON g.whiteUserId = w.id " +
             "LEFT JOIN " + SQLUserDataStore.TABLE_NAME + " b ON g.blackUserId = b.id " +
             "WHERE g.id = ?;";
-    private static final String QUERY_BY_GAMENAME = "SELECT g.id, g.gameName, w.username as whitePlayerName, b.username as blackPlayerName, g.gameState " +
+    private static final String QUERY_BY_GAMENAME =
+            "SELECT g.id, g.gameName, w.username as whitePlayerName, b.username as blackPlayerName, g.gameState " +
             "FROM " + TABLE_NAME + " g " +
             "LEFT JOIN " + SQLUserDataStore.TABLE_NAME + " w ON g.whiteUserId = w.id " +
             "LEFT JOIN " + SQLUserDataStore.TABLE_NAME + " b ON g.blackUserId = b.id " +
             "WHERE g.gameName = ?;";
-    private static final String QUERY_ALL_GAMES = "SELECT g.id, g.gameName, w.username as whitePlayerName, b.username as blackPlayerName, g.gameState " +
+    private static final String QUERY_ALL_GAMES =
+            "SELECT g.id, g.gameName, w.username as whitePlayerName, b.username as blackPlayerName, g.gameState " +
             "FROM " + TABLE_NAME + " g " +
             "LEFT JOIN " + SQLUserDataStore.TABLE_NAME + " w ON g.whiteUserId = w.id " +
             "LEFT JOIN " + SQLUserDataStore.TABLE_NAME + " b ON g.blackUserId = b.id " +
             ";";
-    private static final String DELETE_GAME_DATA = "DELETE FROM " + TABLE_NAME + " WHERE id = ?;";
+    private static final String DELETE_GAME_DATA =
+            "DELETE FROM " + TABLE_NAME + " WHERE id = ?;";
     @SuppressWarnings("SqlWithoutWhere")
     private static final String EMPTY_TABLE = "DELETE FROM " + TABLE_NAME + ";";
 
-    private final Supplier<Connection> connectionProvider;
     private final SQLUserDataStore userDataStore;
     private final Gson gson = new Gson();
 
     public SQLGameDataStore(Supplier<Connection> connectionProvider, SQLUserDataStore userDataStore) {
-        this.connectionProvider = connectionProvider;
+        super(connectionProvider);
         this.userDataStore = userDataStore;
-        createTable();
     }
 
-    private void createTable() {
-        try (var conn = connectionProvider.get();
-             var preparedStatement = conn.prepareStatement(CREATE_TABLE)) {
-            preparedStatement.executeUpdate();
-        } catch (SQLException ex) {
-            throw new DataAccessException("failed to create database", ex);
-        }
+    @Override
+    protected String getCreateTableSql() {
+        return CREATE_GAME_TABLE;
+    }
+
+    @Override
+    protected String getClearTableSql() {
+        return EMPTY_TABLE;
     }
 
     @Override
@@ -203,15 +208,4 @@ public class SQLGameDataStore implements GameDAO {
             throw new DataAccessException("failed to delete game " + gameID, ex);
         }
     }
-
-    @Override
-    public void clearDatabase() {
-        try (var conn = connectionProvider.get();
-             var preparedStatement = conn.prepareStatement(EMPTY_TABLE)) {
-            preparedStatement.executeUpdate();
-        } catch (SQLException ex) {
-            throw new DataAccessException("failed to empty game table", ex);
-        }
-    }
-
 }

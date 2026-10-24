@@ -8,9 +8,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.function.Supplier;
 
-public class SQLUserDataStore implements UserDAO {
+public class SQLUserDataStore extends AbstractSQLDataStore implements UserDAO {
     static final String TABLE_NAME = "user";
-    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS "+ TABLE_NAME + " (" +
+    private static final String CREATE_USER_TABLE =
+            "CREATE TABLE IF NOT EXISTS "+ TABLE_NAME + " (" +
             "id INT NOT NULL AUTO_INCREMENT, " +
             "username VARCHAR(64) NOT NULL, " +
             "password VARCHAR(64) NOT NULL, " +
@@ -18,27 +19,30 @@ public class SQLUserDataStore implements UserDAO {
             "PRIMARY KEY(id)," +
             "INDEX(username) " +
             ");";
-    private static final String INSERT_USER_DATA = "INSERT INTO " + TABLE_NAME + " (username, password, email) VALUES (?, ?, ?);";
-    private static final String QUERY_FOR_USERNAME = "SELECT * FROM " + TABLE_NAME + " WHERE username = ?;";
-    private static final String QUERY_FOR_USERNAME_FOR_ID = "SELECT id FROM " + TABLE_NAME + " WHERE username = ?;";
-    private static final String DELETE_AUTH_DATA = "DELETE FROM " + TABLE_NAME + " WHERE username = ?;";
+    private static final String INSERT_USER_DATA =
+            "INSERT INTO " + TABLE_NAME + " (username, password, email) VALUES (?, ?, ?);";
+    private static final String QUERY_FOR_USERNAME =
+            "SELECT * FROM " + TABLE_NAME + " WHERE username = ?;";
+    private static final String QUERY_FOR_USERNAME_FOR_ID =
+            "SELECT id FROM " + TABLE_NAME + " WHERE username = ?;";
+    private static final String DELETE_AUTH_DATA =
+            "DELETE FROM " + TABLE_NAME + " WHERE username = ?;";
     @SuppressWarnings("SqlWithoutWhere")
     private static final String EMPTY_TABLE = "DELETE FROM " + TABLE_NAME + ";";
 
-    private final Supplier<Connection> connectionProvider;
 
-    public SQLUserDataStore(Supplier<Connection> connectionProvider) {
-        this.connectionProvider = connectionProvider;
-        createTable();
+    @Override
+    protected String getCreateTableSql() {
+        return CREATE_USER_TABLE;
     }
 
-    private void createTable() {
-        try (var conn = connectionProvider.get();
-             var preparedStatement = conn.prepareStatement(CREATE_TABLE)) {
-            preparedStatement.executeUpdate();
-        } catch (SQLException ex) {
-            throw new DataAccessException("failed to create database", ex);
-        }
+    @Override
+    protected String getClearTableSql() {
+        return EMPTY_TABLE;
+    }
+
+    public SQLUserDataStore(Supplier<Connection> connectionProvider) {
+        super(connectionProvider);
     }
 
     @Override
@@ -100,16 +104,6 @@ public class SQLUserDataStore implements UserDAO {
             preparedStatement.executeUpdate();
         } catch (SQLException ex) {
             throw new DataAccessException("failed to delete user data for user: " + userData.username(), ex);
-        }
-    }
-
-    @Override
-    public void clearDatabase() {
-        try (var conn = connectionProvider.get();
-             var preparedStatement = conn.prepareStatement(EMPTY_TABLE)) {
-            preparedStatement.executeUpdate();
-        } catch (SQLException ex) {
-            throw new DataAccessException("failed to empty user table", ex);
         }
     }
 }

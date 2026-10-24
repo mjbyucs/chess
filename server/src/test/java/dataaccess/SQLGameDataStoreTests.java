@@ -94,4 +94,13 @@ public class SQLGameDataStoreTests extends AbstractGameDataStoreTests {
                 () -> gameDAO.deleteGame(gameId)
         );
     }
+
+    @Test
+    void sqlExceptionOnClearDatabase() {
+        sqlTestHelper.enableConnectionFailures();
+        Assertions.assertThrows(
+                DataAccessException.class,
+                () -> gameDAO.clearDatabase()
+        );
+    }
 }

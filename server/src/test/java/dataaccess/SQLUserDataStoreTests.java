@@ -71,4 +71,13 @@ public class SQLUserDataStoreTests extends AbstractUserDataStoreTests {
                 () -> userDAO.deleteUserData(defaultUser)
         );
     }
+
+    @Test
+    void sqlExceptionOnClearDatabase() {
+        sqlTestHelper.enableConnectionFailures();
+        Assertions.assertThrows(
+                DataAccessException.class,
+                () -> userDataStore.clearDatabase()
+        );
+    }
 }

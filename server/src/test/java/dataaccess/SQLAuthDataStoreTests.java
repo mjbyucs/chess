@@ -68,4 +68,13 @@ public class SQLAuthDataStoreTests extends AbstractAuthDataStoreTests {
                 () -> authDAO.deleteAuthData(defaultAuth)
         );
     }
+
+    @Test
+    void sqlExceptionOnClearDatabase() {
+        sqlTestHelper.enableConnectionFailures();
+        Assertions.assertThrows(
+                DataAccessException.class,
+                () -> authDAO.clearDatabase()
+        );
+    }
 }

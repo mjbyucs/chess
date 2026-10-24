@@ -8,9 +8,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.function.Supplier;
 
-public class SQLAuthDataStore implements AuthDAO {
+public class SQLAuthDataStore extends AbstractSQLDataStore implements AuthDAO {
     private static final String TABLE_NAME = "authorization";
-    private static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS "+ TABLE_NAME + " (" +
+    private static final String CREATE_AUTH_TABLE =
+            "CREATE TABLE IF NOT EXISTS "+ TABLE_NAME + " (" +
             "id INT NOT NULL AUTO_INCREMENT, " +
             "authToken VARCHAR(64) NOT NULL, " +
             "userId INT NOT NULL, " +
@@ -21,30 +22,32 @@ public class SQLAuthDataStore implements AuthDAO {
             "        REFERENCES " + SQLUserDataStore.TABLE_NAME + "(id)" +
             "        ON DELETE CASCADE" +
             ");";
-    private static final String INSERT_AUTH_DATA = "INSERT INTO " + TABLE_NAME + " (authToken, userId) VALUES (?, ?);";
-    private static final String QUERY_FOR_USERNAME = "SELECT u.username FROM " + TABLE_NAME + " a " +
+    private static final String INSERT_AUTH_DATA =
+            "INSERT INTO " + TABLE_NAME + " (authToken, userId) VALUES (?, ?);";
+    private static final String QUERY_FOR_USERNAME =
+            "SELECT u.username FROM " + TABLE_NAME + " a " +
             "JOIN " + SQLUserDataStore.TABLE_NAME + " u ON a.userId = u.id " +
             "WHERE authToken = ?;";
-    private static final String DELETE_AUTH_DATA = "DELETE FROM " + TABLE_NAME + " WHERE authToken = ?;";
+    private static final String DELETE_AUTH_DATA =
+            "DELETE FROM " + TABLE_NAME + " WHERE authToken = ?;";
     @SuppressWarnings("SqlWithoutWhere")
     private static final String EMPTY_TABLE = "DELETE FROM " + TABLE_NAME + ";";
 
-    private final Supplier<Connection> connectionProvider;
     private final SQLUserDataStore userDataStore;
 
     public SQLAuthDataStore(Supplier<Connection> connectionProvider, SQLUserDataStore userDataStore) {
-        this.connectionProvider = connectionProvider;
+        super(connectionProvider);
         this.userDataStore = userDataStore;
-        createTable();
     }
 
-    private void createTable() {
-        try (var conn = connectionProvider.get();
-             var preparedStatement = conn.prepareStatement(CREATE_TABLE)) {
-            preparedStatement.executeUpdate();
-        } catch (SQLException ex) {
-            throw new DataAccessException("failed to create database", ex);
-        }
+    @Override
+    protected String getCreateTableSql() {
+        return CREATE_AUTH_TABLE;
+    }
+
+    @Override
+    protected String getClearTableSql() {
+        return EMPTY_TABLE;
     }
 
     @Override
@@ -89,15 +92,4 @@ public class SQLAuthDataStore implements AuthDAO {
             throw new DataAccessException("failed to delete authorization data for authToken: " + authData.authToken(), ex);
         }
     }
-
-    @Override
-    public void clearDatabase() {
-        try (var conn = connectionProvider.get();
-             var preparedStatement = conn.prepareStatement(EMPTY_TABLE)) {
-            preparedStatement.executeUpdate();
-        } catch (SQLException ex) {
-            throw new DataAccessException("failed to empty authorization table", ex);
-        }
-    }
-
 }
