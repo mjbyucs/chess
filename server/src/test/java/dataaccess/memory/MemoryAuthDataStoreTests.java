@@ -1,6 +1,7 @@
-package dataaccess;
+package dataaccess.memory;
 
-import dataaccess.memory.MemoryAuthDataStore;
+import dataaccess.AbstractAuthDataStoreTests;
+import dataaccess.AuthDAO;
 
 
 public class MemoryAuthDataStoreTests extends AbstractAuthDataStoreTests {

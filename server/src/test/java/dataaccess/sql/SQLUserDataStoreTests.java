@@ -1,6 +1,9 @@
-package dataaccess;
+package dataaccess.sql;
 
-import dataaccess.sql.SQLUserDataStore;
+import dataaccess.AbstractUserDataStoreTests;
+import dataaccess.DataAccessException;
+import dataaccess.DatabaseManager;
+import dataaccess.UserDAO;
 import model.UserData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

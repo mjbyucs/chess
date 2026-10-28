@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-abstract class AbstractGameDataStoreTests {
+abstract public class AbstractGameDataStoreTests {
     protected static final String DEFAULT_GAME_NAME = "theGame";
     protected static final String DEFAULT_USER_NAME = "theUser";
     protected GameDAO gameDAO;

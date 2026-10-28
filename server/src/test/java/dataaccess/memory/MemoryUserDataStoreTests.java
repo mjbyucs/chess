@@ -1,6 +1,7 @@
-package dataaccess;
+package dataaccess.memory;
 
-import dataaccess.memory.MemoryUserDataStore;
+import dataaccess.AbstractUserDataStoreTests;
+import dataaccess.UserDAO;
 
 
 public class MemoryUserDataStoreTests extends AbstractUserDataStoreTests {

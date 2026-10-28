@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-abstract class AbstractAuthDataStoreTests {
+abstract public class AbstractAuthDataStoreTests {
 
     private static final String DEFAULT_AUTH_TOKEN = "some_auth";
     protected AuthDAO authDAO;

@@ -1,7 +1,6 @@
-package dataaccess;
+package dataaccess.sql;
 
-import dataaccess.sql.SQLAuthDataStore;
-import dataaccess.sql.SQLUserDataStore;
+import dataaccess.*;
 import model.AuthData;
 import model.UserData;
 import org.junit.jupiter.api.Assertions;

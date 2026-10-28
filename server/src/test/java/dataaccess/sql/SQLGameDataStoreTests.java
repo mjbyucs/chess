@@ -1,8 +1,7 @@
-package dataaccess;
+package dataaccess.sql;
 
 import chess.ChessGame;
-import dataaccess.sql.SQLGameDataStore;
-import dataaccess.sql.SQLUserDataStore;
+import dataaccess.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
