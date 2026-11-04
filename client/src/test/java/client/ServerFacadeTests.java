@@ -1,10 +1,15 @@
 package client;
 
+import chess.ChessGame;
 import model.AuthData;
+import model.GameList;
 import model.UserData;
 import org.junit.jupiter.api.*;
 import server.DependencyComposer;
 import server.Server;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class ServerFacadeTests {
@@ -118,9 +123,129 @@ public class ServerFacadeTests {
         Assertions.assertEquals("Error: unauthorized", exception.getMessage());
     }
 
-//    @Test
-//    public void logoutSuccessful() {
-//        AuthData authData = facade.loginUser(userData);
-//        Assertions.assertEquals(userData.username(), authData.username());
-//    }
+    @Test
+    public void createGame() throws ResponseException {
+        AuthData authData = facade.registerUser(userData);
+        Integer gameId = facade.createGame(authData, "game1");
+        Assertions.assertNotNull(gameId);
+        Assertions.assertTrue(gameId > 0);
+    }
+
+    @Test
+    public void gameNameInvalid() throws ResponseException {
+        AuthData authData = facade.registerUser(userData);
+        ResponseException exception = Assertions.assertThrows(
+                ResponseException.class,
+                () -> facade.createGame(authData, "")
+        );
+        Assertions.assertEquals(ResponseException.Code.ClientError, exception.code());
+        Assertions.assertEquals("Error: bad request", exception.getMessage());
+    }
+
+    @Test
+    public void duplicateGame() throws ResponseException {
+        AuthData authData = facade.registerUser(userData);
+        facade.createGame(authData, "game1");
+        ResponseException exception = Assertions.assertThrows(
+                ResponseException.class,
+                () -> facade.createGame(authData, "game1")
+        );
+        Assertions.assertEquals(ResponseException.Code.ClientError, exception.code());
+        Assertions.assertEquals("Error: already taken", exception.getMessage());
+    }
+
+    @Test
+    public void unauthorizedGameCreation() throws ResponseException {
+        AuthData authData = new AuthData("a token", USER_NAME);
+        ResponseException exception = Assertions.assertThrows(
+                ResponseException.class,
+                () -> facade.createGame(authData, "")
+        );
+        Assertions.assertEquals(ResponseException.Code.ClientError, exception.code());
+        Assertions.assertEquals("Error: unauthorized", exception.getMessage());
+    }
+
+    @Test
+    public void joinGame() throws ResponseException {
+        AuthData authData = facade.registerUser(userData);
+        Integer gameId = facade.createGame(authData, "game1");
+        Assertions.assertDoesNotThrow(
+                () -> facade.joinGame(authData, ChessGame.TeamColor.WHITE.name(), gameId)
+        );
+    }
+
+    @Test
+    public void joinGameUnauthorizedPlayer() throws ResponseException {
+        AuthData authData = facade.registerUser(userData);
+        Integer gameId = facade.createGame(authData, "game1");
+        ResponseException exception = Assertions.assertThrows(
+                ResponseException.class,
+                () -> facade.joinGame(new AuthData("noauth", ""),
+                        ChessGame.TeamColor.WHITE.name(), gameId)
+        );
+        Assertions.assertEquals(ResponseException.Code.ClientError, exception.code());
+        Assertions.assertEquals("Error: unauthorized", exception.getMessage());
+    }
+
+    @Test
+    public void joinGameDuplicatePlayer() throws ResponseException {
+        AuthData authData = facade.registerUser(userData);
+        Integer gameId = facade.createGame(authData, "game1");
+        facade.joinGame(authData, ChessGame.TeamColor.WHITE.name(), gameId);
+        ResponseException exception = Assertions.assertThrows(
+                ResponseException.class,
+                () -> facade.joinGame(authData, ChessGame.TeamColor.WHITE.name(), gameId)
+        );
+        Assertions.assertEquals(ResponseException.Code.ClientError, exception.code());
+        Assertions.assertEquals("Error: already taken", exception.getMessage());
+    }
+
+    @Test
+    public void joinInvalidGame() throws ResponseException {
+        AuthData authData = facade.registerUser(userData);
+        ResponseException exception = Assertions.assertThrows(
+                ResponseException.class,
+                () -> facade.joinGame(authData, ChessGame.TeamColor.WHITE.name(), 1)
+        );
+        Assertions.assertEquals(ResponseException.Code.ClientError, exception.code());
+        Assertions.assertEquals("Error: bad request", exception.getMessage());
+    }
+
+    @Test
+    public void listGames() throws ResponseException {
+        AuthData authData = facade.registerUser(userData);
+        Map<Integer, String> gameMap = new HashMap<>();
+        for (int i = 0; i < 3; i++) {
+            Integer gameID = facade.createGame(authData, "game" + i);
+            gameMap.put(gameID, "game" + i);
+        }
+        GameList gameList = facade.listGames(authData);
+        Assertions.assertEquals(3, gameList.size());
+        for (model.GameData gameData : gameList) {
+            Assertions.assertTrue(gameMap.containsKey(gameData.gameID()));
+            Assertions.assertEquals(gameMap.get(gameData.gameID()), gameData.gameName());
+            Assertions.assertNull(gameData.whiteUsername());
+            Assertions.assertNull(gameData.blackUsername());
+        }
+
+        AuthData anotherUser = facade.registerUser(new UserData("Mary", "mj", "mj@byu.edu"));
+        facade.joinGame(anotherUser, ChessGame.TeamColor.WHITE.name(), gameList.getFirst().gameID());
+        facade.joinGame(authData, ChessGame.TeamColor.BLACK.name(), gameList.getFirst().gameID());
+
+        gameList = facade.listGames(authData);
+        Assertions.assertEquals("Mary", gameList.getFirst().whiteUsername());
+        Assertions.assertEquals(USER_NAME, gameList.getFirst().blackUsername());
+    }
+
+
+    @Test
+    public void listGamesUnauthorized() throws ResponseException {
+        ResponseException exception = Assertions.assertThrows(
+                ResponseException.class,
+                () -> facade.listGames(new AuthData("noauth", ""))
+        );
+        Assertions.assertEquals(ResponseException.Code.ClientError, exception.code());
+        Assertions.assertEquals("Error: unauthorized", exception.getMessage());
+    }
+
 }

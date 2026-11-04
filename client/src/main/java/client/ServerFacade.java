@@ -1,8 +1,7 @@
 package client;
 
 import com.google.gson.Gson;
-import model.AuthData;
-import model.UserData;
+import model.*;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -20,6 +19,10 @@ public class ServerFacade {
     private final HttpClient client;
     private final String serverUrl;
 
+    private record GameCreatedData(int gameID) {}
+    private record GameListResponse(GameList games) {}
+
+
     public ServerFacade(int port) {
         this(DEFAULT_SERVER_URL, port);
     }
@@ -33,38 +36,49 @@ public class ServerFacade {
 
     public AuthData registerUser(UserData userData) throws ResponseException {
         // .post("/user", userHandler::handleRegistration)
-        var request = buildRequest("POST", USER_ENDPOINT, null, userData);
+        RegisterRequest registerRequest = new RegisterRequest(userData.username(), userData.password(), userData.email());
+        var request = buildRequest("POST", USER_ENDPOINT, null, registerRequest);
         return sendRequest(request, AuthData.class);
     }
 
     public AuthData loginUser(UserData userData) throws ResponseException {
         // .post("/session", userHandler::handleLogin)
-        var request = buildRequest("POST", SESSION_ENDPOINT, null, userData);
+        LoginRequest loginRequest = new LoginRequest(userData.username(), userData.password());
+        var request = buildRequest("POST", SESSION_ENDPOINT, null, loginRequest);
         return sendRequest(request, AuthData.class);
     }
 
     public void logoutUser(AuthData authData) throws ResponseException {
         // .delete("/session", userHandler::handleLogout)
         var request = buildRequest("DELETE", SESSION_ENDPOINT, authData, null);
-        sendRequest(request, AuthData.class);
+        sendRequest(request, null);
     }
 
-    public void listGames(AuthData authData) {
+    public GameList listGames(AuthData authData) throws ResponseException {
         // .get("/game", gameHandler::handleListGames)
+        var request = buildRequest("GET", GAME_ENDPOINT, authData, null);
+        GameListResponse response = sendRequest(request, GameListResponse.class);
+        return response != null ? response.games() : null;
     }
 
-    public void createGame(AuthData authData, String gameName) {
+    public Integer createGame(AuthData authData, String gameName) throws ResponseException {
         // .post("/game", gameHandler::handleCreateGame)
+        var request = buildRequest("POST", GAME_ENDPOINT, authData, new CreateGameRequest(gameName));
+        GameCreatedData gameCreatedData = sendRequest(request, GameCreatedData.class);
+        return gameCreatedData != null ? gameCreatedData.gameID() : null;
     }
 
-    public void joinGame(AuthData authData, String playerColor, int gameId) {
+    public void joinGame(AuthData authData, String playerColor, int gameId) throws ResponseException {
         // .put("/game", gameHandler::handleJoinGame)
+        JoinGameRequest joinGameRequest = new JoinGameRequest(playerColor, gameId);
+        var request = buildRequest("PUT", GAME_ENDPOINT, authData, joinGameRequest);
+        sendRequest(request, null);
     }
 
     public void deleteDatabase() throws ResponseException {
         // .delete("/db", dataStoreHandler::handleDeleteDatabase)
         var request = buildRequest("DELETE", DATABASE_ENDPOINT, null, null);
-        sendRequest(request, AuthData.class);
+        sendRequest(request, null);
     }
 
     private HttpRequest buildRequest(String method, String path, AuthData authData, Object body) {
