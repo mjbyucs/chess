@@ -155,7 +155,7 @@ public class ServerFacadeTests {
     }
 
     @Test
-    public void unauthorizedGameCreation() throws ResponseException {
+    public void unauthorizedGameCreation() {
         AuthData authData = new AuthData("a token", USER_NAME);
         ResponseException exception = Assertions.assertThrows(
                 ResponseException.class,
@@ -239,7 +239,7 @@ public class ServerFacadeTests {
 
 
     @Test
-    public void listGamesUnauthorized() throws ResponseException {
+    public void listGamesUnauthorized() {
         ResponseException exception = Assertions.assertThrows(
                 ResponseException.class,
                 () -> facade.listGames(new AuthData("noauth", ""))
