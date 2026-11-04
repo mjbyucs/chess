@@ -3,6 +3,7 @@ package client;
 import model.AuthData;
 import model.UserData;
 import org.junit.jupiter.api.*;
+import server.DependencyComposer;
 import server.Server;
 
 
@@ -17,7 +18,9 @@ public class ServerFacadeTests {
 
     @BeforeAll
     public static void init() {
-        server = new Server();
+        DependencyComposer dependencyComposer = new DependencyComposer(DependencyComposer.StorageType.MEMORY,
+                null);
+        server = new Server(dependencyComposer);
         var port = server.run(0);
         facade = new ServerFacade(port);
         userData = new UserData(USER_NAME, PASSWORD, EMAIL);
