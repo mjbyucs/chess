@@ -6,10 +6,7 @@ import com.google.gson.JsonSyntaxException;
 import dataaccess.AlreadyTakenException;
 import dataaccess.UnauthorizedException;
 import io.javalin.http.Context;
-import model.AuthorizationRequest;
-import model.CreateGameRequest;
-import model.GameData;
-import model.JoinGameRequest;
+import model.*;
 import org.jetbrains.annotations.NotNull;
 import service.GameService;
 
@@ -56,7 +53,7 @@ public class GameHandler {
 
     public void handleListGames(@NotNull Context context) throws UnauthorizedException {
         AuthorizationRequest authorizationRequest = new AuthorizationRequest(context.header("Authorization"));
-        List<GameData> gameList = gameService.listGames(authorizationRequest);
+        GameList gameList = gameService.listGames(authorizationRequest);
         List<GameListEntry> gameEntries = gameList.stream().map(this::translateGameData).toList();
         sendJsonResults(context, Map.of("games", gameEntries));
     }

@@ -2,9 +2,8 @@ package dataaccess;
 
 import chess.ChessGame;
 import model.GameData;
+import model.GameList;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 public interface GameDAO {
 
@@ -16,7 +15,7 @@ public interface GameDAO {
 
     void updatePlayerNames(int gameID, String whitePlayerName, String blackPlayerName);
 
-    List<GameData> getAllGames();
+    GameList getAllGames();
 
     void deleteGame(int gameID);
 

@@ -6,6 +6,7 @@ import dataaccess.AlreadyTakenException;
 import dataaccess.DataAccessException;
 import dataaccess.GameDAO;
 import model.GameData;
+import model.GameList;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,8 +14,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Supplier;
 
 @SuppressWarnings("SqlResolve")
@@ -182,8 +181,8 @@ public class SQLGameDataStore extends AbstractSQLDataStore implements GameDAO {
     }
 
     @Override
-    public List<GameData> getAllGames() {
-        List<GameData> allGames = new ArrayList<>();
+    public GameList getAllGames() {
+        GameList allGames = new GameList();
         try (var conn = connectionProvider.get();
              var preparedStatement = conn.prepareStatement(QUERY_ALL_GAMES)) {
             try (var rs = preparedStatement.executeQuery()) {

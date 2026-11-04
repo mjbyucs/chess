@@ -7,8 +7,8 @@ import dataaccess.UnauthorizedException;
 import model.AuthData;
 import model.AuthorizationRequest;
 import model.GameData;
+import model.GameList;
 
-import java.util.List;
 
 public class GameService {
     private final Object lock = new Object();
@@ -69,7 +69,7 @@ public class GameService {
         }
     }
 
-    public List<GameData> listGames(AuthorizationRequest authorizationRequest) throws UnauthorizedException {
+    public GameList listGames(AuthorizationRequest authorizationRequest) throws UnauthorizedException {
         AuthData authData = authService.getAuthData(authorizationRequest.authToken());
         if (authData == null) {
             throw new UnauthorizedException();
