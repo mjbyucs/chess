@@ -1,6 +1,7 @@
 package client;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
 import model.*;
 
 import java.net.ConnectException;
@@ -108,28 +109,49 @@ public class ServerFacade {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (ConnectException connEx) {
-            String errorMsg = connEx.getMessage() == null ? "Server connection error" : connEx.getMessage();
-            throw new ResponseException(ResponseException.Code.ServerError, errorMsg);
+            throw new ResponseException(ResponseException.Code.ServerError, "Unable to connect to the server");
         } catch (Exception ex) {
-            throw new ResponseException(ResponseException.Code.ServerError, ex.getMessage());
+            throw new ResponseException(ResponseException.Code.ServerError, "The server request could not be completed");
         }
         var status = response.statusCode();
         if (!isSuccessful(status)) {
             throw new ResponseException(status, getErrorMessage(response.body(), status));
         }
-
-        return responseClass == null ? null : new Gson().fromJson(response.body(), responseClass);
+        if (responseClass == null) {
+            return null;
+        }
+        try {
+            return new Gson().fromJson(response.body(), responseClass);
+        }
+        catch (JsonParseException jpex) {
+            throw new ResponseException(status, "Malformed response from the server.");
+        }
     }
 
     private String getErrorMessage(String json, int status) {
-        if (json == null || json.isBlank()) {
-            return "other failure: " + status;
+        if (json == null || json.isBlank() || (status >= 500 && status < 600)) {
+            return fallbackErrorMessage(status);
         }
-        else {
+        try {
             var map = new Gson().fromJson(json, HashMap.class);
-            return map.get("message").toString();
+            Object message = map == null ? null : map.get("message");
+            return message == null ? fallbackErrorMessage(status) : message.toString();
+        }
+        catch (RuntimeException ex) {
+            return fallbackErrorMessage(status);
         }
     }
+
+    private String fallbackErrorMessage(int status) {
+        return switch (status) {
+            case 400 -> "The request was invalid.";
+            case 401 -> "You must be logged in.";
+            case 403 -> "That action is not allowed.";
+            case 500 -> "The server could not complete the request.";
+            default -> "The request failed.";
+        };
+    }
+
 
     private boolean isSuccessful(int status) {
         return status / 100 == 2;
