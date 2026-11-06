@@ -10,14 +10,19 @@ public class SessionState {
 
     private UserStatus userStatus;
     private AuthData authData;
-    private GameData gameData;
-    ChessGame.TeamColor perspective = ChessGame.TeamColor.WHITE;
+    private int serverGameId = -1;
+    ChessGame.TeamColor perspective;
+    GameList gameList = new GameList();
+
+    public SessionState() {
+        signOut();      // initial state
+    }
 
     public boolean isUserLoggedIn() {
         return userStatus == UserStatus.SIGNED_IN;
     }
 
-    public void setUserStatus(UserStatus userStatus) {
+    private void setUserStatus(UserStatus userStatus) {
         this.userStatus = userStatus;
     }
 
@@ -25,24 +30,51 @@ public class SessionState {
         return authData;
     }
 
-    public void setAuthData(AuthData authData) {
+    public void signIn(AuthData authData) {
         this.authData = authData;
         setUserStatus(UserStatus.SIGNED_IN);
     }
 
-    public GameData getGameData() {
-        return gameData;
+    public void signOut() {
+        this.authData = null;
+        this.serverGameId = -1;
+        this.perspective = null;
+        setUserStatus(UserStatus.SIGNED_OUT);
     }
 
-    public void setGameData(GameData gameData) {
-        this.gameData = gameData;
+    public GameData getGameData() {
+        int gameId = mapServerGameIdToLocalId(serverGameId);
+        return gameId >= 0 ? gameList.get(gameId) : null;
+    }
+
+    public void registerGameIdAndPerspective(int serverGameId, ChessGame.TeamColor perspective) {
+        this.serverGameId = serverGameId;
+        this.perspective = perspective;
+    }
+
+    public int getLocalGameNumber() {
+        return mapServerGameIdToLocalId(serverGameId);
     }
 
     public ChessGame.TeamColor getPerspective() {
         return perspective;
     }
 
-    public void setPerspective(ChessGame.TeamColor perspective) {
-        this.perspective = perspective;
+    public void setGameList(GameList gameList) {
+        this.gameList = gameList;
     }
+
+    public int mapServerGameIdToLocalId(Integer serverGameId) {
+        for (int i = 0; i < gameList.size(); i++) {
+            if (serverGameId == gameList.get(i).gameID()) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public Integer mapLocalGameIdToServerId(int gameId) {
+        return gameId >= 0 && gameId < gameList.size() ? gameList.get(gameId).gameID() : null;
+    }
+
 }
