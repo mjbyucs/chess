@@ -108,7 +108,7 @@ public class ServerFacade {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (ConnectException connEx) {
-            String errorMsg = connEx.getMessage() == null ? "Connection error" : connEx.getMessage();
+            String errorMsg = connEx.getMessage() == null ? "Server connection error" : connEx.getMessage();
             throw new ResponseException(ResponseException.Code.ServerError, errorMsg);
         } catch (Exception ex) {
             throw new ResponseException(ResponseException.Code.ServerError, ex.getMessage());
