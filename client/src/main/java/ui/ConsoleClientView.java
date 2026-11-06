@@ -2,6 +2,7 @@ package ui;
 
 import chess.ChessGame;
 import model.GameData;
+import model.GameList;
 
 import java.util.Scanner;
 
@@ -73,7 +74,25 @@ public class ConsoleClientView implements ClientView {
     }
 
     @Override
-    public void displayChessBoard(GameData gameData, ChessGame.TeamColor perspective) {
-        boardRenderer.renderChessBoard(gameData, perspective);
+    public void displayChessBoard(GameData gameData, ChessGame.TeamColor perspective, int gameId) {
+        boardRenderer.renderChessBoard(gameData, perspective, gameId);
+    }
+
+    @Override
+    public void displayGameList(GameList games) {
+        if (games.isEmpty()) {
+            System.out.println("No games have been created yet.");
+        }
+        else {
+            for (int i = 0; i < games.size(); i++) {
+                GameData gameData = games.get(i);
+                System.out.printf("  %2d. %s\tWhite: %s\tBlack: %s\n", i + 1, gameData.gameName(),
+                        playerName(gameData.whiteUsername()), playerName(gameData.blackUsername()));
+            }
+        }
+    }
+
+    private String playerName(String playerName) {
+        return playerName == null ? "-" : playerName;
     }
 }
