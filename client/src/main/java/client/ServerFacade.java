@@ -3,6 +3,7 @@ package client;
 import com.google.gson.Gson;
 import model.*;
 
+import java.net.ConnectException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -106,6 +107,9 @@ public class ServerFacade {
         HttpResponse<String> response;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (ConnectException connEx) {
+            String errorMsg = connEx.getMessage() == null ? "Connection error" : connEx.getMessage();
+            throw new ResponseException(ResponseException.Code.ServerError, errorMsg);
         } catch (Exception ex) {
             throw new ResponseException(ResponseException.Code.ServerError, ex.getMessage());
         }

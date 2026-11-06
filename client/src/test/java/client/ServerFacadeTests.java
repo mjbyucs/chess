@@ -248,4 +248,14 @@ public class ServerFacadeTests {
         Assertions.assertEquals("Error: unauthorized", exception.getMessage());
     }
 
+    @Test
+    public void serverNotAvailable() throws ResponseException {
+        ServerFacade localFacade = new ServerFacade(8000);
+        ResponseException exception = Assertions.assertThrows(
+                ResponseException.class,
+                () -> localFacade.registerUser(userData)
+        );
+        Assertions.assertEquals(ResponseException.Code.ServerError, exception.code());
+        Assertions.assertEquals("Connection error", exception.getMessage());
+    }
 }
