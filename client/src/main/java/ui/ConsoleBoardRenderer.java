@@ -17,12 +17,12 @@ public class ConsoleBoardRenderer implements BoardRenderer {
     private static final String PLAYER_NAME_COLOR = EscapeSequences.SET_TEXT_COLOR_WHITE;
 
     @Override
-    public void renderChessBoard(GameData chessGame, ChessGame.TeamColor perspective) {
-        System.out.print(produceCompleteRendering(chessGame, perspective));
+    public void renderChessBoard(GameData chessGame, ChessGame.TeamColor perspective, int gameId) {
+        System.out.print(produceCompleteRendering(chessGame, perspective, gameId));
     }
 
     // package access in case we want to test the string generated
-    String produceCompleteRendering(GameData chessGame, ChessGame.TeamColor perspective) {
+    String produceCompleteRendering(GameData chessGame, ChessGame.TeamColor perspective, int gameId) {
         StringBuilder rendering = new StringBuilder();
         String whitePlayerName = formatPlayerName(ChessGame.TeamColor.WHITE, chessGame.whiteUsername());
         String blackPlayerName = formatPlayerName(ChessGame.TeamColor.BLACK, chessGame.blackUsername());
@@ -44,7 +44,7 @@ public class ConsoleBoardRenderer implements BoardRenderer {
                 .append(EscapeSequences.SET_BG_COLOR_BLACK)
                 .append(EscapeSequences.SET_TEXT_COLOR_LIGHT_GREY)
                 .append("Game: ")
-                .append(chessGame.gameID())
+                .append(gameId)
                 .append('\n');
 
         rendering.append(drawPlayerName(perspective == ChessGame.TeamColor.WHITE ? blackPlayerName : whitePlayerName));
@@ -124,10 +124,10 @@ public class ConsoleBoardRenderer implements BoardRenderer {
         ConsoleBoardRenderer renderer = new ConsoleBoardRenderer();
         GameData game = new GameData(999, "Betty White", "Jack Black",
                                     "The GAME", new ChessGame());
-        renderer.renderChessBoard(game, ChessGame.TeamColor.WHITE);
+        renderer.renderChessBoard(game, ChessGame.TeamColor.WHITE, 999);
 
         System.out.print("Press enter to see the board from Black's perspective: ");
         new Scanner(System.in).nextLine();
-        renderer.renderChessBoard(game, ChessGame.TeamColor.BLACK);
+        renderer.renderChessBoard(game, ChessGame.TeamColor.BLACK, 1000);
     }
 }
