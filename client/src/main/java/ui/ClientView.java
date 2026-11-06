@@ -15,4 +15,6 @@ public interface ClientView {
     void displayErrorMessage(String message);
     void displayChessBoard(GameData gameData, ChessGame.TeamColor perspective, int gameId);
     void displayGameList(GameList games);
+    int mapInternalGameIdToViewId(int gameId);
+    int mapViewGameIdToInternalId(int gameId);
 }

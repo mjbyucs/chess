@@ -86,10 +86,23 @@ public class ConsoleClientView implements ClientView {
         else {
             for (int i = 0; i < games.size(); i++) {
                 GameData gameData = games.get(i);
-                System.out.printf("  %2d. %s\tWhite: %s\tBlack: %s\n", i + 1, gameData.gameName(),
-                        playerName(gameData.whiteUsername()), playerName(gameData.blackUsername()));
+                System.out.printf("  %2d. %s\t\tWhite: %s\tBlack: %s\n",
+                        mapInternalGameIdToViewId(i),
+                        gameData.gameName(),
+                        playerName(gameData.whiteUsername()),
+                        playerName(gameData.blackUsername()));
             }
         }
+    }
+
+    @Override
+    public int mapInternalGameIdToViewId(int gameId) {
+        return gameId + 1;
+    }
+
+    @Override
+    public int mapViewGameIdToInternalId(int gameId) {
+        return gameId - 1;
     }
 
     private String playerName(String playerName) {
