@@ -106,7 +106,9 @@ public class ConsoleBoardRenderer implements BoardRenderer {
     }
 
     private String mapPieceToRendered(ChessPiece piece) {
-        if (piece == null) return EscapeSequences.EMPTY;
+        if (piece == null) {
+            return EscapeSequences.EMPTY;
+        }
         String fgColor = piece.getTeamColor() == ChessGame.TeamColor.WHITE ?
                         EscapeSequences.SET_TEXT_COLOR_WHITE : EscapeSequences.SET_TEXT_COLOR_BLACK;
         return fgColor + switch (piece.getPieceType()) {
@@ -118,7 +120,6 @@ public class ConsoleBoardRenderer implements BoardRenderer {
             case ChessPiece.PieceType.PAWN -> EscapeSequences.BLACK_PAWN;
         };
     }
-
 
     public static void main(String[] args) {
         ConsoleBoardRenderer renderer = new ConsoleBoardRenderer();
