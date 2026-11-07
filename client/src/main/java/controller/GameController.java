@@ -29,7 +29,7 @@ public class GameController {
             String input = clientView.getUserRequest();
 
             String[] command = parseInput(input);
-            if (isValidCommand(command[0])) {
+            if (command.length > 0 && isValidCommand(command[0])) {
                 switch(command[0]) {
                     case "help" -> showHelp();
                     case "quit" -> {
