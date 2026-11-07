@@ -6,6 +6,8 @@ import ui.ClientView;
 import ui.ConsoleBoardRenderer;
 import ui.ConsoleClientView;
 
+import java.util.Scanner;
+
 public class ClientMain {
     public static void main(String[] args) {
         System.out.println("♕ CS240 Chess Client");
@@ -15,7 +17,7 @@ public class ClientMain {
             defaultPort = Integer.parseInt(args[2]);
         }
         SessionService sessionService = new SessionService(new SessionState(), new ServerFacade(defaultPort));
-        ClientView clientView = new ConsoleClientView(new ConsoleBoardRenderer());
+        ClientView clientView = new ConsoleClientView(new Scanner(System.in), new ConsoleBoardRenderer());
         GameController gameController = new GameController(clientView, sessionService);
         gameController.runGame();
     }

@@ -10,10 +10,11 @@ import java.util.Scanner;
 public class ConsoleClientView implements ClientView {
     private static final String QUIT_HELP_COMMANDS = formatCommand("quit", "playing chess") +
                                                      formatCommand("help", "with possible commands");
-    private final Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner;
     private final BoardRenderer boardRenderer;
 
-    public ConsoleClientView(BoardRenderer boardRenderer) {
+    public ConsoleClientView(Scanner scanner, BoardRenderer boardRenderer) {
+        this.scanner = scanner;
         this.boardRenderer = boardRenderer;
     }
 
@@ -34,7 +35,7 @@ public class ConsoleClientView implements ClientView {
 
     @Override
     public String getUserRequest() {
-        return scanner.nextLine();
+        return scanner.hasNextLine() ? scanner.nextLine() : null;
     }
 
     @Override
@@ -89,7 +90,7 @@ public class ConsoleClientView implements ClientView {
         else {
             for (int i = 0; i < games.size(); i++) {
                 GameListEntry gameItem = games.get(i);
-                System.out.printf("  %2d. %s\t\tWhite: %s\tBlack: %s\n",
+                System.out.printf("  %2d. %s\t\tWhite: %s\t\tBlack: %s\n",
                         mapInternalGameIdToViewId(i),
                         gameItem.gameName(),
                         playerName(gameItem.whiteUsername()),
