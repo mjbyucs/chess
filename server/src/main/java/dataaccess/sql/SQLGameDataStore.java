@@ -37,7 +37,7 @@ public class SQLGameDataStore extends AbstractSQLDataStore implements GameDAO {
             "        FOREIGN KEY (blackUserId)" +
             "        REFERENCES " + SQLUserDataStore.TABLE_NAME + "(id)" +
             "        ON DELETE CASCADE" +
-            ");";
+            ") AUTO_INCREMENT = 1000;";
     private static final String INSERT_GAME_DATA =
             "INSERT INTO " + TABLE_NAME + " " +
             "(gameName, gameState) VALUES (?, ?);";

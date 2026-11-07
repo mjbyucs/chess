@@ -47,8 +47,8 @@ public class Server {
                         (ignored, ctx) -> {ctx.status(HttpStatus.INTERNAL_SERVER_ERROR.getCode());
                                                                       ctx.result(formatError("Error: database failure"));})
                 .exception(Exception.class,
-                        (ex, ctx) -> {ctx.status(HttpStatus.INTERNAL_SERVER_ERROR.getCode());
-                                                        ctx.result(formatError(ex.getMessage()));});
+                        (ignored, ctx) -> {ctx.status(HttpStatus.INTERNAL_SERVER_ERROR.getCode());
+                                                        ctx.result(formatError("Error: internal server error"));});
     }
 
     String formatError(String message) {

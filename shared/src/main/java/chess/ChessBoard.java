@@ -39,7 +39,7 @@ public class ChessBoard {
     /*
      * Pack level method to get the size of the board
      */
-    static int getBoardSize() {
+    public static int getBoardSize() {
         return PLAYABLE_BOARD_SIZE;
     }
 

@@ -10,6 +10,7 @@ import model.GameData;
 
 import java.util.List;
 
+
 public class GameService {
     private final Object lock = new Object();
     private final GameDAO gameDAO;
@@ -51,11 +52,11 @@ public class GameService {
             throw new IllegalArgumentException("Invalid playerColor");
         }
 
-        GameData gameData = getGame(gameID);
-        if (gameData == null) {
-            throw new IllegalArgumentException("Invalid gameID");
-        }
         synchronized (lock) {
+            GameData gameData = getGame(gameID);
+            if (gameData == null) {
+                throw new IllegalArgumentException("Invalid gameID");
+            }
             validatePlayerAvailable(isWhite ? gameData.whiteUsername() : gameData.blackUsername());
             gameDAO.updatePlayerNames(gameData.gameID(),
                     isWhite ? authData.username() : gameData.whiteUsername(),

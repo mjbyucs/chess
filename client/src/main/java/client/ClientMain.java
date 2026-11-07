@@ -1,10 +1,24 @@
 package client;
 
-import chess.*;
+import controller.GameController;
+import model.SessionState;
+import ui.ClientView;
+import ui.ConsoleBoardRenderer;
+import ui.ConsoleClientView;
+
+import java.util.Scanner;
 
 public class ClientMain {
     public static void main(String[] args) {
-        var piece = new ChessPiece(ChessGame.TeamColor.WHITE, ChessPiece.PieceType.PAWN);
-        System.out.println("♕ 240 Chess Client: " + piece);
+        System.out.println("♕ CS240 Chess Client");
+
+        int defaultPort = 8080;
+        if (args.length == 3 && "--port".equals(args[1])) {
+            defaultPort = Integer.parseInt(args[2]);
+        }
+        SessionService sessionService = new SessionService(new SessionState(), new ServerFacade(defaultPort));
+        ClientView clientView = new ConsoleClientView(new Scanner(System.in), new ConsoleBoardRenderer());
+        GameController gameController = new GameController(clientView, sessionService);
+        gameController.runGame();
     }
 }
