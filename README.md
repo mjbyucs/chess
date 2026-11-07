@@ -16,6 +16,10 @@ The application has three modules.
 - **Server**: The command line program that listens for network requests from the client and manages users and games.
 - **Shared**: Code that is used by both the client and the server. This includes the rules of chess and tracking the state of a game.
 
+### Storage and concurrency scope
+
+The in-memory data stores are intended for development and testing. They do not provide general concurrent-access guarantees for all operations and should not be treated as a production storage implementation. The SQL data stores provide the persistent runtime storage implementation.
+
 ## Starter Code
 
 As you create your chess application you will move through specific phases of development. This starts with implementing the moves of chess and finishes with sending game moves over the network between your client and server. You will start each phase by copying course provided [starter-code](starter-code/) for that phase into the source code of the project. Do not copy a phases' starter code before you are ready to begin work on that phase.
