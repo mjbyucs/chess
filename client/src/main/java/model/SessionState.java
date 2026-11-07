@@ -13,6 +13,7 @@ public class SessionState {
     private int serverGameId = -1;
     ChessGame.TeamColor perspective;
     GameList gameList = new GameList();
+    GameData gameData;
 
     public SessionState() {
         signOut();      // initial state
@@ -39,12 +40,26 @@ public class SessionState {
         this.authData = null;
         this.serverGameId = -1;
         this.perspective = null;
+        this.gameData = null;
         setUserStatus(UserStatus.SIGNED_OUT);
     }
 
     public GameData getGameData() {
-        int gameId = mapServerGameIdToLocalId(serverGameId);
-        return gameId >= 0 ? gameList.get(gameId) : null;
+        return gameData;
+    }
+
+    public void setGameData(GameData gameData) {
+        this.gameData = gameData;
+    }
+
+    public boolean alreadyInGame(int serverGameId, ChessGame.TeamColor requestedColor) {
+        GameListEntry gameEntry = getGameEntry(serverGameId);
+        if (authData != null && gameEntry != null) {
+            return requestedColor == ChessGame.TeamColor.WHITE ?
+                    authData.username().equals(gameEntry.whiteUsername()) :
+                    authData.username().equals(gameEntry.blackUsername());
+        }
+        return false;
     }
 
     public void registerGameIdAndPerspective(int serverGameId, ChessGame.TeamColor perspective) {
@@ -62,6 +77,11 @@ public class SessionState {
 
     public void setGameList(GameList gameList) {
         this.gameList = gameList;
+    }
+
+    public GameListEntry getGameEntry(int serverGameId) {
+        int localGameId = mapServerGameIdToLocalId(serverGameId);
+        return localGameId >= 0 ? gameList.get(localGameId) : null;
     }
 
     public int mapServerGameIdToLocalId(Integer serverGameId) {

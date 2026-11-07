@@ -14,14 +14,12 @@ public class SessionStateTests {
 
     @BeforeAll
     static void globalSetup() {
-        authData = new AuthData("A token", "A user");
+        String username = "A user";
+        authData = new AuthData("A token", username);
         gameList = new GameList();
-        gameList.add(new GameData(1001, null, null,
-                "First", new ChessGame()));
-        gameList.add(new GameData(1002, "White", "Black",
-                "Second", new ChessGame()));
-        gameList.add(new GameData(1003, null, "Black",
-                "Third", new ChessGame()));
+        gameList.add(new GameListEntry(1001, null, null, "First"));
+        gameList.add(new GameListEntry(1002, "White", "Black", "Second"));
+        gameList.add(new GameListEntry(1003, null, username, "Third"));
     }
 
     @BeforeEach
@@ -60,12 +58,35 @@ public class SessionStateTests {
     }
 
     @Test
-    public void gameData() {
+    public void gamePerspective() {
         Assertions.assertNull(sessionState.getGameData());
         sessionState.setGameList(gameList);
         sessionState.registerGameIdAndPerspective(1002, ChessGame.TeamColor.WHITE);
-        Assertions.assertEquals(gameList.get(1), sessionState.getGameData());
+        Assertions.assertEquals(1, sessionState.getLocalGameNumber());
         Assertions.assertEquals(ChessGame.TeamColor.WHITE, sessionState.getPerspective());
+    }
+
+    @Test
+    public void gameEntries() {
+        Assertions.assertNull(sessionState.getGameEntry(1001));
+        sessionState.setGameList(gameList);
+        Assertions.assertEquals(gameList.getFirst(), sessionState.getGameEntry(1001));
+    }
+
+    @Test
+    public void alreadyInGameTrue() {
+        sessionState.signIn(authData);
+        sessionState.setGameList(gameList);
+        Assertions.assertTrue(sessionState.alreadyInGame(1003, ChessGame.TeamColor.BLACK));
+    }
+
+    @Test
+    public void alreadyInGameFalse() {
+        Assertions.assertFalse(sessionState.alreadyInGame(1003, ChessGame.TeamColor.WHITE));
+        sessionState.signIn(authData);
+        Assertions.assertFalse(sessionState.alreadyInGame(1003, ChessGame.TeamColor.WHITE));
+        sessionState.setGameList(gameList);
+        Assertions.assertFalse(sessionState.alreadyInGame(1003, ChessGame.TeamColor.WHITE));
     }
 
     @Test
