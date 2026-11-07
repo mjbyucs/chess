@@ -17,8 +17,6 @@ public class GameHandler {
     private final GameService gameService;
     private final Gson gson = new GsonBuilder().serializeNulls().create();
 
-    private record GameListEntry(int gameID, String whiteUsername, String blackUsername, String gameName) {}
-
     public GameHandler(GameService gameService) {
         this.gameService = gameService;
     }
@@ -53,8 +51,8 @@ public class GameHandler {
 
     public void handleListGames(@NotNull Context context) throws UnauthorizedException {
         AuthorizationRequest authorizationRequest = new AuthorizationRequest(context.header("Authorization"));
-        GameList gameList = gameService.listGames(authorizationRequest);
-        List<GameListEntry> gameEntries = gameList.stream().map(this::translateGameData).toList();
+        List<GameData> gameDataList = gameService.listGames(authorizationRequest);
+        List<GameListEntry> gameEntries = gameDataList.stream().map(this::translateGameData).toList();
         sendJsonResults(context, Map.of("games", gameEntries));
     }
 

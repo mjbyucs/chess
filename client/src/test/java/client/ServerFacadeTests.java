@@ -3,6 +3,7 @@ package client;
 import chess.ChessGame;
 import model.AuthData;
 import model.GameList;
+import model.GameListEntry;
 import model.UserData;
 import org.junit.jupiter.api.*;
 import server.DependencyComposer;
@@ -221,11 +222,11 @@ public class ServerFacadeTests {
         }
         GameList gameList = facade.listGames(authData);
         Assertions.assertEquals(3, gameList.size());
-        for (model.GameData gameData : gameList) {
-            Assertions.assertTrue(gameMap.containsKey(gameData.gameID()));
-            Assertions.assertEquals(gameMap.get(gameData.gameID()), gameData.gameName());
-            Assertions.assertNull(gameData.whiteUsername());
-            Assertions.assertNull(gameData.blackUsername());
+        for (GameListEntry gameItem : gameList) {
+            Assertions.assertTrue(gameMap.containsKey(gameItem.gameID()));
+            Assertions.assertEquals(gameMap.get(gameItem.gameID()), gameItem.gameName());
+            Assertions.assertNull(gameItem.whiteUsername());
+            Assertions.assertNull(gameItem.blackUsername());
         }
 
         AuthData anotherUser = facade.registerUser(new UserData("Mary", "mj", "mj@byu.edu"));

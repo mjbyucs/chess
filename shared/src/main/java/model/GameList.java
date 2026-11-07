@@ -5,11 +5,11 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class GameList extends ArrayList<GameData> {
+public class GameList extends ArrayList<GameListEntry> {
     public GameList() {}
 
-    public GameList(Collection<GameData> games) {
-        super(games);
+    public GameList(Collection<GameListEntry> gameEntries) {
+        super(gameEntries);
     }
 
     public String toString() {

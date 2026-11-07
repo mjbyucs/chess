@@ -5,6 +5,8 @@ import model.GameData;
 import model.GameList;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public interface GameDAO {
 
     int addGame(@NotNull String gameName, @NotNull ChessGame chessGame) throws AlreadyTakenException;
@@ -15,7 +17,7 @@ public interface GameDAO {
 
     void updatePlayerNames(int gameID, String whitePlayerName, String blackPlayerName);
 
-    GameList getAllGames();
+    List<GameData> getAllGames();
 
     void deleteGame(int gameID);
 

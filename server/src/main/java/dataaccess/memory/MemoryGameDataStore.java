@@ -5,10 +5,11 @@ import dataaccess.AlreadyTakenException;
 import dataaccess.GameDAO;
 import dataaccess.UserDAO;
 import model.GameData;
-import model.GameList;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MemoryGameDataStore implements GameDAO {
@@ -60,8 +61,8 @@ public class MemoryGameDataStore implements GameDAO {
     }
 
     @Override
-    public GameList getAllGames() {
-        return new GameList(gameDataStore.values());
+    public List<GameData> getAllGames() {
+        return new ArrayList<>(gameDataStore.values());
     }
 
     @Override
