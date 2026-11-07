@@ -27,6 +27,10 @@ public class GameController {
         while (isSessionActive) {
             showPrompt();
             String input = clientView.getUserRequest();
+            if (input == null) {
+                // treat EOF as signal to quit
+                input = "quit";
+            }
 
             String[] command = parseInput(input);
             if (command.length > 0 && isValidCommand(command[0])) {
@@ -43,14 +47,16 @@ public class GameController {
                     case "create" -> executeCreateGameCmd(command);
                     case "list" -> executeListGameCmd(command);
                     case "observe" -> {
-                        executeObserveGameCmd(command);
-                        clientView.displayChessBoard(sessionService.getGameData(), sessionService.getPerspective(),
-                                clientView.mapInternalGameIdToViewId(sessionService.getLocalGameNumber()));
+                        if (executeObserveGameCmd(command)) {
+                            clientView.displayChessBoard(sessionService.getGameData(), sessionService.getPerspective(),
+                                    clientView.mapInternalGameIdToViewId(sessionService.getLocalGameNumber()));
+                        }
                     }
                     case "join" -> {
-                        executeJoinGameCmd(command);
-                        clientView.displayChessBoard(sessionService.getGameData(), sessionService.getPerspective(),
-                                clientView.mapInternalGameIdToViewId(sessionService.getLocalGameNumber()));
+                        if (executeJoinGameCmd(command)) {
+                            clientView.displayChessBoard(sessionService.getGameData(), sessionService.getPerspective(),
+                                    clientView.mapInternalGameIdToViewId(sessionService.getLocalGameNumber()));
+                        }
                     }
                 }
             }
@@ -163,7 +169,7 @@ public class GameController {
         }
     }
 
-    private void executeObserveGameCmd(String[] command) {
+    private boolean executeObserveGameCmd(String[] command) {
         if (command.length != 2) {
             clientView.displayErrorMessage("Invalid parameters for 'observe'. Supply game ID.");
         }
@@ -171,7 +177,8 @@ public class GameController {
             try {
                 int gameId = clientView.mapViewGameIdToInternalId(Integer.parseInt(command[1]));
                 sessionService.observeGame(gameId);
-                clientView.displayMessage("You are successfully watching game " + gameId + ".");
+                clientView.displayMessage("You are successfully watching game " + command[1] + ".");
+                return true;
             }
             catch (NumberFormatException nfex) {
                 clientView.displayErrorMessage("Game ID must be a valid integer.");
@@ -180,9 +187,10 @@ public class GameController {
                 displayCommandError("Observe game failed.", ex);
             }
         }
+        return false;
     }
 
-    private void executeJoinGameCmd(String[] command) {
+    private boolean executeJoinGameCmd(String[] command) {
         if (command.length != 3 || !Set.of("WHITE", "BLACK").contains(command[2].toUpperCase())) {
             clientView.displayErrorMessage("Invalid parameters for 'join'. Supply game ID and COLOR [WHITE|BLACK].");
         }
@@ -192,6 +200,7 @@ public class GameController {
                 String playerColor = command[2].toUpperCase();
                 sessionService.joinGame(gameId, playerColor);
                 clientView.displayMessage("Game successfully joined. You are the " + playerColor + " player");
+                return true;
             }
             catch (NumberFormatException nfex) {
                 clientView.displayErrorMessage("Game ID must be a valid integer.");
@@ -200,6 +209,7 @@ public class GameController {
                 displayCommandError("Join game failed.", ex);
             }
         }
+        return false;
     }
 
     private void displayCommandError(String message, ResponseException ex) {
