@@ -68,25 +68,26 @@ public class SessionStateTests {
 
     @Test
     public void gameEntries() {
-        Assertions.assertNull(sessionState.getGameEntry(1001));
+        Assertions.assertNull(sessionState.getGameEntryByInternalId(1));
+        Assertions.assertNull(sessionState.getGameEntryByInternalId(-1));
         sessionState.setGameList(gameList);
-        Assertions.assertEquals(gameList.getFirst(), sessionState.getGameEntry(1001));
+        Assertions.assertEquals(gameList.getFirst(), sessionState.getGameEntryByServerId(1001));
     }
 
     @Test
     public void alreadyInGameTrue() {
         sessionState.signIn(authData);
         sessionState.setGameList(gameList);
-        Assertions.assertTrue(sessionState.alreadyInGame(1003, ChessGame.TeamColor.BLACK));
+        Assertions.assertTrue(sessionState.alreadyInGame(gameList.get(2), ChessGame.TeamColor.BLACK));
     }
 
     @Test
     public void alreadyInGameFalse() {
-        Assertions.assertFalse(sessionState.alreadyInGame(1003, ChessGame.TeamColor.WHITE));
+        Assertions.assertFalse(sessionState.alreadyInGame(gameList.get(2), ChessGame.TeamColor.WHITE));
         sessionState.signIn(authData);
-        Assertions.assertFalse(sessionState.alreadyInGame(1003, ChessGame.TeamColor.WHITE));
+        Assertions.assertFalse(sessionState.alreadyInGame(gameList.get(2), ChessGame.TeamColor.WHITE));
         sessionState.setGameList(gameList);
-        Assertions.assertFalse(sessionState.alreadyInGame(1003, ChessGame.TeamColor.WHITE));
+        Assertions.assertFalse(sessionState.alreadyInGame(gameList.get(2), ChessGame.TeamColor.WHITE));
     }
 
     @Test

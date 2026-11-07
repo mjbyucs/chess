@@ -67,45 +67,45 @@ public class SessionService {
 
     public GameList listGames() throws ResponseException {
         GameList gameList = serverFacade.listGames(sessionState.getAuthData());
+        if (gameList == null) {
+            gameList = new GameList();
+        }
         sessionState.setGameList(gameList);
         return gameList;
     }
 
     public void joinGame(int gameId, String playerColor) throws ResponseException {
-        int serverGameId = getServerGameIdFromLocalId(gameId);
         ChessGame.TeamColor requestedColor = ChessGame.TeamColor.valueOf(playerColor);
-        if (!sessionState.alreadyInGame(serverGameId, requestedColor)) {
-            serverFacade.joinGame(sessionState.getAuthData(), playerColor, serverGameId);
-            listGames();        // update the list since I've now registered
+        GameListEntry gameListEntry = sessionState.getGameEntryByInternalId(gameId);
+        if (gameListEntry != null) {
+            if (!sessionState.alreadyInGame(gameListEntry, requestedColor)) {
+                int serverGameId = gameListEntry.gameID();
+                serverFacade.joinGame(sessionState.getAuthData(), playerColor, serverGameId);
+                listGames();        // update the list since I've now registered
+                gameListEntry = sessionState.getGameEntryByServerId(serverGameId);
+            }
         }
-        watchGame(serverGameId, requestedColor);
+        watchGame(gameListEntry, requestedColor);
     }
 
     public void observeGame(int gameId) throws ResponseException {
-        int serverGameId = getServerGameIdFromLocalId(gameId);
-        watchGame(serverGameId, ChessGame.TeamColor.WHITE);
+        GameListEntry gameListEntry = sessionState.getGameEntryByInternalId(gameId);
+        watchGame(gameListEntry, ChessGame.TeamColor.WHITE);
     }
 
-    private void watchGame(int serverGameId, ChessGame.TeamColor perspective) {
+    private void watchGame(GameListEntry gameListEntry, ChessGame.TeamColor perspective) throws ResponseException {
         // This method will be set up to watch for updates to the chess board for the given game
         // for now we fake it by creating an empty board and registering it with the session state
-        sessionState.registerGameIdAndPerspective(serverGameId, perspective);
-        GameListEntry gameListEntry = sessionState.getGameEntry(serverGameId);
-        if (gameListEntry == null) {
-            throw new RuntimeException("We got a null game entry for server game " + serverGameId);
+        if (gameListEntry != null) {
+            sessionState.registerGameIdAndPerspective(gameListEntry.gameID(), perspective);
+            sessionState.setGameData(new GameData(gameListEntry.gameID(),
+                                                    gameListEntry.whiteUsername(),
+                                                    gameListEntry.blackUsername(),
+                                                    gameListEntry.gameName(),
+                                                    new ChessGame()));
         }
-        sessionState.setGameData(new GameData(gameListEntry.gameID(),
-                                                gameListEntry.whiteUsername(),
-                                                gameListEntry.blackUsername(),
-                                                gameListEntry.gameName(),
-                                                new ChessGame()));
-    }
-
-    private int getServerGameIdFromLocalId(int gameId) throws ResponseException {
-        Integer serverGameId = sessionState.mapLocalGameIdToServerId(gameId);
-        if (serverGameId == null) {
-            throw new ResponseException(400, "Not a valid game ID");
+        else {
+            throw new ResponseException(400, "Invalid game ID.");
         }
-        return serverGameId;
     }
 }

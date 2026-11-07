@@ -52,8 +52,7 @@ public class SessionState {
         this.gameData = gameData;
     }
 
-    public boolean alreadyInGame(int serverGameId, ChessGame.TeamColor requestedColor) {
-        GameListEntry gameEntry = getGameEntry(serverGameId);
+    public boolean alreadyInGame(GameListEntry gameEntry, ChessGame.TeamColor requestedColor) {
         if (authData != null && gameEntry != null) {
             return requestedColor == ChessGame.TeamColor.WHITE ?
                     authData.username().equals(gameEntry.whiteUsername()) :
@@ -79,9 +78,12 @@ public class SessionState {
         this.gameList = gameList;
     }
 
-    public GameListEntry getGameEntry(int serverGameId) {
-        int localGameId = mapServerGameIdToLocalId(serverGameId);
-        return localGameId >= 0 ? gameList.get(localGameId) : null;
+    public GameListEntry getGameEntryByInternalId(int localGameId) {
+        return localGameId >= 0 && localGameId < gameList.size() ? gameList.get(localGameId) : null;
+    }
+
+    public GameListEntry getGameEntryByServerId(int serverGameId) {
+        return getGameEntryByInternalId(mapServerGameIdToLocalId(serverGameId));
     }
 
     public int mapServerGameIdToLocalId(Integer serverGameId) {
