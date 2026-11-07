@@ -34,37 +34,42 @@ public class GameController {
 
             String[] command = parseInput(input);
             if (command.length > 0 && isValidCommand(command[0])) {
-                switch(command[0]) {
-                    case "help" -> showHelp();
-                    case "quit" -> {
-                        executeLogoutCmd(new String[]{"logout"});
-                        clientView.displayMessage("Thanks for playing!\n");
-                        isSessionActive = false;
-                    }
-                    case "register" -> executeRegisterCmd(command);
-                    case "login" -> executeLoginCmd(command);
-                    case "logout" -> executeLogoutCmd(command);
-                    case "create" -> executeCreateGameCmd(command);
-                    case "list" -> executeListGameCmd(command);
-                    case "observe" -> {
-                        if (executeObserveGameCmd(command)) {
-                            clientView.displayChessBoard(sessionService.getGameData(), sessionService.getPerspective(),
-                                    clientView.mapInternalGameIdToViewId(sessionService.getLocalGameNumber()));
-                        }
-                    }
-                    case "join" -> {
-                        if (executeJoinGameCmd(command)) {
-                            clientView.displayChessBoard(sessionService.getGameData(), sessionService.getPerspective(),
-                                    clientView.mapInternalGameIdToViewId(sessionService.getLocalGameNumber()));
-                        }
-                    }
-                }
+                isSessionActive = executeCommand(command);
             }
             else {
                 clientView.displayErrorMessage("You didn't enter a valid command. The valid commands are:");
                 showHelp();
             }
         }
+    }
+
+    private boolean executeCommand(String[] command) {
+        switch(command[0]) {
+            case "help" -> showHelp();
+            case "quit" -> {
+                executeLogoutCmd(new String[]{"logout"});
+                clientView.displayMessage("Thanks for playing!\n");
+                return false;
+            }
+            case "register" -> executeRegisterCmd(command);
+            case "login" -> executeLoginCmd(command);
+            case "logout" -> executeLogoutCmd(command);
+            case "create" -> executeCreateGameCmd(command);
+            case "list" -> executeListGameCmd(command);
+            case "observe" -> {
+                if (executeObserveGameCmd(command)) {
+                    clientView.displayChessBoard(sessionService.getGameData(), sessionService.getPerspective(),
+                            clientView.mapInternalGameIdToViewId(sessionService.getLocalGameNumber()));
+                }
+            }
+            case "join" -> {
+                if (executeJoinGameCmd(command)) {
+                    clientView.displayChessBoard(sessionService.getGameData(), sessionService.getPerspective(),
+                            clientView.mapInternalGameIdToViewId(sessionService.getLocalGameNumber()));
+                }
+            }
+        }
+        return true;
     }
 
     private String[] parseInput(String input) {
