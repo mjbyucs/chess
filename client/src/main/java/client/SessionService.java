@@ -58,7 +58,7 @@ public class SessionService {
         if (gameId != null) {
             listGames();
             int internalId = sessionState.mapServerGameIdToLocalId(gameId);
-            if (internalId > 0) {
+            if (internalId >= 0) {
                 return internalId;
             }
         }
