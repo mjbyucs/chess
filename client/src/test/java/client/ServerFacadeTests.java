@@ -257,6 +257,6 @@ public class ServerFacadeTests {
                 () -> localFacade.registerUser(userData)
         );
         Assertions.assertEquals(ResponseException.Code.ServerError, exception.code());
-        Assertions.assertEquals("Connection error", exception.getMessage());
+        Assertions.assertEquals("Unable to connect to the server", exception.getMessage());
     }
 }
