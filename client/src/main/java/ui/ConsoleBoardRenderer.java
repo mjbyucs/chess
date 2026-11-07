@@ -45,6 +45,8 @@ public class ConsoleBoardRenderer implements BoardRenderer {
                 .append(EscapeSequences.SET_TEXT_COLOR_LIGHT_GREY)
                 .append("Game: ")
                 .append(gameId)
+                .append(EscapeSequences.RESET_BG_COLOR)
+                .append(EscapeSequences.RESET_TEXT_COLOR)
                 .append('\n');
 
         rendering.append(drawPlayerName(perspective == ChessGame.TeamColor.WHITE ? blackPlayerName : whitePlayerName));
@@ -76,7 +78,7 @@ public class ConsoleBoardRenderer implements BoardRenderer {
                 board.append(bgColor).append(renderedPiece);
             }
             drawRankColumn(board, rank);
-            board.append('\n');
+            board.append(EscapeSequences.RESET_BG_COLOR).append(EscapeSequences.RESET_TEXT_COLOR).append('\n');
             renderRow++;
         }
         return board.toString();
@@ -90,7 +92,8 @@ public class ConsoleBoardRenderer implements BoardRenderer {
     }
 
     private String drawPlayerName(String playerName) {
-        return String.format("%s%s%s\n", BORDER_BG_COLOR, PLAYER_NAME_COLOR, playerName);
+        return String.format("%s%s%s%s%s\n", BORDER_BG_COLOR, PLAYER_NAME_COLOR, playerName,
+                EscapeSequences.RESET_BG_COLOR, EscapeSequences.RESET_TEXT_COLOR);
     }
 
     private String drawFiles(char[] files) {
@@ -101,7 +104,8 @@ public class ConsoleBoardRenderer implements BoardRenderer {
                     .append(LABEL_COLOR).append(file)
                     .append(BORDER_FG_COLOR).append(' ');
         }
-        filesRow.append(BORDER_BG_COLOR).append(BORDER_FG_COLOR).append(EscapeSequences.EMPTY).append("\n");
+        filesRow.append(BORDER_BG_COLOR).append(BORDER_FG_COLOR).append(EscapeSequences.EMPTY)
+                .append(EscapeSequences.RESET_BG_COLOR).append(EscapeSequences.RESET_TEXT_COLOR).append("\n");
         return filesRow.toString();
     }
 
