@@ -97,7 +97,7 @@ public class ServerFacadeTests {
         UserData badUserData = new UserData("", "", "");
         ResponseException exception = Assertions.assertThrows(
                 ResponseException.class,
-                () -> facade.registerUser(badUserData)
+                () -> facade.loginUser(badUserData)
         );
         Assertions.assertEquals(ResponseException.Code.ClientError, exception.code());
         Assertions.assertEquals("Error: bad request", exception.getMessage());
