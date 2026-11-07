@@ -7,7 +7,6 @@ import dataaccess.UnauthorizedException;
 import model.AuthData;
 import model.AuthorizationRequest;
 import model.GameData;
-import model.GameList;
 
 import java.util.List;
 

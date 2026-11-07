@@ -2,7 +2,6 @@ package dataaccess;
 
 import chess.ChessGame;
 import model.GameData;
-import model.GameList;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
