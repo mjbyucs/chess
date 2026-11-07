@@ -26,7 +26,7 @@ public class DependencyComposer {
     }
 
     /**
-     * Default constructor creates a memory based storage system
+     * Default constructor creates a database based storage system
      */
     public DependencyComposer() {
         this(StorageType.DATABASE, null);
