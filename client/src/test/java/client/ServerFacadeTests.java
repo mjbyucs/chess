@@ -251,7 +251,7 @@ public class ServerFacadeTests {
 
     @Test
     public void serverNotAvailable() {
-        ServerFacade localFacade = new ServerFacade(8000);
+        ServerFacade localFacade = new ServerFacade(9999);
         ResponseException exception = Assertions.assertThrows(
                 ResponseException.class,
                 () -> localFacade.registerUser(userData)
