@@ -51,7 +51,7 @@ public class ConsoleBoardRenderer implements BoardRenderer {
 
         rendering.append(drawPlayerName(perspective == ChessGame.TeamColor.WHITE ? blackPlayerName : whitePlayerName));
         rendering.append(drawFiles(files));
-        rendering.append(drawBoardWithRanks(chessGame.game().getBoard(), ranks));
+        rendering.append(drawBoardWithRanks(chessGame.game().getBoard(), ranks, files));
         rendering.append(drawFiles(files));
         rendering.append(drawPlayerName(perspective == ChessGame.TeamColor.WHITE ? whitePlayerName : blackPlayerName));
         // clean the rest of the terminal and prepare it for user interaction
@@ -65,7 +65,7 @@ public class ConsoleBoardRenderer implements BoardRenderer {
         return String.format("%15s: %-13s", color.name() + " Player",username);
     }
 
-    private String drawBoardWithRanks(ChessBoard chessBoard, char[] ranks) {
+    private String drawBoardWithRanks(ChessBoard chessBoard, char[] ranks, char[] files) {
         StringBuilder board = new StringBuilder();
         int renderRow = 1;
         for (char rank : ranks) {
@@ -73,7 +73,7 @@ public class ConsoleBoardRenderer implements BoardRenderer {
             int r = Character.digit(rank, 10);
             for (int c = 1; c <= ChessBoard.getBoardSize(); c++) {
                 String bgColor = ((renderRow + c) % 2) == 0 ? LIGHT_SQ_COLOR : DARK_SQ_COLOR;
-                ChessPiece piece = chessBoard.getPiece(new ChessPosition(r, c));
+                ChessPiece piece = chessBoard.getPiece(new ChessPosition(r, files[c-1] - 'a' + 1));
                 String renderedPiece = mapPieceToRendered(piece);
                 board.append(bgColor).append(renderedPiece);
             }
